@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@src/*": ["src/*"],
+        "@auth/*": ["src/auth/*"],
+        "@migrations/*": ["src/migrations/*"],
+        "@users/*": ["src/users/*"],
+        "@app/*": ["*"],
+      }
+    }
+  }
