@@ -1,7 +1,7 @@
-import { hashPassword } from '@auth/password'
-import { User } from '@migrations/models/user.model';
+import { hashPassword } from '../auth/password'
+import { User } from './models/user.model';
 
-import type { Migration } from '@src/umzug';
+import type { Migration } from '../umzug';
 
 export const up: Migration = async ({ context: sequelize }) => {
 	const query = sequelize.getQueryInterface();
