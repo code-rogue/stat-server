@@ -1,6 +1,15 @@
 {
   "moduleFileExtensions": ["js", "json", "ts"],
-  "rootDir": ".",
+  "moduleNameMapper": {
+    "^@app/(.*)$": "<rootDir>/src/app/$1",
+    "^@auth/(.*)$": "<rootDir>/src/auth/$1",
+    "^@migrations/(.*)$": "<rootDir>/src/migrations/$1",
+    "^@src/(.*)$": "<rootDir>/src/$1",
+    "^@test/(.*)$": "<rootDir>/test/$1",
+    "^@users/(.*)$": "<rootDir>/src/users/$1"
+  },
+  "preset": "ts-jest",
+  "rootDir": "./",
   "testEnvironment": "node",
   "testRegex": ".e2e-spec.ts$",
   "transform": {

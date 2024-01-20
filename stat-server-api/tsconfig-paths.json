@@ -1,11 +1,12 @@
 {
     "compilerOptions": {
       "paths": {
-        "@app/*": ["src/*"],
+        "@app/*": ["src/app/*"],
         "@auth/*": ["src/auth/*"],
         "@migrations/*": ["src/migrations/*"],
-        "@users/*": ["src/users/*"],
         "@root/*": ["*"],
+        "@src/*": ["src/*"],
+        "@users/*": ["src/users/*"],
       }
     }
   }
