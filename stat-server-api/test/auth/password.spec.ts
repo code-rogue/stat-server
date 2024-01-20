@@ -1,19 +1,19 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { PasswordService } from '@auth/auth.password.service';
+import { Password } from '@auth/auth.password';
 
 import * as bcrypt from 'bcrypt';
 
 jest.mock('bcrypt');
 
 describe('password management functions', () => {
-    let service: PasswordService;
+    let service: Password;
 
     beforeEach(async () => {
       const module: TestingModule = await Test.createTestingModule({
-        providers: [PasswordService],
+        providers: [Password],
       }).compile();
   
-      service = module.get<PasswordService>(PasswordService);
+      service = module.get<Password>(Password);
     });
   
     it('should hash a password', async () => {

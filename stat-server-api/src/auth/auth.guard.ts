@@ -5,7 +5,7 @@ import {
     UnauthorizedException,
   } from '@nestjs/common';
   import { JwtService } from '@nestjs/jwt';
-  import { jwtConstants } from '@auth/constants';
+  import { jwtConstants } from '@auth/auth.constants';
   import { Request } from 'express';
   
   @Injectable()
@@ -33,7 +33,7 @@ import {
       return true;
     }
   
-    private extractTokenFromHeader(request: Request): string | undefined {
+    public extractTokenFromHeader(request: Request): string | undefined {
       const [type, token] = request.headers.authorization?.split(' ') ?? [];
       return type === 'Bearer' ? token : undefined;
     }

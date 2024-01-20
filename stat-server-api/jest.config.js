@@ -29,9 +29,11 @@ module.exports = {
         "/test/",
         "/src/migrations/",
         "/src/database.ts",
+        "/src/main.ts",
         "/src/migrate.js",
         "/src/umzug.ts",
         "/jest.config.js",
         "/.eslintrc.js",
+        '/src/.*\\.module\\.[jt]s$',
     ]
   };

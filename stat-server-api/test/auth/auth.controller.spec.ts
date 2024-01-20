@@ -14,7 +14,7 @@ describe('AuthController', () => {
 
   let authService: AuthService;
   let controller: AuthController;
-  let mockedSignIn: any
+  let mockedSignIn: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({

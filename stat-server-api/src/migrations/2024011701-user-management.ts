@@ -1,17 +1,17 @@
-import { PasswordService } from '../auth/auth.password.service'
+import { Password } from '../auth/auth.password'
 import { User } from './models/user.model';
 
 import type { Migration } from '../umzug';
 
 export const up: Migration = async ({ context: sequelize }) => {
-	const passwordService = new PasswordService();
+	const password = new Password();
     const query = sequelize.getQueryInterface();
     
     await query.createSchema("auth")
     await User.sync();
 
     try {
-        const hashedPassword = await passwordService.hashPassword('admin');
+        const hashedPassword = await password.hashPassword('admin');
         const defaultUser = await User.create({
             username: 'admin',
             hashedPassword,
