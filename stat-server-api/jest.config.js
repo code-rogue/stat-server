@@ -4,6 +4,7 @@ module.exports = {
     moduleNameMapper: {
         "^@app/(.*)$": "<rootDir>/src/app/$1",
         "^@auth/(.*)$": "<rootDir>/src/auth/$1",
+        "^@log/(.*)$": "<rootDir>/src/log/$1",
         "^@migrations/(.*)$": "<rootDir>/src/migrations/$1",
         "^@src/(.*)$": "<rootDir>/src/$1",
         "^@test/(.*)$": "<rootDir>/test/$1",
@@ -27,6 +28,7 @@ module.exports = {
         "/node_modules/",
         "/dist/",
         "/test/",
+        "/src/log/",
         "/src/migrations/",
         "/src/database.ts",
         "/src/main.ts",

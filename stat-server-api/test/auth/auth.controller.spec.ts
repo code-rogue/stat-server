@@ -6,24 +6,42 @@ import { AuthGuard } from '@auth/auth.guard';
 import { AuthService } from '@auth/auth.service';
 import { JwtService } from '@nestjs/jwt';
 import { UsersService } from '@users/users.service';
+import { LogService } from '@log/log.service'; 
 
 describe('AuthController', () => {
   const token = { acess_token: "token" };
   const request = { user: { id: 0, username: 'admin' } };
   const signInDto: AuthDto = { username: 'admin', password: 'admin' };
 
+  let authGuard: AuthGuard;
   let authService: AuthService;
   let controller: AuthController;
+  let logService: LogService;
   let mockedSignIn: any;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       controllers: [AuthController],
-      providers: [AuthGuard, AuthService, JwtService, UsersService],
+      providers: [
+        AuthGuard,
+        AuthService,
+        JwtService,
+        UsersService,
+        {
+          provide: LogService,
+          useValue: {
+            debug: jest.fn(),
+            notice: jest.fn(),
+            error: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
     controller = module.get<AuthController>(AuthController);
     authService = module.get<AuthService>(AuthService);
+    authGuard = module.get<AuthGuard>(AuthGuard);
+    logService = module.get<LogService>(LogService);
     mockedSignIn = jest
       .spyOn(authService, 'signIn')
       .mockReturnValue(Promise.resolve(token))

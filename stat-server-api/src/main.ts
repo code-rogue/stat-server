@@ -1,9 +1,12 @@
 import { AppModule } from '@app/app.module';
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import { LogService, MorganMiddleware } from '@log/log.service';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { logger: new LogService() });
+
+  app.use(MorganMiddleware);
 
   const options = new DocumentBuilder()
     .setTitle('Stat Server API')

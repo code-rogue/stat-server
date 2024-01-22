@@ -1,11 +1,14 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthGuard } from '@auth/auth.guard';
 import { JwtService } from '@nestjs/jwt';
+import { LogContext} from '@log/log.enums'
+import { LogService } from '@log/log.service'; 
 import { UnauthorizedException } from '@nestjs/common';
 
 describe('AuthGuard', () => {
   let guard: AuthGuard;
   let jwtService: JwtService;
+  let logService: LogService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -17,11 +20,20 @@ describe('AuthGuard', () => {
             verifyAsync: jest.fn(),
           },
         },
+        {
+          provide: LogService,
+          useValue: {
+            debug: jest.fn(),
+            notice: jest.fn(),
+            error: jest.fn(),
+          },
+        },
       ],
     }).compile();
 
     guard = module.get<AuthGuard>(AuthGuard);
     jwtService = module.get<JwtService>(JwtService);
+    logService = module.get<LogService>(LogService);
   });
 
   it('should be defined', () => {
@@ -38,6 +50,11 @@ describe('AuthGuard', () => {
 
       jest.spyOn(guard, 'extractTokenFromHeader').mockReturnValueOnce(undefined);
       await expect(guard.canActivate(context as any)).rejects.toThrow(UnauthorizedException);
+
+      expect(logService.notice).toHaveBeenCalledWith(
+        'Unauthorized request - missing token', 
+        LogContext.AuthGuard
+      );
     });
 
     it('should throw UnauthorizedException if token verification fails', async () => {
@@ -53,6 +70,12 @@ describe('AuthGuard', () => {
       jest.spyOn(jwtService, 'verifyAsync').mockRejectedValueOnce(new Error('Invalid token'));
 
       await expect(guard.canActivate(context as any)).rejects.toThrow(UnauthorizedException);
+
+      expect(logService.error).toHaveBeenCalledWith(
+        'Unable to verify token',
+        expect.any(String), // expect.any(String) matches any string (stack trace)
+        expect.any(Error), // expect.any(Error) matches any error object
+      );
     });
 
     it('should set user property on request if token verification is successful', async () => {
@@ -71,6 +94,11 @@ describe('AuthGuard', () => {
       await guard.canActivate(context as any);
 
       expect(context.switchToHttp().getRequest().user).toEqual(payload);
+
+      expect(logService.debug).toHaveBeenCalledWith(
+        'Assigning payload to request', 
+        LogContext.AuthGuard
+      );
     });
   });
 

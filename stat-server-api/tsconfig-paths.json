@@ -3,6 +3,7 @@
       "paths": {
         "@app/*": ["src/app/*"],
         "@auth/*": ["src/auth/*"],
+        "@log/*": ["src/log/*"],
         "@migrations/*": ["src/migrations/*"],
         "@root/*": ["*"],
         "@src/*": ["src/*"],
