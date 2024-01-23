@@ -4,6 +4,8 @@ module.exports = {
     moduleNameMapper: {
         "^@app/(.*)$": "<rootDir>/src/app/$1",
         "^@auth/(.*)$": "<rootDir>/src/auth/$1",
+        "^@config/(.*)$": "<rootDir>/src/config/$1",
+        "^@database/(.*)$": "<rootDir>/src/database/$1",
         "^@log/(.*)$": "<rootDir>/src/log/$1",
         "^@migrations/(.*)$": "<rootDir>/src/migrations/$1",
         "^@src/(.*)$": "<rootDir>/src/$1",
@@ -30,12 +32,13 @@ module.exports = {
         "/test/",
         "/src/log/",
         "/src/migrations/",
-        "/src/database.ts",
+        "/src/sequelize.ts",
         "/src/main.ts",
         "/src/migrate.js",
         "/src/umzug.ts",
         "/jest.config.js",
         "/.eslintrc.js",
         '/src/.*\\.module\\.[jt]s$',
+        '/src/.*\\.dto\\.[jt]s$',
     ]
   };
