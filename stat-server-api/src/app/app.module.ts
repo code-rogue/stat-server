@@ -5,7 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@database/database.module';
 import { LogModule } from '@log/log.module';
 import { readFileSync } from 'fs';
-import { UsersModule } from '@users/users.module';
+import { UsersModule } from '@root/src/user/user.module';
 
 @Module({
   imports: [AuthModule, 

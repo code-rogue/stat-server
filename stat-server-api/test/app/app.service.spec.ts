@@ -24,8 +24,6 @@ describe('AppService', () => {
 
     service = module.get<AppService>(AppService);
     logService = module.get<LogService>(LogService);
-
-    //jest.spyOn(logService, 'debug')
   });
 
   it('should be defined', () => {

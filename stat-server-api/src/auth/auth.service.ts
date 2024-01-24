@@ -1,28 +1,40 @@
-import { Injectable, Logger, UnauthorizedException } from '@nestjs/common';
-import { UsersService } from '@users/users.service';
+import { DatabaseService } from '@database/database.service'
+import { InitUserModel } from '@user/user.dto'
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LogContext} from '@log/log.enums'
 import { LogService } from '@log/log.service'; 
+import { Password } from '@auth/auth.password';
+import { User } from '@user/user.dto';
+import { UserService } from '@user/user.service';
 
 @Injectable()
 export class AuthService {
+  private password = new Password();
+  
   constructor(
-      private usersService: UsersService,
-      private jwtService: JwtService,
-      private readonly logger: LogService
-    ) {}
+    private readonly logger: LogService,
+    private readonly database: DatabaseService,
+    private jwtService: JwtService
+  ) {}
 
-  async signIn(username: string, pass: string): Promise<any> {
-    this.logger.debug(`Authenticating user: '${username}'`, LogContext.AuthService);
-    
-    const user = await this.usersService.findOne(username);
-    if (user?.password !== pass) {
-      this.logger.notice(`Unable to authenticate user: '${username}'`, LogContext.AuthService);
-      throw new UnauthorizedException();
+  async signIn(userName: string, password: string): Promise<any> {
+    this.logger.debug(`Authenticating user: '${userName}'`, LogContext.AuthService);
+
+    InitUserModel(this.database.sequelize());
+    const userService = new UserService(this.logger);
+    const user = await userService.fetchUser(userName);
+    if(user) {
+      const isAuthenticated = await this.password.comparePasswords(password, user.hashedPassword);
+      if(isAuthenticated) {
+        const payload = { sub: user.id, userName: user.userName };
+        return {
+          access_token: await this.jwtService.signAsync(payload),
+        };
+      }
+      this.logger.debug(`Unable to authenticate user: '${userName}'`, LogContext.AuthService);
     }
-    const payload = { sub: user.userId, username: user.username };
-    return {
-      access_token: await this.jwtService.signAsync(payload),
-    };
+
+    throw new UnauthorizedException();
   }
 }

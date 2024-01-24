@@ -1,70 +1,65 @@
+import { LogContext} from '@log/log.enums';
+import { LogService } from '@log/log.service'; 
 import { Test, TestingModule } from '@nestjs/testing';
-import { UsersService, User } from '@users/users.service';
+import { UserService } from '@user/user.service';
+import { User } from '@user/user.dto'
+
+jest.mock('@user/user.dto');
 
 describe('UsersService', () => {
-  let service: UsersService;
+  let logService: LogService;
+  let service: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
-      providers: [UsersService],
+      providers: [
+        UserService,
+        {
+          provide: LogService,
+          useValue: {
+            error: jest.fn(),
+          },
+        },
+      ],
     }).compile();
 
-    service = module.get<UsersService>(UsersService);
+    service = module.get<UserService>(UserService);
+    logService = module.get<LogService>(LogService);
   });
 
   it('should be defined', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findOne', () => {
-    it('should return a user when it exists', async () => {
-      const username = 'admin';
-      const result: User | undefined = await service.findOne(username);
+  describe('fetchUser', () => {
+    it('should fetch user from the database', async () => {
+      // Mocking the behavior of the User model
+      const mockUser = { userName: 'testUser' };
+      (User.findOne as jest.Mock).mockResolvedValueOnce(mockUser);
 
-      expect(result).toBeDefined();
-      expect(result?.username).toEqual(username);
+      const userName = 'testUser';
+      const user = await service.fetchUser(userName);
+
+      expect(user).toEqual(mockUser);
+      expect(User.findOne).toHaveBeenCalledWith({
+        where: { userName },
+      });
     });
 
-    it('should return undefined when the user does not exist', async () => {
-      const username = 'nonexistent';
-      const result: User | undefined = await service.findOne(username);
+    it('should handle errors and log them', async () => {
+      // Mocking an error during database query
+      const mockError = new Error('Database error');
+      (User.findOne as jest.Mock).mockRejectedValueOnce(mockError);
 
-      expect(result).toBeUndefined();
-    });
+      const userName = 'testUser';
 
-    it('should handle multiple users and find the correct one', async () => {
-      const users: User[] = [
-        { userId: 1, username: 'admin', password: 'admin' },
-        { userId: 2, username: 'user2', password: 'pass2' },
-        { userId: 3, username: 'user3', password: 'pass3' },
-      ];
-
-      // Set the users array in the service
-      service['users'] = users;
-
-      const username = 'user2';
-      const result: User | undefined = await service.findOne(username);
-
-      expect(result).toBeDefined();
-      expect(result?.username).toEqual(username);
-    });
-
-    it('should return undefined when the users array is empty', async () => {
-      // Set an empty users array in the service
-      service['users'] = [];
-
-      const username = 'anyUser';
-      const result: User | undefined = await service.findOne(username);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should handle case-insensitive username matching', async () => {
-      const username = 'AdMiN'; // Case-insensitive
-      const result: User | undefined = await service.findOne(username);
-
-      expect(result).toBeDefined();
-      expect(result?.username).toEqual(username.toLowerCase());
+      // Ensuring the error is logged
+      expect(await service.fetchUser(userName)).toBeUndefined();
+      expect(logService.error).toHaveBeenCalledWith(
+        `Unable to query user: ${userName}`,
+        mockError.stack,
+        LogContext.UserService
+      );
     });
   });
 });

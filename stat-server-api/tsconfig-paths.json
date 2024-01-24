@@ -9,7 +9,7 @@
         "@migrations/*": ["src/migrations/*"],
         "@root/*": ["*"],
         "@src/*": ["src/*"],
-        "@users/*": ["src/users/*"],
+        "@user/*": ["src/user/*"],
       }
     }
   }

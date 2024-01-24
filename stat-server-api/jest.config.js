@@ -10,7 +10,7 @@ module.exports = {
         "^@migrations/(.*)$": "<rootDir>/src/migrations/$1",
         "^@src/(.*)$": "<rootDir>/src/$1",
         "^@test/(.*)$": "<rootDir>/test/$1",
-        "^@users/(.*)$": "<rootDir>/src/users/$1"
+        "^@user/(.*)$": "<rootDir>/src/user/$1"
     },
     "testRegex": ".*\\.spec\\.ts$",
     "transform": {

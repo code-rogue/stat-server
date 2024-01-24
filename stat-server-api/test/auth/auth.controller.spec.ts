@@ -4,8 +4,10 @@ import { AuthController } from '@auth/auth.controller';
 import { AuthDto } from '@auth/auth.dto';
 import { AuthGuard } from '@auth/auth.guard';
 import { AuthService } from '@auth/auth.service';
+import { ConfigService } from '@nestjs/config';
+import { DatabaseService } from '@database/database.service';
 import { JwtService } from '@nestjs/jwt';
-import { UsersService } from '@users/users.service';
+import { UserService } from '@user/user.service';
 import { LogService } from '@log/log.service'; 
 
 describe('AuthController', () => {
@@ -26,7 +28,9 @@ describe('AuthController', () => {
         AuthGuard,
         AuthService,
         JwtService,
-        UsersService,
+        UserService,
+        ConfigService,
+        DatabaseService,
         {
           provide: LogService,
           useValue: {

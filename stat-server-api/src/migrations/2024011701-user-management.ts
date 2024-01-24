@@ -13,7 +13,7 @@ export const up: Migration = async ({ context: sequelize }) => {
     try {
         const hashedPassword = await password.hashPassword('admin');
         const defaultUser = await User.create({
-            username: 'admin',
+            userName: 'admin',
             hashedPassword,
         });
 

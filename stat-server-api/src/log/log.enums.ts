@@ -3,4 +3,5 @@ export enum LogContext {
     AuthGuard = 'AuthGuard',
     AuthService = 'AuthService',
     DatabaseService = 'DatabaseService',
+    UserService = 'UserService',
 }
