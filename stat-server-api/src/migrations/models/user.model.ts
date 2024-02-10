@@ -1,5 +1,6 @@
 import { DataTypes } from 'sequelize';
 import { sequelize } from '../../sequelize';
+import { timestampColumn } from './model.helpers';
 
 export const User = sequelize.define(
   'User',
@@ -18,9 +19,12 @@ export const User = sequelize.define(
         type: DataTypes.STRING(255),
         allowNull: false,
     },
+    created_date: timestampColumn(sequelize),
+    last_modified: timestampColumn(sequelize),
   },
   {
     schema: 'auth',
     tableName: 'users',
+    timestamps: false,
   }
 );
