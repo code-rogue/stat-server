@@ -200,11 +200,11 @@ export const WeeklyStatsRush = sequelize.define(
               key: 'id',
           },
       },
-      receptions: {
-          type: DataTypes.INTEGER,
-      },
       targets: {
         type: DataTypes.INTEGER,
+      },
+      receptions: {
+          type: DataTypes.INTEGER,
       },
       target_share: {
         type: DataTypes.FLOAT,
