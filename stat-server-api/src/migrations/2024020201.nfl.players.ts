@@ -22,14 +22,7 @@ export const up: Migration = async ({ context: sequelize }) => {
 
 export const down: Migration = async ({ context: sequelize }) => {
     const query = sequelize.getQueryInterface();
-    //await query.dropTrigger('nfl.players', 'players_update_trigger');
-    //await query.dropTrigger('nfl.player_bio', 'playerBio_update_trigger');
-    //await query.dropTrigger('nfl.player_league', 'playLeague_update_trigger');
 
-    //await query.dropTrigger('nfl.players', 'players_insert_trigger');
-    //await query.dropTrigger('nfl.player_bio', 'playerBio_insert_trigger');
-    //await query.dropTrigger('nfl.player_league', 'playLeague_insert_trigger');
-    
     await PlayerBio.drop();
     await PlayerLeagueData.drop();
     await Player.drop();
