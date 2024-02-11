@@ -1,10 +1,10 @@
 import { 
     PlayerWeeklyStats,
-    WeeklyDefensiveStats,
-    WeeklyKickingStats,
-    WeeklyPassingStats,
-    WeeklyReceivingStats,
-    WeeklyRushingStats,    
+    WeeklyStatsDef,
+    WeeklyStatsKick,
+    WeeklyStatsPass,
+    WeeklyStatsRec,
+    WeeklyStatsRush,    
  } from './models/nfl.player.stats.model';
 import { timestampInsertTrigger, timestampUpdateTrigger } from './models/model.helpers';
 
@@ -13,32 +13,32 @@ import type { Migration } from '../umzug';
 export const up: Migration = async ({ context: sequelize }) => {
     const query = sequelize.getQueryInterface();
     await PlayerWeeklyStats.sync();
-    await WeeklyPassingStats.sync();
-    await WeeklyRushingStats.sync();
-    await WeeklyReceivingStats.sync();
-    await WeeklyDefensiveStats.sync();
-    await WeeklyKickingStats.sync();
+    await WeeklyStatsPass.sync();
+    await WeeklyStatsRush.sync();
+    await WeeklyStatsRec.sync();
+    await WeeklyStatsDef.sync();
+    await WeeklyStatsKick.sync();
 
-    await query.sequelize.query(timestampInsertTrigger('player_weekly_insert_trigger', 'nfl', 'player_weekly_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_passing_insert_trigger', 'nfl', 'weekly_passing_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_rushing_insert_trigger', 'nfl', 'weekly_rushing_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_receiving_insert_trigger', 'nfl', 'weekly_receiving_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_defensive_insert_trigger', 'nfl', 'weekly_defensive_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_kicking_insert_trigger', 'nfl', 'weekly_kicking_stats'));
+    await query.sequelize.query(timestampInsertTrigger('player_weekly_stats_insert_trigger', 'nfl', 'player_weekly_stats'));
+    await query.sequelize.query(timestampInsertTrigger('weekly_pass_insert_trigger', 'nfl', 'weekly_stats_pass'));
+    await query.sequelize.query(timestampInsertTrigger('weekly_rush_insert_trigger', 'nfl', 'weekly_stats_rush'));
+    await query.sequelize.query(timestampInsertTrigger('weekly_rec_insert_trigger', 'nfl', 'weekly_stats_rec'));
+    await query.sequelize.query(timestampInsertTrigger('weekly_def_insert_trigger', 'nfl', 'weekly_stats_def'));
+    await query.sequelize.query(timestampInsertTrigger('weekly_kick_insert_trigger', 'nfl', 'weekly_stats_kick'));
 
-    await query.sequelize.query(timestampUpdateTrigger('player_weekly_update_trigger', 'nfl', 'player_weekly_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_passing_update_trigger', 'nfl', 'weekly_passing_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_rushing_update_trigger', 'nfl', 'weekly_rushing_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_receiving_update_trigger', 'nfl', 'weekly_receiving_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_defensive_update_trigger', 'nfl', 'weekly_defensive_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_kicking_update_trigger', 'nfl', 'weekly_kicking_stats'));
+    await query.sequelize.query(timestampUpdateTrigger('player_weekly_stats_update_trigger', 'nfl', 'player_weekly_stats'));
+    await query.sequelize.query(timestampUpdateTrigger('weekly_pass_update_trigger', 'nfl', 'weekly_stats_pass'));
+    await query.sequelize.query(timestampUpdateTrigger('weekly_rush_update_trigger', 'nfl', 'weekly_stats_rush'));
+    await query.sequelize.query(timestampUpdateTrigger('weekly_rec_update_trigger', 'nfl', 'weekly_stats_rec'));
+    await query.sequelize.query(timestampUpdateTrigger('weekly_def_update_trigger', 'nfl', 'weekly_stats_def'));
+    await query.sequelize.query(timestampUpdateTrigger('weekly_kick_update_trigger', 'nfl', 'weekly_stats_kick'));
 };
 
 export const down: Migration = async ({ }) => {
-    await WeeklyKickingStats.drop()
-    await WeeklyDefensiveStats.drop();
-    await WeeklyReceivingStats.drop();
-    await WeeklyRushingStats.drop();
-    await WeeklyPassingStats.drop();
+    await WeeklyStatsKick.drop()
+    await WeeklyStatsDef.drop();
+    await WeeklyStatsRec.drop();
+    await WeeklyStatsRush.drop();
+    await WeeklyStatsPass.drop();
     await PlayerWeeklyStats.drop();
 };

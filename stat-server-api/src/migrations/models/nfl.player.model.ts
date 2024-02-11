@@ -32,6 +32,9 @@ export const Player = sequelize.define(
     smart_id: {
         type: DataTypes.STRING(128),
     },
+    pfr_id: {
+        type: DataTypes.STRING(128),
+    },
     full_name: {
         type: DataTypes.STRING(128),
         allowNull: false,

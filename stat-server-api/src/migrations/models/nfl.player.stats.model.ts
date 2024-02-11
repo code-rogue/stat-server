@@ -13,6 +13,12 @@ export const PlayerWeeklyStats = sequelize.define(
           autoIncrement: true,
           primaryKey: true,
       },
+      game_id: {
+        type: DataTypes.STRING(32),
+      },
+      pfr_game_id: {
+        type: DataTypes.STRING(32),
+      },
       player_id: {
           type: DataTypes.INTEGER,
           allowNull: false,
@@ -48,8 +54,8 @@ export const PlayerWeeklyStats = sequelize.define(
     }
 );
 
-export const WeeklyPassingStats = sequelize.define(
-  'WeeklyPassingStats',
+export const WeeklyStatsPass = sequelize.define(
+  'WeeklyStatsPass',
   {
     id: {
         type: DataTypes.INTEGER,
@@ -71,7 +77,7 @@ export const WeeklyPassingStats = sequelize.define(
     completions: {
         type: DataTypes.INTEGER,
     },
-    passing_yards: {
+    pass_yards: {
         type: DataTypes.FLOAT,
     },
     yards_after_catch: {
@@ -80,22 +86,22 @@ export const WeeklyPassingStats = sequelize.define(
     air_yards: {
         type: DataTypes.FLOAT,
     },
-    passing_air_conversion_ratio: {
+    pass_air_conversion_ratio: {
         type: DataTypes.FLOAT,
     },
-    passing_first_downs: {
+    pass_first_downs: {
         type: DataTypes.INTEGER,
     },
     dakota: {
         type: DataTypes.FLOAT,
     },
-    passing_epa: {
+    pass_epa: {
+        type: DataTypes.FLOAT,
+    },
+    pass_tds: {
         type: DataTypes.INTEGER,
     },
-    passing_tds: {
-        type: DataTypes.INTEGER,
-    },
-    passing_two_pt_conversions: {
+    pass_two_pt_conversions: {
         type: DataTypes.INTEGER,
     },
     interceptions: {
@@ -118,13 +124,13 @@ export const WeeklyPassingStats = sequelize.define(
   },
   {
     schema: 'nfl',
-    tableName: 'weekly_passing_stats',
+    tableName: 'weekly_stats_pass',
     timestamps: false,
   }
 );
 
-export const WeeklyRushingStats = sequelize.define(
-    'WeeklyRushingStats',
+export const WeeklyStatsRush = sequelize.define(
+    'WeeklyStatsRush',
     {
       id: {
           type: DataTypes.INTEGER,
@@ -143,25 +149,25 @@ export const WeeklyRushingStats = sequelize.define(
       carries: {
           type: DataTypes.INTEGER,
       },
-      rushing_yards: {
+      rush_yards: {
           type: DataTypes.FLOAT,
       },
-      rushing_first_downs: {
+      rush_first_downs: {
         type: DataTypes.INTEGER,
       },
-      rushing_epa: {
+      rush_epa: {
         type: DataTypes.FLOAT,
       },
-      rushing_tds: {
+      rush_tds: {
           type: DataTypes.INTEGER,
       },
-      rushing_two_pt_conversions: {
+      rush_two_pt_conversions: {
         type: DataTypes.INTEGER,
       },
-      rushing_fumbles: {
+      rush_fumbles: {
           type: DataTypes.INTEGER,
       },
-      rushing_fumbles_lost: {
+      rush_fumbles_lost: {
           type: DataTypes.INTEGER,
       },
       special_teams_tds: {
@@ -172,13 +178,13 @@ export const WeeklyRushingStats = sequelize.define(
     },
     {
       schema: 'nfl',
-      tableName: 'weekly_rushing_stats',
+      tableName: 'weekly_stats_rush',
       timestamps: false,
     }
   );
 
-  export const WeeklyReceivingStats = sequelize.define(
-    'WeeklyReceivingStats',
+  export const WeeklyStatsRec = sequelize.define(
+    'WeeklyRecStats',
     {
       id: {
           type: DataTypes.INTEGER,
@@ -203,7 +209,7 @@ export const WeeklyRushingStats = sequelize.define(
       target_share: {
         type: DataTypes.FLOAT,
       },
-      receiving_yards: {
+      rec_yards: {
           type: DataTypes.FLOAT,
       },
       yards_after_catch: {
@@ -221,22 +227,22 @@ export const WeeklyRushingStats = sequelize.define(
       weighted_opportunity_rating: {
         type: DataTypes.FLOAT,
       },
-      receiving_epa: {
+      rec_epa: {
         type: DataTypes.FLOAT,
       },
-      receiving_tds: {
+      rec_tds: {
           type: DataTypes.INTEGER,
       },
-      receiving_two_pt_conversions: {
+      rec_two_pt_conversions: {
         type: DataTypes.INTEGER,
       },
-      receiving_first_downs: {
+      rec_first_downs: {
         type: DataTypes.INTEGER,
       },
-      receiving_fumbles: {
+      rec_fumbles: {
           type: DataTypes.INTEGER,
       },
-      receiving_fumbles_lost: {
+      rec_fumbles_lost: {
           type: DataTypes.INTEGER,
       },
       created_date: timestampColumn(sequelize),
@@ -244,13 +250,13 @@ export const WeeklyRushingStats = sequelize.define(
     },
     {
       schema: 'nfl',
-      tableName: 'weekly_receiving_stats',
+      tableName: 'weekly_stats_rec',
       timestamps: false,
     }
   );
 
-  export const WeeklyDefensiveStats = sequelize.define(
-    'WeeklyDefensiveStats',
+  export const WeeklyStatsDef = sequelize.define(
+    'WeeklyStatsDef',
     {
       id: {
           type: DataTypes.INTEGER,
@@ -266,67 +272,67 @@ export const WeeklyRushingStats = sequelize.define(
               key: 'id',
           },
       },
-      def_tackles: {
+      tackles: {
           type: DataTypes.FLOAT,
       },
-      def_tackles_solo: {
+      tackles_solo: {
         type: DataTypes.FLOAT,
       },
-      def_tackle_assists: {
+      tackle_assists: {
         type: DataTypes.FLOAT,
       },
-      def_tackles_for_loss: {
+      tackles_for_loss: {
           type: DataTypes.FLOAT,
       },
-      def_tackles_for_loss_yards: {
+      tackles_for_loss_yards: {
         type: DataTypes.FLOAT,
       },
-      def_fumbles_forced: {
+      fumbles_forced: {
         type: DataTypes.FLOAT,
       },
-      def_sacks: {
+      sacks: {
         type: DataTypes.FLOAT,
       },
-      def_sack_yards: {
+      sack_yards: {
         type: DataTypes.FLOAT,
       },
-      def_qb_hits: {
+      qb_hits: {
         type: DataTypes.FLOAT,
       },
-      def_interceptions: {
+      interceptions: {
         type: DataTypes.FLOAT,
       },
-      def_interception_yards: {
+      interception_yards: {
           type: DataTypes.FLOAT,
       },
-      def_pass_defended: {
+      pass_defended: {
         type: DataTypes.FLOAT,
       },
       def_tds: {
         type: DataTypes.FLOAT,
       },
-      def_fumbles: {
+      fumbles: {
           type: DataTypes.FLOAT,
       },
-      def_fumble_recovery_own: {
+      fumble_recovery_own: {
           type: DataTypes.FLOAT,
       },
-      def_fumble_recovery_yards_own: {
+      fumble_recovery_yards_own: {
         type: DataTypes.FLOAT,
       },
-      def_fumble_recovery_opp: {
+      fumble_recovery_opp: {
         type: DataTypes.FLOAT,
       },
-      def_fumble_recovery_yards_opp: {
+      fumble_recovery_yards_opp: {
         type: DataTypes.FLOAT,
       },
-      def_safety: {
+      safety: {
         type: DataTypes.FLOAT,
       },
-      def_penalty: {
+      penalty: {
         type: DataTypes.FLOAT,
       },
-      def_penalty_yards: {
+      penalty_yards: {
         type: DataTypes.FLOAT,
       },
       created_date: timestampColumn(sequelize),
@@ -334,13 +340,13 @@ export const WeeklyRushingStats = sequelize.define(
     },
     {
       schema: 'nfl',
-      tableName: 'weekly_defensive_stats',
+      tableName: 'weekly_stats_def',
       timestamps: false,
     }
   );
 
-  export const WeeklyKickingStats = sequelize.define(
-    'WeeklyKickingStats',
+  export const WeeklyStatsKick = sequelize.define(
+    'WeeklyStatsKick',
     {
       id: {
           type: DataTypes.INTEGER,
@@ -463,7 +469,7 @@ export const WeeklyRushingStats = sequelize.define(
     },
     {
       schema: 'nfl',
-      tableName: 'weekly_kicking_stats',
+      tableName: 'weekly_stats_kick',
       timestamps: false,
     }
   );
