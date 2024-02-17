@@ -31,7 +31,7 @@ export const PlayerWeeklyStats = sequelize.define(
           type: DataTypes.STRING(16),
       },
       week: {
-          type: DataTypes.STRING(16),
+          type: DataTypes.INTEGER,
       },
       game_type: {
           type: DataTypes.STRING(16),
@@ -46,6 +46,8 @@ export const PlayerWeeklyStats = sequelize.define(
       fantasy_points_ppr: {
           type: DataTypes.FLOAT,
       },
+      created_date: timestampColumn(sequelize),
+      last_modified: timestampColumn(sequelize),
     },
     {
       schema: 'nfl',
@@ -80,10 +82,10 @@ export const WeeklyStatsPass = sequelize.define(
     pass_yards: {
         type: DataTypes.FLOAT,
     },
-    yards_after_catch: {
+    pass_yards_after_catch: {
         type: DataTypes.FLOAT,
     },
-    air_yards: {
+    pass_air_yards: {
         type: DataTypes.FLOAT,
     },
     pass_air_conversion_ratio: {
@@ -212,16 +214,16 @@ export const WeeklyStatsRush = sequelize.define(
       rec_yards: {
           type: DataTypes.FLOAT,
       },
-      yards_after_catch: {
+      rec_yards_after_catch: {
         type: DataTypes.FLOAT,
       },
-      air_yards: {
+      rec_air_yards: {
         type: DataTypes.FLOAT,
       },
-      air_yards_share: {
+      rec_air_yards_share: {
         type: DataTypes.FLOAT,
       },
-      air_conversion_ratio: {
+      rec_air_conversion_ratio: {
         type: DataTypes.FLOAT,
       },
       weighted_opportunity_rating: {
