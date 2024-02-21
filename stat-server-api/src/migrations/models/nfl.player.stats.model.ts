@@ -280,6 +280,9 @@ export const WeeklyStatsRush = sequelize.define(
       tackles_solo: {
         type: DataTypes.FLOAT,
       },
+      tackle_with_assists: {
+        type: DataTypes.FLOAT,
+      },
       tackle_assists: {
         type: DataTypes.FLOAT,
       },
@@ -310,7 +313,7 @@ export const WeeklyStatsRush = sequelize.define(
       pass_defended: {
         type: DataTypes.FLOAT,
       },
-      def_tds: {
+      tds: {
         type: DataTypes.FLOAT,
       },
       fumbles: {
