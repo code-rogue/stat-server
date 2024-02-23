@@ -33,35 +33,26 @@ export const WeeklyAdvStatsPass = sequelize.define(
     rec_drop_pct: {
         type: DataTypes.FLOAT,
     },
-    pass_bad_throws: {
+    bad_throws: {
         type: DataTypes.INTEGER,
     },
-    pass_bad_throw_pct: {
+    bad_throw_pct: {
         type: DataTypes.FLOAT,
     },
-    times_blitzed: {
+    blitzed: {
         type: DataTypes.INTEGER,
     },
-    times_hurried: {
+    hurried: {
         type: DataTypes.INTEGER,
     },
-    times_hit: {
+    hit: {
         type: DataTypes.INTEGER,
     },
-    times_pressured: {
+    pressured: {
         type: DataTypes.INTEGER,
     },
-    times_pressured_pct: {
+    pressured_pct: {
         type: DataTypes.FLOAT,
-    },
-    def_times_blitzed: {
-        type: DataTypes.INTEGER,
-    },
-    def_times_hurried: {
-        type: DataTypes.INTEGER,
-    },
-    def_times_hitqb: {
-        type: DataTypes.INTEGER,
     },
     created_date: timestampColumn(sequelize),
     last_modified: timestampColumn(sequelize),
@@ -90,23 +81,20 @@ export const WeeklyAdvStatsRush = sequelize.define(
               key: 'id',
           },
       },
-      rushing_yards_before_contact: {
+      yards_before_contact: {
           type: DataTypes.FLOAT,
       },
-      rushing_yards_before_contact_avg: {
+      yards_before_contact_avg: {
           type: DataTypes.FLOAT,
       },
-      rushing_yards_after_contact: {
+      yards_after_contact: {
         type: DataTypes.FLOAT,
       },
-      rushing_yards_after_contact_avg: {
+      yards_after_contact_avg: {
         type: DataTypes.FLOAT,
       },
-      rushing_broken_tackles: {
+      broken_tackles: {
           type: DataTypes.INTEGER,
-      },
-      receiving_broken_tackles: {
-        type: DataTypes.INTEGER,
       },
       created_date: timestampColumn(sequelize),
       last_modified: timestampColumn(sequelize),
@@ -135,28 +123,19 @@ export const WeeklyAdvStatsRush = sequelize.define(
               key: 'id',
           },
       },
-      rushing_broken_tackles: {
+      broken_tackles: {
         type: DataTypes.INTEGER,
       },
-      receiving_broken_tackles: {
+      drops: {
         type: DataTypes.INTEGER,
       },
-      passing_drops: {
-          type: DataTypes.INTEGER,
-      },
-      passing_drop_pct: {
-        type: DataTypes.FLOAT,
-      },
-      receiving_drop: {
-        type: DataTypes.INTEGER,
-      },
-      receiving_drop_pct: {
+      drop_pct: {
           type: DataTypes.FLOAT,
       },
-      receiving_int: {
+      interceptions: {
         type: DataTypes.INTEGER,
       },
-      receiving_rat: {
+      qb_rating: {
         type: DataTypes.FLOAT,
       },
       created_date: timestampColumn(sequelize),
@@ -219,10 +198,10 @@ export const WeeklyAdvStatsRush = sequelize.define(
       yards_after_catch: {
         type: DataTypes.FLOAT,
       },
-      times_blitzed: {
+      blitzed: {
         type: DataTypes.INTEGER,
       },
-      times_hurried: {
+      hurried: {
           type: DataTypes.INTEGER,
       },
       pressures: {
