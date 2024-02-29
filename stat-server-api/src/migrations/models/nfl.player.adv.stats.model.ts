@@ -3,6 +3,7 @@ import { sequelize } from '../../sequelize';
 import { timestampColumn } from './model.helpers';
 
 import { PlayerWeeklyStats }  from './nfl.player.stats.model';
+import { Player }  from './nfl.player.model';
 
 export const WeeklyAdvStatsPass = sequelize.define(
   'WeeklyAdvStatsPass',
@@ -213,7 +214,7 @@ export const WeeklyAdvStatsRush = sequelize.define(
       tackles_missed: {
         type: DataTypes.FLOAT,
       },
-      tackle_missed_pct: {
+      tackles_missed_pct: {
         type: DataTypes.FLOAT,
       },
       created_date: timestampColumn(sequelize),

@@ -28,17 +28,19 @@ export const PlayerWeeklyStats = sequelize.define(
           },
       },
       season: {
-          type: DataTypes.STRING(16),
+        allowNull: false,
+        type: DataTypes.STRING(16),
       },
       week: {
-          type: DataTypes.INTEGER,
+        allowNull: false,
+        type: DataTypes.INTEGER,
       },
       game_type: {
-          type: DataTypes.STRING(16),
-          defaultValue: 'REG',
+        type: DataTypes.STRING(16),
+        defaultValue: 'REG',
       },
       opponent: {
-          type: DataTypes.STRING(16),
+        type: DataTypes.STRING(16),
       },
       fantasy_points: {
         type: DataTypes.FLOAT,
