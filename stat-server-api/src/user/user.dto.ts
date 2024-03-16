@@ -9,9 +9,9 @@ export class User extends Model {
     @ApiProperty()
     hashedPassword: string;
     @ApiProperty()
-    createdAt: Date;
+    created_date: Date;
     @ApiProperty()
-    updatedAt: Date;
+    last_modified: Date;
 }
 
 export const InitUserModel = (sequelize: Sequelize) => {
@@ -31,12 +31,19 @@ export const InitUserModel = (sequelize: Sequelize) => {
             type: DataTypes.STRING,
             allowNull: false,
         },
+        created_date: {
+            type: DataTypes.DATE,
+        },
+        last_modified: {
+            type: DataTypes.DATE,
+        }
         },
         {
-        sequelize,
-        modelName: 'User',
-        schema: 'auth',
-        tableName: 'users',
+            sequelize,
+            modelName: 'User',
+            schema: 'auth',
+            tableName: 'users',
+            timestamps: false,
         }
     );
 };
