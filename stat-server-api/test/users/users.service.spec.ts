@@ -2,7 +2,7 @@ import { LogContext} from '@log/log.enums';
 import { LogService } from '@log/log.service'; 
 import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '@user/user.service';
-import { User } from '@user/user.dto'
+import { User } from '@interfaces/user.dto'
 
 jest.mock('@user/user.dto');
 

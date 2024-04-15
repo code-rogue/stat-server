@@ -1,6 +1,6 @@
-import { DataTypes, Sequelize } from 'sequelize';
+import { DataTypes } from 'sequelize';
 
-export function timestampColumn(sequelize: Sequelize): any {
+export function timestampColumn(): any {
     return {
         type: DataTypes.DATE,
         set() {

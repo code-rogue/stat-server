@@ -6,4 +6,4 @@ import { UserService } from '@user/user.service';
   providers: [UserService,LogService],
   exports: [UserService],
 })
-export class UsersModule {}
+export class UserModule {}

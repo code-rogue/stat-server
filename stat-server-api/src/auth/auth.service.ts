@@ -1,11 +1,10 @@
 import { DatabaseService } from '@database/database.service'
-import { InitUserModel } from '@user/user.dto'
+import { InitUserModel } from '@interfaces/user.dto'
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { LogContext} from '@log/log.enums'
 import { LogService } from '@log/log.service'; 
 import { Password } from '@auth/auth.password';
-import { User } from '@user/user.dto';
 import { UserService } from '@user/user.service';
 
 @Injectable()

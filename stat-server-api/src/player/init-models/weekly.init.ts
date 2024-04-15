@@ -1,0 +1,93 @@
+import { Sequelize } from 'sequelize';
+import { PlayerForeignKey, PlayerWeeklyForeignKey } from '@constants/nfl/service.constants';
+import { PlayerModel } from '@player/models/player.model';
+import { weeklyAdvDefModelOptions, weeklyAdvDefSchema } from '@player/models/schema/weekly/advanced/weekly.adv.def.schema';
+import { weeklyAdvPassModelOptions, weeklyAdvPassSchema } from '@player/models/schema/weekly/advanced/weekly.adv.pass.schema';
+import { weeklyAdvRecModelOptions, weeklyAdvRecSchema } from '@player/models/schema/weekly/advanced/weekly.adv.rec.schema';
+import { weeklyAdvRushModelOptions, weeklyAdvRushSchema } from '@player/models/schema/weekly/advanced/weekly.adv.rush.schema';
+import { weeklyDefModelOptions, weeklyDefSchema } from '@player/models/schema/weekly/weekly.def.schema';
+import { weeklyKickModelOptions, weeklyKickSchema } from '@player/models/schema/weekly/weekly.kick.schema';
+import { weeklyPassModelOptions, weeklyPassSchema } from '@player/models/schema/weekly/weekly.pass.schema';
+import { weeklyRecModelOptions, weeklyRecSchema } from '@player/models/schema/weekly/weekly.rec.schema';
+import { weeklyRushModelOptions, weeklyRushSchema } from '@player/models/schema/weekly/weekly.rush.schema';
+import { 
+    weeklyNextGenPassModelOptions, 
+    weeklyNextGenPassSchema 
+} from '@player/models/schema/weekly/nextGen/weekly.nextgen.pass.schema';
+import { 
+    weeklyNextGenRecModelOptions, 
+    weeklyNextGenRecSchema 
+} from '@player/models/schema/weekly/nextGen/weekly.nextgen.rec.schema';
+import { 
+    weeklyNextGenRushModelOptions, 
+    weeklyNextGenRushSchema 
+} from '@player/models/schema/weekly/nextGen/weekly.nextgen.rush.schema';
+import { weeklyModelOptions, weeklySchema } from '@player/models/schema/weekly/weekly.schema';
+import {
+    WeeklyDefStatModel,
+    WeeklyKickStatModel,
+    WeeklyPassStatModel,
+    WeeklyRecStatModel,
+    WeeklyRushStatModel,
+    WeeklyStatModel
+} from '@player/models/weekly/weekly.model';
+import { 
+    WeeklyAdvDefStatModel,
+    WeeklyAdvPassStatModel,
+    WeeklyAdvRecStatModel,
+    WeeklyAdvRushStatModel
+ } from '@player/models/weekly/weekly.adv.model';
+import { 
+    WeeklyNextGenPassStatModel,
+    WeeklyNextGenRecStatModel,
+    WeeklyNextGenRushStatModel
+ } from '@player/models/weekly/weekly.nextgen.model';
+
+export const InitWeeklyModels = (sequelize: Sequelize) => {
+    WeeklyStatModel.init(weeklySchema(PlayerModel), weeklyModelOptions(sequelize));
+    WeeklyDefStatModel.init(weeklyDefSchema(WeeklyStatModel), weeklyDefModelOptions(sequelize));
+    WeeklyKickStatModel.init(weeklyKickSchema(WeeklyStatModel), weeklyKickModelOptions(sequelize));
+    WeeklyPassStatModel.init(weeklyPassSchema(WeeklyStatModel), weeklyPassModelOptions(sequelize));
+    WeeklyRecStatModel.init(weeklyRecSchema(WeeklyStatModel), weeklyRecModelOptions(sequelize));
+    WeeklyRushStatModel.init(weeklyRushSchema(WeeklyStatModel), weeklyRushModelOptions(sequelize));
+
+    WeeklyNextGenPassStatModel.init(weeklyNextGenPassSchema(WeeklyStatModel), weeklyNextGenPassModelOptions(sequelize));
+    WeeklyNextGenRecStatModel.init(weeklyNextGenRecSchema(WeeklyStatModel), weeklyNextGenRecModelOptions(sequelize));
+    WeeklyNextGenRushStatModel.init(weeklyNextGenRushSchema(WeeklyStatModel), weeklyNextGenRushModelOptions(sequelize));
+
+    WeeklyAdvDefStatModel.init(weeklyAdvDefSchema(WeeklyStatModel), weeklyAdvDefModelOptions(sequelize));
+    WeeklyAdvPassStatModel.init(weeklyAdvPassSchema(WeeklyStatModel), weeklyAdvPassModelOptions(sequelize));
+    WeeklyAdvRecStatModel.init(weeklyAdvRecSchema(WeeklyStatModel), weeklyAdvRecModelOptions(sequelize));
+    WeeklyAdvRushStatModel.init(weeklyAdvRushSchema(WeeklyStatModel), weeklyAdvRushModelOptions(sequelize));
+
+    WeeklyStatModel.belongsTo(PlayerModel, PlayerForeignKey);
+    WeeklyStatModel.hasOne(WeeklyDefStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyKickStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyPassStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyRecStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyRushStatModel, PlayerWeeklyForeignKey);
+    
+    WeeklyStatModel.hasOne(WeeklyAdvDefStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyAdvPassStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyAdvRecStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyAdvRushStatModel, PlayerWeeklyForeignKey);
+
+    WeeklyStatModel.hasOne(WeeklyNextGenPassStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyNextGenRecStatModel, PlayerWeeklyForeignKey);
+    WeeklyStatModel.hasOne(WeeklyNextGenRushStatModel, PlayerWeeklyForeignKey);
+    
+    WeeklyDefStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyKickStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyPassStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyRecStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyRushStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    
+    WeeklyAdvDefStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyAdvPassStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyAdvRecStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyAdvRushStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+
+    WeeklyNextGenPassStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyNextGenRecStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+    WeeklyNextGenRushStatModel.belongsTo(WeeklyStatModel, PlayerWeeklyForeignKey);
+}

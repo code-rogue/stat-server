@@ -1,7 +1,7 @@
 import { UnauthorizedException } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthController } from '@auth/auth.controller';
-import { AuthDto } from '@auth/auth.dto';
+import { AuthDto } from '@interfaces/auth.dto';
 import { AuthGuard } from '@auth/auth.guard';
 import { AuthService } from '@auth/auth.service';
 import { ConfigService } from '@nestjs/config';

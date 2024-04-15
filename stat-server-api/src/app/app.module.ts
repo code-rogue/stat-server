@@ -4,8 +4,9 @@ import { AuthModule } from '@auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from '@database/database.module';
 import { LogModule } from '@log/log.module';
+import { PlayerModule } from '@player/player.module';
 import { readFileSync } from 'fs';
-import { UsersModule } from '@root/src/user/user.module';
+import { UserModule } from '@root/src/user/user.module';
 
 @Module({
   imports: [AuthModule, 
@@ -16,8 +17,9 @@ import { UsersModule } from '@root/src/user/user.module';
       }],
     }), 
     DatabaseModule, 
-    LogModule, 
-    UsersModule
+    LogModule,
+    PlayerModule,
+    UserModule
   ],
   providers: [AppService],
 })

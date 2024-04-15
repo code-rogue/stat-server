@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { LogContext} from '@log/log.enums';
 import { LogService } from '@log/log.service'; 
-import { User } from '@user/user.dto'
+import { User } from '@interfaces/user.dto'
 
 @Injectable()
 export class UserService {

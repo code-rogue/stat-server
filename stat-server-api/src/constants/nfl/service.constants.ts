@@ -1,0 +1,57 @@
+export const NFLSchema = 'nfl'
+
+export const BioTable = 'player_bio';
+export const LeagueTable = 'player_league';
+export const PlayerTable = 'players';
+export const SeasonAdvDefTable = 'season_adv_stats_def';
+export const SeasonAdvPassTable = 'season_adv_stats_pass';
+export const SeasonAdvRecTable = 'season_adv_stats_rec';
+export const SeasonAdvRushTable = 'season_adv_stats_rush';
+export const SeasonStatTable = 'player_season_stats';
+export const WeeklyDefTable = 'weekly_stats_def';
+export const WeeklyKickTable = 'weekly_stats_kick';
+export const WeeklyPassTable = 'weekly_stats_pass';
+export const WeeklyRecTable = 'weekly_stats_rec';
+export const WeeklyRushTable = 'weekly_stats_rush';
+export const WeeklyAdvDefTable = 'weekly_adv_stats_def';
+export const WeeklyAdvPassTable = 'weekly_adv_stats_pass';
+export const WeeklyAdvRecTable = 'weekly_adv_stats_rec';
+export const WeeklyAdvRushTable = 'weekly_adv_stats_rush';
+export const WeeklyNextGenPassTable = 'weekly_nextgen_stats_pass';
+export const WeeklyNextGenRecTable = 'weekly_nextgen_stats_rec';
+export const WeeklyNextGenRushTable = 'weekly_nextgen_stats_rush';
+export const WeeklyStatTable = 'player_weekly_stats';
+
+export const PlayerFullName = 'full_name';
+export const PlayerPFR = 'pfr_id';
+export const PlayerId = 'player_id';
+export const PlayerGSIS = 'gsis_id';
+export const PlayerSmartId = "smart_id";
+export const SeasonStatId = 'player_season_id';
+export const WeeklyStatId = 'player_weekly_id';
+
+export const PlayerForeignKey = { foreignKey: { name: PlayerId } };
+export const PlayerSeasonForeignKey = { foreignKey: { name: SeasonStatId } };
+export const PlayerWeeklyForeignKey = { foreignKey: { name: WeeklyStatId } };
+
+export const PlayerModelLabel = 'Player';
+export const BioModelLabel = 'bio';
+export const LeagueModelLabel = 'league';
+export const SeasonModelLabel = 'seasonStats';
+export const SeasonAdvDefModelLabel = 'seasonAdvDef';
+export const SeasonAdvPassModelLabel = 'seasonAdvPass';
+export const SeasonAdvRecModelLabel = 'seasonAdvRec';
+export const SeasonAdvRushModelLabel = 'seasonAdvRush';
+export const WeeklyModelLabel = 'weeklyStats';
+export const WeeklyDefModelLabel = 'weeklyDef';
+export const WeeklyKickModelLabel = 'weeklyKick';
+export const WeeklyPassModelLabel = 'weeklyPass';
+export const WeeklyRecModelLabel = 'weeklyRec';
+export const WeeklyRushModelLabel = 'weeklyRush';
+export const WeeklyNextGenPassModelLabel = 'weeklyNextGenPass';
+export const WeeklyNextGenRecModelLabel = 'weeklyNextGenRec';
+export const WeeklyNextGenRushModelLabel = 'weeklyNextGenRush';
+export const WeeklyAdvDefModelLabel = 'weeklyAdvDef';
+export const WeeklyAdvPassModelLabel = 'weeklyAdvPass';
+export const WeeklyAdvRecModelLabel = 'weeklyAdvRec';
+export const WeeklyAdvRushModelLabel = 'weeklyAdvRush';

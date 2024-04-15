@@ -19,8 +19,8 @@ export const User = sequelize.define(
         type: DataTypes.STRING(255),
         allowNull: false,
     },
-    created_date: timestampColumn(sequelize),
-    last_modified: timestampColumn(sequelize),
+    created_date: timestampColumn(),
+    last_modified: timestampColumn(),
   },
   {
     schema: 'auth',

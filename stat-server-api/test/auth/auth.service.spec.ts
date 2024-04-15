@@ -7,7 +7,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UnauthorizedException } from '@nestjs/common';
 import { Password } from '@auth/auth.password';
 import { UserService } from '@user/user.service';
-import { User } from '@user/user.dto';
+import { User } from '@interfaces/user.dto';
 
 jest.mock('@database/database.service');
 jest.mock('@nestjs/jwt');
