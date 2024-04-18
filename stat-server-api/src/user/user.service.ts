@@ -17,7 +17,7 @@ export class UserService {
       return user;
     } catch (error) {
       this.logger.error(`Unable to query user: ${userName}`, error.stack, LogContext.UserService);
-      console.error('Error: ', error)
+      //console.error('Error: ', error)
       return undefined;
     }
   }

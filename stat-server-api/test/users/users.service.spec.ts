@@ -4,7 +4,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserService } from '@user/user.service';
 import { User } from '@interfaces/user.dto'
 
-jest.mock('@user/user.dto');
+jest.mock('@interfaces/user.dto');
 
 describe('UsersService', () => {
   let logService: LogService;

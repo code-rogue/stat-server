@@ -15,7 +15,10 @@ async function bootstrap() {
   };
 
   const app = await NestFactory.create(AppModule, httpsOptions);
-  
+//  app.enableVersioning({
+//    type: VersioningType.URI,
+//  });
+
   // Enable CORS globally
   app.enableCors({
       origin: '*', // Allow requests from any origin (change as needed)

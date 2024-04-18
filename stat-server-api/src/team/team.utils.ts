@@ -1,4 +1,4 @@
-const TEAM_UNKNOWN = 'Unknown team'
+export const TEAM_UNKNOWN = 'Unknown team'
 
 export enum NFL_TEAMS {
     ARI = 'ARI',

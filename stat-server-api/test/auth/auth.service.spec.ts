@@ -1,3 +1,5 @@
+//import * as userDto from '@interfaces/user.dto';
+
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '@auth/auth.service';
 import { LogContext} from '@log/log.enums'
@@ -12,7 +14,7 @@ import { User } from '@interfaces/user.dto';
 jest.mock('@database/database.service');
 jest.mock('@nestjs/jwt');
 jest.mock('@user/user.service');
-jest.mock('@user/user.dto');
+jest.mock('@interfaces/user.dto');
 jest.mock('@auth/auth.password');
 
 describe('AuthService', () => {
@@ -23,7 +25,7 @@ describe('AuthService', () => {
   let databaseService: DatabaseService;
   let jwtService: JwtService;
   let passwordService: Password;
-  //let userService: UserService;
+  let userService: UserService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -38,7 +40,7 @@ describe('AuthService', () => {
         DatabaseService,
         JwtService,
         Password,
-        //UserService,
+        UserService,
       ],
     }).compile();
 
@@ -47,7 +49,7 @@ describe('AuthService', () => {
     databaseService = module.get<DatabaseService>(DatabaseService);
     jwtService = module.get<JwtService>(JwtService);
     passwordService = module.get<Password>(Password);
-    //userService = module.get<UserService>(UserService);
+    userService = module.get<UserService>(UserService);
   });
 
   it('should be defined', () => {
@@ -57,7 +59,6 @@ describe('AuthService', () => {
   describe('signIn', () => {
     it('should throw UnauthorizedException for invalid credentials', async () => {
       const mockedGetUser = jest.spyOn(UserService.prototype, 'fetchUser').mockReturnValue(Promise.resolve(null));
-      //(UserService.fetchUser as jest.Mock).mockResolvedValueOnce(null);
       
       await expect(authService.signIn('nonexistentUser', 'invalidPassword')).rejects.toThrow(UnauthorizedException);
 
@@ -68,8 +69,7 @@ describe('AuthService', () => {
     });
   
     it.skip('should sign in a user with valid credentials', async () => {
-      //(UserService.prototype.fetchUser as jest.Mock).mockResolvedValue(Promise.resolve(mockUser));
-      const mockedGetUser = jest.spyOn(UserService.prototype, 'fetchUser').mockReturnValue(Promise.resolve(mockUser));
+      (UserService.prototype.fetchUser as jest.Mock).mockResolvedValue(Promise.resolve(mockUser));
       (passwordService.comparePasswords as jest.Mock).mockResolvedValueOnce(true);
       (jwtService.signAsync as jest.Mock).mockResolvedValueOnce('mockAccessToken');
 
@@ -81,7 +81,7 @@ describe('AuthService', () => {
       );
 
       expect(result.access_token).toEqual('mockAccessToken');
-      expect(mockedGetUser).toHaveBeenCalledWith('testUser');
+      expect(UserService.prototype.fetchUser).toHaveBeenCalledWith('testUser');
       expect(passwordService.comparePasswords).toHaveBeenCalledWith('password', 'hashedPassword');
       expect(jwtService.signAsync).toHaveBeenCalledWith({ sub: 1, userName: 'testUser' });
     });
