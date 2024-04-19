@@ -1,6 +1,6 @@
 import { Model } from 'sequelize';
 
-export class SeasonStatModel extends Model {
+export default class SeasonStatModel extends Model {
     public id: number;
     public player_id: number;
     public season: string;

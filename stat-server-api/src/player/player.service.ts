@@ -1,4 +1,4 @@
-import { SortDirection } from '@app/app.dto';
+import BioModel from '@player/models/bio.model';
 import { DatabaseService } from '@database/database.service';
 import { InitPlayerModels } from '@player/init-models/player.init';
 import { 
@@ -6,50 +6,38 @@ import {
     NotFoundException, 
     InternalServerErrorException  
 } from '@nestjs/common';
+import LeagueModel from '@player/models/league.model';
 import { LogContext } from '@log/log.enums';
 import { LogService } from '@log/log.service'; 
-import { 
-    BioModel, 
-    PlayerModel,
-    LeagueModel
-} from '@player/models/player.model';
+import PlayerModel from '@player/models/player.model';
 import { PlayerDto, PlayerSummaryDto } from '@interfaces/player/player.dto';
 import { PlayerQueryAPI } from '@interfaces/player/player.query.dto';
+import type { PlayerSummary } from '@interfaces/types/player.type';
 import { 
     PlayerQueryModel, 
     SeasonStatQueryModel, 
     WeeklyStatQueryModel 
 } from '@interfaces/player/player.query.model';
-import {
-    SeasonAdvDefStatModel,
-    SeasonAdvPassStatModel,
-    SeasonAdvRecStatModel,
-    SeasonAdvRushStatModel
-} from '@player/models/season/season.adv.model';
-import { SeasonStatModel } from '@player/models/season/season.model';
-import {
-    WeeklyDefStatModel,
-    WeeklyKickStatModel,
-    WeeklyPassStatModel,
-    WeeklyRecStatModel,
-    WeeklyRushStatModel,
-    WeeklyStatModel
-} from '@player/models/weekly/weekly.model';
-import { 
-    WeeklyAdvDefStatModel,
-    WeeklyAdvPassStatModel,
-    WeeklyAdvRecStatModel,
-    WeeklyAdvRushStatModel
- } from '@player/models/weekly/weekly.adv.model';
-import { 
-    WeeklyNextGenPassStatModel,
-    WeeklyNextGenRecStatModel,
-    WeeklyNextGenRushStatModel
- } from '@player/models/weekly/weekly.nextgen.model';
-
+import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
+import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
+import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
+import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
+import SeasonStatModel from '@player/models/season/season.model';
 import { SeasonStatQueryAPI, WeeklyStatQueryAPI } from '@interfaces/stats/stats.query.dto';
-
-import type { PlayerSummary } from '@interfaces/types/player.type';
+import { SortDirection } from '@app/app.dto';
+import WeeklyDefStatModel from '@player/models/weekly/weekly.def.model';
+import WeeklyKickStatModel from '@player/models/weekly/weekly.kick.model';
+import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
+import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
+import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
+import WeeklyStatModel from '@player/models/weekly/weekly.model';
+import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
+import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
+import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
+import WeeklyAdvRushStatModel from '@player/models/weekly/advanced/weekly.adv.rush.model';
+import WeeklyNextGenPassStatModel from '@player/models/weekly/nextGen/weekly.nextgen.pass.model';
+import WeeklyNextGenRecStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rec.model';
+import WeeklyNextGenRushStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rush.model';
 
 @Injectable()
 export class PlayerService {
@@ -86,9 +74,9 @@ export class PlayerService {
         });
         return [players.rows, players.count];
         } catch (error) {
-        this.logger.error(`Failed to search for players`, error.stack, LogContext.PlayerService);
-        console.error('Player Search Error: ', error);
-        return [[], 0];
+            this.logger.error(`Failed to search for players`, error.stack, LogContext.PlayerService);
+            console.error('Player Search Error: ', error);
+            return [[], 0];
         }
     }
 

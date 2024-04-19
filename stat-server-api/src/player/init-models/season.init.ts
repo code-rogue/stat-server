@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 import { PlayerForeignKey, PlayerSeasonForeignKey } from '@constants/nfl/service.constants';
-import { PlayerModel } from '@player/models/player.model';
-import { seasonModelOptions, seasonSchema } from '@player/models/schema/season/season.schema';
+import PlayerModel from '@player/models/player.model';
 import { 
     seasonAdvDefModelOptions, 
     seasonAdvDefSchema 
@@ -19,13 +18,12 @@ import {
     seasonAdvRushSchema 
 } from '@player/models/schema/season/advanced/season.adv.rush.schema';
 
-import {
-    SeasonAdvDefStatModel,
-    SeasonAdvPassStatModel,
-    SeasonAdvRecStatModel,
-    SeasonAdvRushStatModel, 
-} from '@player/models/season/season.adv.model';
-import { SeasonStatModel } from '@player/models/season/season.model';
+import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
+import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
+import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
+import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
+import { seasonModelOptions, seasonSchema } from '@player/models/schema/season/season.schema';
+import SeasonStatModel from '@player/models/season/season.model';
 
 export const InitSeasonModels = (sequelize: Sequelize) => {
     SeasonStatModel.init(seasonSchema(PlayerModel), seasonModelOptions(sequelize));

@@ -1,12 +1,13 @@
-import { Sequelize } from 'sequelize';
-import { playerModelOptions, playerSchema } from '@player/models/schema/player.schema';
-import { PlayerForeignKey } from '@constants/nfl/service.constants';
-import { BioModel, LeagueModel, PlayerModel } from '@player/models/player.model';
+import BioModel from '@player/models/bio.model';
 import { bioModelOptions, bioSchema } from '@player/models/schema/bio.schema';
-import { leagueModelOptions, leagueSchema } from '@player/models/schema/league.schema';
-
 import { InitSeasonModels } from '@player/init-models/season.init';
 import { InitWeeklyModels } from '@player/init-models/weekly.init';
+import LeagueModel from '@player/models/league.model';
+import { leagueModelOptions, leagueSchema } from '@player/models/schema/league.schema';
+import { PlayerForeignKey } from '@constants/nfl/service.constants';
+import PlayerModel from '@player/models/player.model';
+import { playerModelOptions, playerSchema } from '@player/models/schema/player.schema';
+import { Sequelize } from 'sequelize';
 
 export const InitPlayerModels = (sequelize: Sequelize) => {
     PlayerModel.init(playerSchema(), playerModelOptions(sequelize));

@@ -1,14 +1,4 @@
 import { AuthGuard } from '@auth/auth.guard';
-import { ConfigService } from '@nestjs/config';
-import { PlayerController } from '@player/player.controller';
-import { PlayerService } from '@player/player.service';
-//import { LogService } from '@log/log.service';
-import { Test, TestingModule } from '@nestjs/testing';
-import { UnauthorizedException } from '@nestjs/common';
-import { DatabaseService } from '@database/database.service';
-import { LogService } from '@log/log.service';
-import { JwtService } from '@nestjs/jwt';
-import { PlayerDto } from '@interfaces/player/player.dto';
 import { 
     CareerStatus,
     PlayerQueryAPI, 
@@ -16,7 +6,15 @@ import {
     Position, 
     PositionGroup 
 } from '@interfaces/player/player.query.dto';
+import { ConfigService } from '@nestjs/config';
+import { DatabaseService } from '@database/database.service';
+import { JwtService } from '@nestjs/jwt';
+import { LogService } from '@log/log.service';
+import { PlayerController } from '@player/player.controller';
+import { PlayerDto } from '@interfaces/player/player.dto';
+import { PlayerService } from '@player/player.service';
 import { PlayerSummary } from '@interfaces/types/player.type';
+import { Test, TestingModule } from '@nestjs/testing';
 
 describe('PlayerController', () => {
     const playerQuery: PlayerQueryDto = { 
@@ -65,9 +63,9 @@ describe('PlayerController', () => {
     };
 
     let mockGetAll: jest.SpyInstance<Promise<PlayerSummary>, [query: PlayerQueryAPI], any>;
-    let mockGetById;
-    let mockSeasonStats;
-    let mockSeasonWeeklyStats;
+    let mockGetById: jest.SpyInstance<Promise<PlayerDto>, [id: number], any>;
+    let mockSeasonStats: jest.SpyInstance<Promise<PlayerDto>, [player_id: number], any>;
+    let mockSeasonWeeklyStats: jest.SpyInstance<Promise<PlayerDto>, [player_id: number, season: string], any>;
 
     let service: PlayerService;
     let controller: PlayerController;

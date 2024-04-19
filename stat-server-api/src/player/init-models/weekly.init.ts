@@ -1,47 +1,41 @@
-import { Sequelize } from 'sequelize';
 import { PlayerForeignKey, PlayerWeeklyForeignKey } from '@constants/nfl/service.constants';
-import { PlayerModel } from '@player/models/player.model';
+import PlayerModel from '@player/models/player.model';
+import { Sequelize } from 'sequelize';
 import { weeklyAdvDefModelOptions, weeklyAdvDefSchema } from '@player/models/schema/weekly/advanced/weekly.adv.def.schema';
+import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import { weeklyAdvPassModelOptions, weeklyAdvPassSchema } from '@player/models/schema/weekly/advanced/weekly.adv.pass.schema';
+import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
 import { weeklyAdvRecModelOptions, weeklyAdvRecSchema } from '@player/models/schema/weekly/advanced/weekly.adv.rec.schema';
+import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
 import { weeklyAdvRushModelOptions, weeklyAdvRushSchema } from '@player/models/schema/weekly/advanced/weekly.adv.rush.schema';
+import WeeklyAdvRushStatModel from '@player/models/weekly/advanced/weekly.adv.rush.model';
 import { weeklyDefModelOptions, weeklyDefSchema } from '@player/models/schema/weekly/weekly.def.schema';
+import WeeklyDefStatModel  from '@player/models/weekly/weekly.def.model';
 import { weeklyKickModelOptions, weeklyKickSchema } from '@player/models/schema/weekly/weekly.kick.schema';
-import { weeklyPassModelOptions, weeklyPassSchema } from '@player/models/schema/weekly/weekly.pass.schema';
-import { weeklyRecModelOptions, weeklyRecSchema } from '@player/models/schema/weekly/weekly.rec.schema';
-import { weeklyRushModelOptions, weeklyRushSchema } from '@player/models/schema/weekly/weekly.rush.schema';
+import WeeklyKickStatModel  from '@player/models/weekly/weekly.kick.model';
+import { weeklyModelOptions, weeklySchema } from '@player/models/schema/weekly/weekly.schema';
 import { 
     weeklyNextGenPassModelOptions, 
     weeklyNextGenPassSchema 
 } from '@player/models/schema/weekly/nextGen/weekly.nextgen.pass.schema';
+import WeeklyNextGenPassStatModel from '@player/models/weekly/nextGen/weekly.nextgen.pass.model';
 import { 
     weeklyNextGenRecModelOptions, 
     weeklyNextGenRecSchema 
 } from '@player/models/schema/weekly/nextGen/weekly.nextgen.rec.schema';
+import WeeklyNextGenRecStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rec.model';
 import { 
     weeklyNextGenRushModelOptions, 
     weeklyNextGenRushSchema 
 } from '@player/models/schema/weekly/nextGen/weekly.nextgen.rush.schema';
-import { weeklyModelOptions, weeklySchema } from '@player/models/schema/weekly/weekly.schema';
-import {
-    WeeklyDefStatModel,
-    WeeklyKickStatModel,
-    WeeklyPassStatModel,
-    WeeklyRecStatModel,
-    WeeklyRushStatModel,
-    WeeklyStatModel
-} from '@player/models/weekly/weekly.model';
-import { 
-    WeeklyAdvDefStatModel,
-    WeeklyAdvPassStatModel,
-    WeeklyAdvRecStatModel,
-    WeeklyAdvRushStatModel
- } from '@player/models/weekly/weekly.adv.model';
-import { 
-    WeeklyNextGenPassStatModel,
-    WeeklyNextGenRecStatModel,
-    WeeklyNextGenRushStatModel
- } from '@player/models/weekly/weekly.nextgen.model';
+import WeeklyNextGenRushStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rush.model';
+import { weeklyPassModelOptions, weeklyPassSchema } from '@player/models/schema/weekly/weekly.pass.schema';
+import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
+import { weeklyRecModelOptions, weeklyRecSchema } from '@player/models/schema/weekly/weekly.rec.schema';
+import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
+import { weeklyRushModelOptions, weeklyRushSchema } from '@player/models/schema/weekly/weekly.rush.schema';
+import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
+import WeeklyStatModel from '@player/models/weekly/weekly.model';
 
 export const InitWeeklyModels = (sequelize: Sequelize) => {
     WeeklyStatModel.init(weeklySchema(PlayerModel), weeklyModelOptions(sequelize));
