@@ -1,4 +1,4 @@
-import { WeeklyAdvRecQueryModel } from '@interfaces/stats/advStats.query.model';
+import { WeeklyAdvRecQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class WeeklyAdvRecDto {
    public broken_tackles?: number;

@@ -1,4 +1,4 @@
-import { PlayerSummaryDto } from '@interfaces/player/player.dto';
+import PlayerSummaryDto from '@interfaces/player/player.summary.dto';
 import {
    SeasonAdvDefQueryModel,
    SeasonAdvPassQueryModel,
@@ -8,19 +8,19 @@ import {
    WeeklyAdvPassQueryModel,
    WeeklyAdvRecQueryModel,
    WeeklyAdvRushQueryModel,
-} from '@interfaces/stats/advStats.query.model';
+} from '@interfaces/stats/adv.query.model';
 import {
    WeeklyDefQueryModel,
    WeeklyKickQueryModel,
    WeeklyPassQueryModel,
    WeeklyRecQueryModel,
    WeeklyRushQueryModel,
-} from '@interfaces/stats/stats.query.model';
+} from '@interfaces/stats/query.model';
 import {
    WeeklyNextGenPassQueryModel,
    WeeklyNextGenRecQueryModel,
    WeeklyNextGenRushQueryModel,
-} from '@interfaces/stats/nextGenStats.query.model';
+} from '@interfaces/stats/nextGen.query.model';
 
 export type PlayerSummary = {
     data: PlayerSummaryDto[], 

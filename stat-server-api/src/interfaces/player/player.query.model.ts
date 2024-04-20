@@ -4,7 +4,7 @@ import {
     WeeklyPassQueryModel,
     WeeklyRecQueryModel,
     WeeklyRushQueryModel,
-} from '@interfaces/stats/stats.query.model';
+} from '@interfaces/stats/query.model';
 
 import {
     SeasonAdvDefQueryModel,
@@ -15,13 +15,13 @@ import {
     WeeklyAdvPassQueryModel,
     WeeklyAdvRecQueryModel,
     WeeklyAdvRushQueryModel,
-} from '@interfaces/stats/advStats.query.model';
+} from '@interfaces/stats/adv.query.model';
 
 import {
     WeeklyNextGenPassQueryModel,
     WeeklyNextGenRecQueryModel,
     WeeklyNextGenRushQueryModel,
-} from '@interfaces/stats/nextGenStats.query.model';
+} from '@interfaces/stats/nextGen.query.model';
 
 
 export interface WeeklyStatQueryModel {

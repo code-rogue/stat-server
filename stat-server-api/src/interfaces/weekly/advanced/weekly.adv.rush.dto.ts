@@ -1,4 +1,4 @@
-import { WeeklyAdvRushQueryModel } from '@interfaces/stats/advStats.query.model';
+import { WeeklyAdvRushQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class WeeklyAdvRushDto {
    public yards_before_contact?: number;

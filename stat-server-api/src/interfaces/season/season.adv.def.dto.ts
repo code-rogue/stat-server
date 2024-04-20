@@ -1,4 +1,4 @@
-import { SeasonAdvDefQueryModel } from '@interfaces/stats/advStats.query.model';
+import { SeasonAdvDefQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class SeasonAdvDefDto {
    public interceptions?: number;

@@ -1,25 +1,149 @@
 import * as pinit from '@player/init-models/player.init';
 
 import { AuthGuard } from '@auth/auth.guard';
-import BioModel from '@player/models/bio.model';
 import { 
-    CareerStatus,
-    PlayerQueryAPI, 
-    PlayerQueryDto, 
-    Position, 
-    PositionGroup 
-} from '@interfaces/player/player.query.dto';
+    BindOrReplacements, 
+    FieldMap, 
+    FindAttributeOptions, 
+    FindOptions, 
+    GroupOption, 
+    GroupedCountResultItem, 
+    Includeable, 
+    IndexHint, 
+    LOCK, 
+    Model, 
+    ModelStatic, 
+    Order, 
+    Sequelize, 
+    Transaction, 
+    WhereOptions 
+} from 'sequelize';
+import BioModel from '@player/models/bio.model';
+import { CareerStatus, Position, PositionGroup } from '@interfaces/enums/player.enums';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from '@database/database.service';
+import { InternalServerErrorException, NotFoundException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import LeagueModel from '@player/models/league.model';
 import { LogContext } from '@log/log.enums';
 import { LogService } from '@log/log.service';
+import { Options } from 'retry-as-promised';
 import PlayerModel from '@player/models/player.model';
 import { PlayerService } from '@player/player.service';
+import PlayerDto from '@interfaces/player/player.dto';
+import PlayerQueryDto from '@interfaces/player/player.query.dto';
+import PlayerQueryAPI from '@interfaces/player/player.query.api';
+import { PlayerQueryModel, SeasonStatQueryModel } from '@interfaces/player/player.query.model';
+import PlayerSummaryDto from '@interfaces/player/player.summary.dto';
+import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
+import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
+import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
+import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
+import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
+import SeasonStatModel from '@player/models/season/season.model';
+import { SortDirection } from '@interfaces/enums/app.enums';
 import { Test, TestingModule } from '@nestjs/testing';
-import { BindOrReplacements, FieldMap, FindAttributeOptions, GroupOption, GroupedCountResultItem, Includeable, IndexHint, LOCK, Model, ModelStatic, Order, Sequelize, Transaction, WhereOptions } from 'sequelize';
-import { Options } from 'retry-as-promised';
+import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
+import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
+import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
+import WeeklyAdvRushStatModel from '@player/models/weekly/advanced/weekly.adv.rush.model';
+import WeeklyDefStatModel from '@player/models/weekly/weekly.def.model';
+import WeeklyKickStatModel from '@player/models/weekly/weekly.kick.model';
+import WeeklyNextGenPassStatModel from '@player/models/weekly/nextGen/weekly.nextgen.pass.model';
+import WeeklyNextGenRecStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rec.model';
+import WeeklyNextGenRushStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rush.model';
+import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
+import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
+import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
+import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
+import WeeklyStatModel from '@player/models/weekly/weekly.model';
+
+const obj = {};
+let mockBuildWhere = jest.fn();
+let mockBuildOrderBy = jest.fn();
+
+jest.mock('@interfaces/player/player.summary.dto', () => {
+    return {
+        default: jest.fn().mockImplementation(() => {
+            return  {
+                id: 1,
+                full_name: 'Travis Kelce',
+                career_status: 'ACT',
+                position: 'TE',
+                position_group: 'TE',
+                team: 'KC',
+                team_display_name: 'Kansas City Chiefs',
+                headshot_url: '',
+            }
+        }),
+    };
+});
+
+jest.mock('@interfaces/player/player.dto', () => {
+    return {
+        default: jest.fn().mockImplementation(() => {
+            return  {
+                id: 1,
+                career_status: 'ACT',
+                game_status_abbr: 'ACT',
+                game_status: 'Active',
+                esb_id: '',
+                gsis_id: '00-0030506',
+                gsis_it_id: '',
+                smart_id: '',
+                pfr_id: 'KelcTr00',
+                full_name: 'Travis Kelce',
+                first_name: 'Travis',
+                last_name: 'Kelce',
+                short_name: 'T. Kelce',
+                suffix:  ''
+            }
+        }),
+    };
+});
+
+jest.mock('@interfaces/stats/season/season.query.api', () => {
+    return {
+        default: jest.fn().mockImplementation(() => {
+            return  {
+                player_id: 5,
+                seasons: ['2022', '2023'],
+                buildWhereClause: mockBuildWhere,
+                buildOrderByClause: mockBuildOrderBy,
+            }
+        }),
+    };
+});
+
+jest.mock('@interfaces/stats/weekly/weekly.query.api', () => {
+    return {
+        default: jest.fn().mockImplementation(() => {
+            return  {
+                player_id: 5,
+                seasons: ['2022', '2023'],
+                weeks: [],
+                buildWhereClause: mockBuildWhere,
+                buildOrderByClause: mockBuildOrderBy,
+            }
+        }),
+    };
+});
+
+jest.mock('@interfaces/player/player.query.api', () => {
+    return {
+        default: jest.fn().mockImplementation(() => {
+            return  {
+                name: 'Travis Kelce',
+                position: Position.TE,
+                position_group: PositionGroup.TE,
+                status: CareerStatus.ActiveOnly,
+                buildPlayerWhereClause: mockBuildWhere,
+                buildLeagueWhereClause: mockBuildWhere,
+                buildOrderByClause: mockBuildOrderBy,
+            }
+        }),
+    };
+});
 
 describe('PlayerService', () => {
     const sequelize = new Sequelize({
@@ -40,33 +164,69 @@ describe('PlayerService', () => {
         offset: 0,
     };
     const playerQueryAPI = new PlayerQueryAPI(playerQuery);
-        
+
     const player = {
         id: 1,
-        career_status: '',
-        game_status_abbr: '',
-        game_status: '',
+        career_status: 'ACT',
+        game_status_abbr: 'ACT',
+        game_status: 'Active',
         esb_id: '',
-        gsis_id: '',
+        gsis_id: '00-0030506',
         gsis_it_id: '',
         smart_id: '',
-        pfr_id: '',
-        full_name: '',
-        first_name: '',
-        last_name: '',
-        short_name: '',
+        pfr_id: 'KelcTr00',
+        full_name: 'Travis Kelce',
+        first_name: 'Travis',
+        last_name: 'Kelce',
+        short_name: 'T. Kelce',
         suffix:  ''
     } as PlayerModel;
-    
-    const players = { data: [player], total: 1 };
-    const playerQueryResult = { rows: [player], count: 1 };
-    const obj = {};
+    const playerSummary = {
+        id: 1,
+        full_name: 'Travis Kelce',
+        career_status: 'ACT',
+        position: 'TE',
+        position_group: 'TE',
+        team: 'KC',
+        team_display_name: 'Kansas City Chiefs',
+        headshot_url: '',
+    } as PlayerSummaryDto;
+    const season = {
+        id: 1,
+        player_id: 5,
+        season: '2023',
+        age: 33,
+        games_played: 17,
+        games_started: 17,
+        fantasy_points: 195,
+        fantasy_points_ppr: 247,
+        created_date: new Date(),
+        last_modified: new Date(),
+    } as SeasonStatModel;
+    const week = {
+        id: 1,
+        game_id: 1001,
+        pfr_game_id: 1001001,
+        player_id: 5,
+        season: '2023',
+        week: 12,
+        game_type: 'REG',
+        opponent: 'BUF',
+        fantasy_points: 9.5,
+        fantasy_points_ppr: 14.5,
+        created_date: new Date(),
+        last_modified: new Date(),
+    } as WeeklyStatModel;
+        
+    const noPlayers = { data: [], total: 0 };
+    const playerQueryResult = { rows: [player, player], count: 2 };
+    const seasonQueryResult = [season, season];
+    const weeklyQueryResult = [week, week];
 
     let mockConsoleError: jest.SpyInstance<void, [message?: any, ...optionalParams: any[]], any>;
-    let mockbuildPlayerWhereClause;
-    let mockbuildLeagueWhereClause;
-    let mockbuildOrderByClause: jest.SpyInstance<any, [defaultSort: string[]], any>;
+    let mockFindAll;
     let mockFindAndCountAll: jest.SpyInstance<Promise<{ rows: Model<any, any>[]; count: GroupedCountResultItem[]; }>, [options: { bind?: BindOrReplacements; include?: Includeable | Includeable[]; distinct?: boolean; col?: string; logging?: boolean | ((sql: string, timing?: number) => void); benchmark?: boolean; transaction?: Transaction; where?: WhereOptions<any>; attributes?: FindAttributeOptions; paranoid?: boolean; useMaster?: boolean; order?: Order; limit?: number; groupedLimit?: unknown; offset?: number; lock?: boolean | LOCK | { level: LOCK; of: ModelStatic<Model<any, any>>; }; skipLocked?: boolean; raw?: boolean; having?: WhereOptions<any>; subQuery?: boolean; type?: string; nest?: boolean; plain?: boolean; replacements?: BindOrReplacements; instance?: Model<any, any>; mapToModel?: boolean; retry?: Options; fieldMap?: FieldMap; indexHints?: IndexHint[]; group: GroupOption; }], any>;
+    let mockFindOne: jest.SpyInstance<Promise<Model<any, any>>, [options?: FindOptions<any>], any>;
     let mockInitPlayerModels: jest.SpyInstance<void, [sequelize: Sequelize], any>;
     let mockSequelize;
 
@@ -100,13 +260,18 @@ describe('PlayerService', () => {
         databaseService = module.get<DatabaseService>(DatabaseService);
         
         mockConsoleError = jest.spyOn(console, 'error').mockImplementation(() => {});
-        mockbuildPlayerWhereClause = jest.spyOn(PlayerQueryAPI.prototype, 'buildPlayerWhereClause').mockReturnValue(obj);
-        mockbuildLeagueWhereClause = jest.spyOn(PlayerQueryAPI.prototype, 'buildLeagueWhereClause').mockReturnValue(obj);
-        mockbuildOrderByClause = jest.spyOn(PlayerQueryAPI.prototype, 'buildOrderByClause').mockReturnValue(obj);
+        mockFindAll = jest.spyOn(Model, 'findAll').mockResolvedValue(seasonQueryResult);
         // @ts-ignore
         mockFindAndCountAll = jest.spyOn(Model, 'findAndCountAll').mockResolvedValue(playerQueryResult);
+        mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(player);
         mockInitPlayerModels = jest.spyOn(pinit, 'InitPlayerModels').mockImplementation();        
         mockSequelize = jest.spyOn(databaseService, 'sequelize').mockImplementation(() => sequelize);        
+
+        mockBuildWhere.mockRestore();
+        mockBuildOrderBy.mockRestore();
+
+        mockBuildWhere.mockImplementation(() => obj);
+        mockBuildOrderBy.mockImplementation(() => obj);
     });
 
     describe('Service', () => {
@@ -139,9 +304,8 @@ describe('PlayerService', () => {
             expect(mockSequelize).toHaveBeenCalledTimes(1);            
             expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
             expect(mockFindAndCountAll).toHaveBeenCalledWith(findAndCountAll);
-            expect(mockbuildPlayerWhereClause).toHaveBeenCalledTimes(1);
-            expect(mockbuildLeagueWhereClause).toHaveBeenCalledTimes(1);
-            expect(mockbuildOrderByClause).toHaveBeenCalledWith(service.sortDefaults);
+            expect(mockBuildWhere).toHaveBeenCalledTimes(2);
+            expect(mockBuildOrderBy).toHaveBeenCalledWith(service.sortDefaults);
         });
 
         it('should throw error', async () => {
@@ -157,6 +321,254 @@ describe('PlayerService', () => {
                 LogContext.PlayerService
             );
             expect(mockConsoleError).toHaveBeenCalledWith('Player Search Error: ', error);
+        });
+    });
+
+    describe('getAll', () => {
+        it.each([
+            [0, []],
+            [1, [playerSummary]],
+            [2, [playerSummary, playerSummary]]
+        ])('should return players - test %s', async (total, rows) => {
+            const getAllResult = { data: rows, total };
+
+            // @ts-ignore
+            const mockSearch = jest.spyOn(service, 'search').mockResolvedValue([rows, total]);
+            
+            // Returns no players as PlayerSummaryDto is mocked 
+            await expect(service.getAll(playerQueryAPI)).resolves.toEqual(getAllResult);
+            for(let i = 0; i < total; i++)
+                expect(PlayerSummaryDto).toHaveBeenNthCalledWith(i+1, rows[i]);
+            
+            expect(mockSearch).toHaveBeenCalledWith(playerQueryAPI);
+            mockSearch.mockRestore();
+        });
+
+        it('should throw error', async () => {
+            const error = new Error('Search failed');
+            const mockSearch = jest.spyOn(service, 'search').mockRejectedValue(error);
+            const internalServerError = new InternalServerErrorException(error);
+
+            await expect(service.getAll(playerQueryAPI)).rejects.toThrow(internalServerError);
+            expect(mockSearch).toHaveBeenCalledWith(playerQueryAPI);
+            expect(logService.error).toHaveBeenCalledWith(
+                `Failed to get players`,
+                error.stack,
+                LogContext.PlayerService
+            );
+            expect(mockConsoleError).toHaveBeenCalledWith('GetAll Players Error: ', error);
+            mockSearch.mockRestore();
+        });
+    });
+
+    describe('getById', () => {
+        const player_id = 5;
+        const findOne = {
+            where: obj,
+            include: [ BioModel, LeagueModel ],
+        }
+        const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
+
+        it('should return a player', async () => {
+            mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(player);
+            await expect(service.getById(player_id)).resolves.toEqual(player);
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(PlayerQueryAPI).toHaveBeenCalledWith({ id: player_id });
+            expect(mockFindOne).toHaveBeenCalledWith(findOne);
+            expect(PlayerDto).toHaveBeenCalledTimes(1);
+            expect(PlayerDto).toHaveBeenCalledWith(player);
+        });
+
+        it('should return Not Found', async () => {
+            mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(null);
+            
+            await expect(service.getById(player_id)).rejects.toThrow(notFoundError);
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(mockFindOne).toHaveBeenCalledWith(findOne);
+        });
+
+        it('should throw internal server error', async () => {
+            const internalServerError = new InternalServerErrorException(notFoundError);
+
+            mockFindOne = jest.spyOn(Model, 'findOne').mockRejectedValue(notFoundError);
+
+            await expect(service.getById(player_id)).rejects.toThrow(internalServerError);
+
+            expect(logService.error).toHaveBeenCalledWith(
+                `Failed to find player`,
+                notFoundError.stack,
+                LogContext.PlayerService
+            );
+            expect(mockConsoleError).toHaveBeenCalledWith('getById Players Error: ', notFoundError);
+        });
+    });
+
+    describe('seasonStats', () => {
+        const player_id = 5;
+        const findOne = {
+            where: obj,
+            include: [ BioModel, LeagueModel, SeasonStatModel ],
+        }
+        const findAll = {
+            where: obj,
+            include: [ 
+                SeasonAdvDefStatModel,
+                SeasonAdvPassStatModel,
+                SeasonAdvRecStatModel,
+                SeasonAdvRushStatModel
+            ],
+            order: obj,
+        }
+        const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
+
+        it('should return season stats for player', async () => {
+            mockBuildWhere.mockClear();
+            mockBuildOrderBy.mockClear();
+
+            mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(player);
+            mockFindAll = jest.spyOn(Model, 'findAll').mockResolvedValue(seasonQueryResult);
+
+            // PlayerDto is mocked to olnly return player
+            await service.seasonStats(player_id);
+            
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(PlayerQueryAPI).toHaveBeenCalledWith({ id: player_id });
+            expect(mockFindOne).toHaveBeenCalledWith(findOne);
+            
+            expect(SeasonQueryAPI).toHaveBeenCalledWith({player_id, sort_direction: SortDirection.DESC});
+            expect(mockFindAll).toHaveBeenCalledWith(findAll);
+
+            expect(mockBuildWhere).toHaveBeenCalledTimes(2);
+            expect(mockBuildOrderBy).toHaveBeenNthCalledWith(1, ['season']);
+
+            const playerData = player as PlayerQueryModel;
+            playerData.stats = seasonQueryResult;
+            expect(PlayerDto).toHaveBeenCalledWith(playerData);
+        });
+
+        it('should return Not Found', async () => {
+            mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(null);
+            
+            await expect(service.seasonStats(player_id)).rejects.toThrow(notFoundError);
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(mockFindOne).toHaveBeenCalledWith(findOne);
+        });
+
+        it('should throw internal server error', async () => {
+            const internalServerError = new InternalServerErrorException(notFoundError);
+            mockFindOne = jest.spyOn(Model, 'findOne').mockRejectedValue(notFoundError);
+
+            await expect(service.seasonStats(player_id)).rejects.toThrow(internalServerError);
+
+            expect(logService.error).toHaveBeenCalledWith(
+                `Failed to find season stats`,
+                notFoundError.stack,
+                LogContext.PlayerService
+            );
+            expect(mockConsoleError).toHaveBeenCalledWith('seasonStats Error: ', notFoundError);
+        });
+    });
+
+    describe('seasonWeeklyStats', () => {
+        const player_id = 5;
+        const seasons = '2022,2023';
+        const findOnePlayer = {
+            where: obj,
+            include: [ BioModel, LeagueModel ],
+        }
+        const findOneSeason = {
+            where: obj,
+            include: [ SeasonAdvDefStatModel, SeasonAdvPassStatModel, SeasonAdvRecStatModel, SeasonAdvRushStatModel ],
+            order: obj,
+        }
+        const findAll = {
+            where: obj,
+            include: [ 
+                WeeklyDefStatModel,
+                WeeklyKickStatModel,
+                WeeklyPassStatModel,
+                WeeklyRecStatModel,
+                WeeklyRushStatModel,
+                WeeklyAdvDefStatModel,
+                WeeklyAdvPassStatModel,
+                WeeklyAdvRecStatModel,
+                WeeklyAdvRushStatModel,
+                WeeklyNextGenPassStatModel,
+                WeeklyNextGenRecStatModel,
+                WeeklyNextGenRushStatModel,
+            ],
+            order: obj,
+        }
+        const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
+
+        it('should return weekly stats for player for given season', async () => {
+            mockBuildWhere.mockClear();
+            mockBuildOrderBy.mockClear();
+            mockFindOne.mockRestore();
+            mockFindAll.mockRestore();
+
+            mockFindOne = jest.spyOn(Model, 'findOne')
+                .mockResolvedValueOnce(player)
+                .mockResolvedValue(season);
+            mockFindAll = jest.spyOn(Model, 'findAll').mockResolvedValue(weeklyQueryResult);
+
+            // PlayerDto is mocked to olnly return player
+            await service.seasonWeeklyStats(player_id, seasons);
+            
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(PlayerQueryAPI).toHaveBeenCalledWith({ id: player_id });
+            expect(mockFindOne).toHaveBeenNthCalledWith(1, findOnePlayer);
+            
+            expect(SeasonQueryAPI).toHaveBeenCalledWith({
+                player_id,
+                seasons,
+                sort_direction: SortDirection.DESC});
+            expect(mockFindOne).toHaveBeenNthCalledWith(2, findOneSeason);
+
+            expect(WeeklyQueryAPI).toHaveBeenCalledWith({
+                player_id,
+                seasons,
+                sort_direction: SortDirection.ASC
+            });
+            expect(mockFindAll).toHaveBeenCalledWith(findAll);
+
+            expect(mockBuildWhere).toHaveBeenCalledTimes(3);
+            expect(mockBuildOrderBy).toHaveBeenNthCalledWith(1, ['season']);
+            expect(mockBuildOrderBy).toHaveBeenNthCalledWith(2, ['week']);
+
+            const stats = season as SeasonStatQueryModel;
+            stats.weeks = weeklyQueryResult;
+            const playerData = player as PlayerQueryModel;
+            playerData.stats = [stats];
+            expect(PlayerDto).toHaveBeenCalledWith(playerData);
+        });
+
+        it('should return Not Found', async () => {
+            mockFindOne = jest.spyOn(Model, 'findOne').mockResolvedValue(null);
+            
+            await expect(service.seasonWeeklyStats(player_id, seasons)).rejects.toThrow(notFoundError);
+            expect(mockSequelize).toHaveBeenCalledTimes(1);            
+            expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
+            expect(mockFindOne).toHaveBeenCalledWith(findOnePlayer);
+        });
+
+        it('should throw internal server error', async () => {
+            const internalServerError = new InternalServerErrorException(notFoundError);
+            mockFindOne = jest.spyOn(Model, 'findOne').mockRejectedValue(notFoundError);
+
+            await expect(service.seasonWeeklyStats(player_id, seasons)).rejects.toThrow(internalServerError);
+
+            expect(logService.error).toHaveBeenCalledWith(
+                `Failed to find weekly stats for season`,
+                notFoundError.stack,
+                LogContext.PlayerService
+            );
+            expect(mockConsoleError).toHaveBeenCalledWith('seasonWeeklyStats Error: ', notFoundError);
         });
     });
 });

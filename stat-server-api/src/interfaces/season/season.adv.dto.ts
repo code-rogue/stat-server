@@ -3,7 +3,7 @@ import {
    SeasonAdvPassQueryModel,
    SeasonAdvRecQueryModel,
    SeasonAdvRushQueryModel,
-} from '@interfaces/stats/advStats.query.model';
+} from '@interfaces/stats/adv.query.model';
 import {
     SeasonAdvDefModelLabel as advDef,
     SeasonAdvPassModelLabel as advPass,

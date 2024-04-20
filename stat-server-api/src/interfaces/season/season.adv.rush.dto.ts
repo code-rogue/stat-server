@@ -1,4 +1,4 @@
-import { SeasonAdvRushQueryModel } from '@interfaces/stats/advStats.query.model';
+import { SeasonAdvRushQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class SeasonAdvRushDto {
    public attempts?: number;

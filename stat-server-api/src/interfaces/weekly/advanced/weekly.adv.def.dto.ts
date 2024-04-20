@@ -1,4 +1,4 @@
-import { WeeklyAdvDefQueryModel } from '@interfaces/stats/advStats.query.model';
+import { WeeklyAdvDefQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class WeeklyAdvDefDto {
    public interceptions?: number;

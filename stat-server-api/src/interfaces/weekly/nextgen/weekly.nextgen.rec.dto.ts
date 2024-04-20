@@ -1,4 +1,4 @@
-import { WeeklyNextGenRecQueryModel } from '@interfaces/stats/nextGenStats.query.model';
+import { WeeklyNextGenRecQueryModel } from '@interfaces/stats/nextGen.query.model';
 
 export class WeeklyNextGenRecDto {
    public avg_cushion?: number;

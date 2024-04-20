@@ -1,4 +1,4 @@
-import { WeeklyNextGenPassQueryModel } from '@interfaces/stats/nextGenStats.query.model';
+import { WeeklyNextGenPassQueryModel } from '@interfaces/stats/nextGen.query.model';
 
 export class WeeklyNextGenPassDto {
    public aggressiveness?: number;

@@ -1,4 +1,4 @@
-import { WeeklyKickQueryModel } from '@interfaces/stats/stats.query.model';
+import { WeeklyKickQueryModel } from '@interfaces/stats/query.model';
 
 export class WeeklyKickDto {
    public fg_att?: number;

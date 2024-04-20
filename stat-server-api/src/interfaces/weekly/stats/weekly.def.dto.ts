@@ -1,4 +1,4 @@
-import { WeeklyDefQueryModel } from '@interfaces/stats/stats.query.model';
+import { WeeklyDefQueryModel } from '@interfaces/stats/query.model';
 
 export class WeeklyDefDto {
    public tackles?: number;

@@ -6,7 +6,7 @@ import {
    WeeklyNextGenPassQueryModel,
    WeeklyNextGenRecQueryModel,
    WeeklyNextGenRushQueryModel,
-} from '@interfaces/stats/nextGenStats.query.model';
+} from '@interfaces/stats/nextGen.query.model';
 import {
     WeeklyNextGenPassModelLabel as nextGenPass,
     WeeklyNextGenRecModelLabel as nextGenRec,

@@ -2,7 +2,7 @@ import { SeasonStatQueryModel } from '@interfaces/player/player.query.model';
 import { SeasonAdvDto } from '@interfaces/season/season.adv.dto';
 import { WeeklyDto } from '@interfaces/weekly/weekly.dto';
 
-import type { SeasonAdvancedStats } from '@interfaces/types/player.type';
+import type { SeasonAdvancedStats } from '@interfaces/types/player.types';
 
 export class SeasonDto {
    public id: number;

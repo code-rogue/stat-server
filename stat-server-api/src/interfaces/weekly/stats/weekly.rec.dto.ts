@@ -1,4 +1,4 @@
-import { WeeklyRecQueryModel } from '@interfaces/stats/stats.query.model';
+import { WeeklyRecQueryModel } from '@interfaces/stats/query.model';
 
 export class WeeklyRecDto {
    public targets?: number;

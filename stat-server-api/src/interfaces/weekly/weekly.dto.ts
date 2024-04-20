@@ -7,7 +7,7 @@ import type {
    WeeklyAdvancedStats,
    WeeklyNextGenStats,
    WeeklyStats,
-} from '@interfaces/types/player.type';
+} from '@interfaces/types/player.types';
 
 export class WeeklyDto {
    public id: number;

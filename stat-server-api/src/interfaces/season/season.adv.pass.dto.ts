@@ -1,4 +1,4 @@
-import { SeasonAdvPassQueryModel } from '@interfaces/stats/advStats.query.model';
+import { SeasonAdvPassQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class SeasonAdvPassDto {
    public attempts?: number;

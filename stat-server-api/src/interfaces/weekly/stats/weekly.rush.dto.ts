@@ -1,4 +1,4 @@
-import { WeeklyRushQueryModel } from '@interfaces/stats/stats.query.model';
+import { WeeklyRushQueryModel } from '@interfaces/stats/query.model';
 
 export class WeeklyRushDto {
    public carries?: number;

@@ -1,4 +1,4 @@
-import { WeeklyPassQueryModel } from '@interfaces/stats/stats.query.model';
+import { WeeklyPassQueryModel } from '@interfaces/stats/query.model';
 
 export class WeeklyPassDto {
    public attempts?: number;

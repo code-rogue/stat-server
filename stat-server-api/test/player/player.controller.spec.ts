@@ -1,19 +1,15 @@
 import { AuthGuard } from '@auth/auth.guard';
-import { 
-    CareerStatus,
-    PlayerQueryAPI, 
-    PlayerQueryDto, 
-    Position, 
-    PositionGroup 
-} from '@interfaces/player/player.query.dto';
+import { CareerStatus, Position, PositionGroup } from '@interfaces/enums/player.enums';
 import { ConfigService } from '@nestjs/config';
 import { DatabaseService } from '@database/database.service';
 import { JwtService } from '@nestjs/jwt';
 import { LogService } from '@log/log.service';
 import { PlayerController } from '@player/player.controller';
-import { PlayerDto } from '@interfaces/player/player.dto';
+import PlayerDto from '@interfaces/player/player.dto';
+import PlayerQueryDto from '@interfaces/player/player.query.dto';
+import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import { PlayerService } from '@player/player.service';
-import { PlayerSummary } from '@interfaces/types/player.type';
+import { PlayerSummary } from '@interfaces/types/player.types';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('PlayerController', () => {

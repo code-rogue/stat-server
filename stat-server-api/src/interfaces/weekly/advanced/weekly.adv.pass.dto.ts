@@ -1,4 +1,4 @@
-import { WeeklyAdvPassQueryModel } from '@interfaces/stats/advStats.query.model';
+import { WeeklyAdvPassQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class WeeklyAdvPassDto {
    public pass_drops?: number;

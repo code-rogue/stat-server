@@ -7,12 +7,13 @@ import {
   } from '@nestjs/common';
 import { ApiTags, ApiOperation } from '@nestjs/swagger';
 import { AuthGuard } from '@auth/auth.guard';
-import { PlayerQueryAPI, PlayerQueryDto } from '@interfaces/player/player.query.dto';
+import PlayerQueryAPI from '@interfaces/player/player.query.api';
+import PlayerQueryDto from '@interfaces/player/player.query.dto';
 import { PlayerService } from '@player/player.service';
 
 @Controller('players')
 @ApiTags('Players')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class PlayerController {
   constructor(private playerService: PlayerService) {}
   

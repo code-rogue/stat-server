@@ -4,7 +4,7 @@ import {
    WeeklyAdvPassQueryModel,
    WeeklyAdvRecQueryModel,
    WeeklyAdvRushQueryModel,
-} from '@interfaces/stats/advStats.query.model';
+} from '@interfaces/stats/adv.query.model';
 import {
     WeeklyAdvDefModelLabel as advDef,
     WeeklyAdvPassModelLabel as advPass,

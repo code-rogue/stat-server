@@ -5,7 +5,7 @@ import {
    WeeklyPassQueryModel,
    WeeklyRecQueryModel,
    WeeklyRushQueryModel,
-} from '@interfaces/stats/stats.query.model';
+} from '@interfaces/stats/query.model';
 import {
     WeeklyDefModelLabel as def,
     WeeklyKickModelLabel as kick,

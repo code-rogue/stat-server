@@ -1,4 +1,4 @@
-import { SeasonAdvRecQueryModel } from '@interfaces/stats/advStats.query.model';
+import { SeasonAdvRecQueryModel } from '@interfaces/stats/adv.query.model';
 
 export class SeasonAdvRecDto {
    public targets?: number;

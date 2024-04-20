@@ -1,4 +1,4 @@
-import { WeeklyNextGenRushQueryModel } from '@interfaces/stats/nextGenStats.query.model';
+import { WeeklyNextGenRushQueryModel } from '@interfaces/stats/nextGen.query.model';
 
 export class WeeklyNextGenRushDto {
    public efficiency?: number;

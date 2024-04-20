@@ -2,42 +2,45 @@ import BioModel from '@player/models/bio.model';
 import { DatabaseService } from '@database/database.service';
 import { InitPlayerModels } from '@player/init-models/player.init';
 import { 
-    Injectable, 
-    NotFoundException, 
-    InternalServerErrorException  
+    Injectable,
+    InternalServerErrorException,
+    NotFoundException,
 } from '@nestjs/common';
 import LeagueModel from '@player/models/league.model';
 import { LogContext } from '@log/log.enums';
 import { LogService } from '@log/log.service'; 
+import PlayerDto from '@interfaces/player/player.dto';
 import PlayerModel from '@player/models/player.model';
-import { PlayerDto, PlayerSummaryDto } from '@interfaces/player/player.dto';
-import { PlayerQueryAPI } from '@interfaces/player/player.query.dto';
-import type { PlayerSummary } from '@interfaces/types/player.type';
+import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import { 
     PlayerQueryModel, 
     SeasonStatQueryModel, 
     WeeklyStatQueryModel 
 } from '@interfaces/player/player.query.model';
+import PlayerSummaryDto from '@interfaces/player/player.summary.dto';
 import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
 import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
 import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
 import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
 import SeasonStatModel from '@player/models/season/season.model';
-import { SeasonStatQueryAPI, WeeklyStatQueryAPI } from '@interfaces/stats/stats.query.dto';
-import { SortDirection } from '@app/app.dto';
-import WeeklyDefStatModel from '@player/models/weekly/weekly.def.model';
-import WeeklyKickStatModel from '@player/models/weekly/weekly.kick.model';
-import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
-import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
-import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
-import WeeklyStatModel from '@player/models/weekly/weekly.model';
+import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
+import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
+import { SortDirection } from '@interfaces/enums/app.enums';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
 import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
 import WeeklyAdvRushStatModel from '@player/models/weekly/advanced/weekly.adv.rush.model';
+import WeeklyDefStatModel from '@player/models/weekly/weekly.def.model';
+import WeeklyKickStatModel from '@player/models/weekly/weekly.kick.model';
 import WeeklyNextGenPassStatModel from '@player/models/weekly/nextGen/weekly.nextgen.pass.model';
 import WeeklyNextGenRecStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rec.model';
 import WeeklyNextGenRushStatModel from '@player/models/weekly/nextGen/weekly.nextgen.rush.model';
+import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
+import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
+import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
+import WeeklyStatModel from '@player/models/weekly/weekly.model';
+
+import type { PlayerSummary } from '@interfaces/types/player.types';
 
 @Injectable()
 export class PlayerService {
@@ -84,14 +87,14 @@ export class PlayerService {
         try {
             const [players, total] = await this.search(query);
             const data = players.map(
-                player => new PlayerSummaryDto(player.toJSON() as PlayerQueryModel),
+                player => new PlayerSummaryDto(player),
             );
             
             return { data, total };
         } catch (error) {
             this.logger.error(`Failed to get players`, error.stack, LogContext.PlayerService);
             console.error('GetAll Players Error: ', error);
-            return { data: [], total: 0};
+            throw new InternalServerErrorException(error);
         }
     }
 
@@ -109,11 +112,11 @@ export class PlayerService {
             if (!player) {
                 throw new NotFoundException(`Player with ID ${id} not found`);
             }
-            return new PlayerDto(player.toJSON() as PlayerQueryModel);
+            return new PlayerDto(player);
             
         } catch (error) {
-            this.logger.error(`Failed to get players`, error.stack, LogContext.PlayerService);
-            console.error('GetAll Players Error: ', error);
+            this.logger.error(`Failed to find player`, error.stack, LogContext.PlayerService);
+            console.error('getById Players Error: ', error);
             throw new InternalServerErrorException(error);
         }
     }
@@ -133,8 +136,7 @@ export class PlayerService {
                 throw new NotFoundException(`Player with ID ${player_id} not found`);
             }
 
-            const statsQuery = new SeasonStatQueryAPI({ player_id });
-            statsQuery.sort_direction = SortDirection.DESC;
+            const statsQuery = new SeasonQueryAPI({ player_id, sort_direction: SortDirection.DESC });
             const stats = await SeasonStatModel.findAll({
                 where: statsQuery.buildWhereClause(),
                 include: [ 
@@ -146,14 +148,13 @@ export class PlayerService {
                 order: statsQuery.buildOrderByClause(['season']),
             });
             
-            const statEntry = stats[0].toJSON();
-            const playerData = player.toJSON() as PlayerQueryModel
+            const playerData = player as PlayerQueryModel;
             playerData.stats = stats;
             return new PlayerDto(playerData);
             
         } catch (error) {
-            this.logger.error(`Failed to get season stats`, error.stack, LogContext.PlayerService);
-            console.error('GetAll Players Error: ', error);
+            this.logger.error(`Failed to find season stats`, error.stack, LogContext.PlayerService);
+            console.error('seasonStats Error: ', error);
             throw new InternalServerErrorException(error);
         }
     }
@@ -173,16 +174,22 @@ export class PlayerService {
                 throw new NotFoundException(`Player with ID ${player_id} not found`);
             }
 
-            const seasonStatsQuery = new SeasonStatQueryAPI({ player_id, seasons: season });
-            seasonStatsQuery.sort_direction = SortDirection.DESC;
+            const seasonStatsQuery = new SeasonQueryAPI({ 
+                player_id, 
+                seasons: season,
+                sort_direction: SortDirection.DESC
+            });
             const seasonStats = await SeasonStatModel.findOne({
                 where: seasonStatsQuery.buildWhereClause(),
                 include: [ SeasonAdvDefStatModel, SeasonAdvPassStatModel, SeasonAdvRecStatModel, SeasonAdvRushStatModel ],
                 order: seasonStatsQuery.buildOrderByClause(['season']),
             });
 
-            const weeklyStatsQuery = new WeeklyStatQueryAPI({ player_id, seasons: season });
-            weeklyStatsQuery.sort_direction = SortDirection.ASC;
+            const weeklyStatsQuery = new WeeklyQueryAPI({ 
+                player_id, 
+                seasons: season,
+                sort_direction: SortDirection.ASC
+            });
             const weeklyStats = await WeeklyStatModel.findAll({
                 where: weeklyStatsQuery.buildWhereClause(),
                 include: [ 
@@ -202,22 +209,21 @@ export class PlayerService {
                 order: weeklyStatsQuery.buildOrderByClause(['week']),
             });
 
-            const weeks: WeeklyStatQueryModel[] = []
-            weeklyStats.forEach(week => {
-                weeks.push(week.toJSON() as WeeklyStatQueryModel)
-            })
-            console.log(`Week 1: ${JSON.stringify(weeks[1])}`)
+            //const weeks: WeeklyStatQueryModel[] = []
+            //weeklyStats.forEach(week => {
+                //weeks.push(week as WeeklyStatQueryModel)
+            //})
 
-            const stats = seasonStats.toJSON() as SeasonStatQueryModel;
-            stats.weeks = weeks;
-            const playerData = player.toJSON() as PlayerQueryModel;
+            const stats = seasonStats as SeasonStatQueryModel;
+            stats.weeks = weeklyStats;
+            const playerData = player as PlayerQueryModel;
             playerData.stats = [stats];
             
             return new PlayerDto(playerData);
             
         } catch (error) {
-            this.logger.error(`Failed to get weekly stats for season`, error.stack, LogContext.PlayerService);
-            console.error('GetAll Players Error: ', error);
+            this.logger.error(`Failed to find weekly stats for season`, error.stack, LogContext.PlayerService);
+            console.error('seasonWeeklyStats Error: ', error);
             throw new InternalServerErrorException(error);
         }
     }
