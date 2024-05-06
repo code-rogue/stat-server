@@ -1,9 +1,9 @@
 import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import PaginationAPI from '@interfaces/pagination.api';
-import BaseDto from '@interfaces/base.dto';
-import { SortDirection } from '@interfaces/enums/app.enums';
 import { CareerStatus, Position, PositionGroup } from '@interfaces/enums/player.enums';
 import PlayerQueryDto from '@interfaces/player/player.query.dto';
+
+import { NFL_TEAMS } from '@interfaces/enums/teams.enums';
 
 jest.mock('@interfaces/pagination.api');
 
@@ -17,6 +17,7 @@ describe('Player Query API', () => {
         position: Position.QB,
         position_group: PositionGroup.QB,
         status: CareerStatus.ActiveOnly,
+        team: NFL_TEAMS.KC,
     } as PlayerQueryDto;
 
     const opt3 = {
@@ -38,6 +39,7 @@ describe('Player Query API', () => {
         name: 'Travis',
         position: Position.QB,
         position_group: PositionGroup.QB,
+        team: NFL_TEAMS.KC,
     } as PlayerQueryDto;
 
     describe('Constructor', () => {
@@ -53,6 +55,7 @@ describe('Player Query API', () => {
             expect(api.position).toEqual(options.position);
             expect(api.position_group).toEqual(options.position_group);
             expect(api.status).toEqual(options.status);
+            expect(api.team).toEqual(options.team);
         });
     });
 
@@ -94,6 +97,7 @@ describe('Player Query API', () => {
         const result2 = {
             position: { [Op.eq]: `${opt2.position}` },
             position_group: { [Op.eq]: `${opt2.position_group}` },
+            team: { [Op.eq]: `${opt2.team}` },
         };
         const result3 = {
             position: { [Op.eq]: `${opt2.position}` },

@@ -1,13 +1,14 @@
-import * as tm from '@team/team.utils';
+import * as tu from '@team/team.utils';
+import * as tm from '@interfaces/enums/teams.enums';
 
 describe('Team utils', () => {
   describe('teamDisplayName', () => {
     it('should return TEAM_UNKNOWN', () => {
-      expect(tm.teamDisplayName()).toEqual(tm.TEAM_UNKNOWN);
+      expect(tu.teamDisplayName()).toEqual(tu.TEAM_UNKNOWN);
     });
 
     it.each([
-        ['', tm.TEAM_UNKNOWN],
+        ['', tu.TEAM_UNKNOWN],
         [tm.NFL_TEAMS.ARI.toLowerCase(), tm.NFL_TEAM_NAMES.ARI],
         [tm.NFL_TEAMS.ARI, tm.NFL_TEAM_NAMES.ARI],
         [tm.NFL_TEAMS.ATL, tm.NFL_TEAM_NAMES.ATL],
@@ -46,7 +47,7 @@ describe('Team utils', () => {
         [tm.NFL_TEAMS.TEN, tm.NFL_TEAM_NAMES.TEN],
         [tm.NFL_TEAMS.WAS, tm.NFL_TEAM_NAMES.WAS],
     ])('should return the team display name - team: %s', async (teamAbbr, teamName) => {
-      expect(tm.teamDisplayName(teamAbbr)).toEqual(teamName);      
+      expect(tu.teamDisplayName(teamAbbr)).toEqual(teamName);      
     });
   });
 });

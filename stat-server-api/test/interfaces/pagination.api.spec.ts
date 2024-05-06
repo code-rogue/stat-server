@@ -25,11 +25,10 @@ describe('PaginationAPI', () => {
             [opt3],
         ])('constructor', (options) => {
             const api = new PaginationAPI(options);
-            const page = options.offset ?? 1;
 
             expect(BaseAPI).toHaveBeenCalledWith(options);
             expect(api.limit).toEqual(options.limit ?? DEFAULT_LIMIT);
-            expect(api.offset).toEqual((page - 1) * api.limit);
+            expect(api.offset).toEqual(options.offset ?? 1);
         });
     });
 });

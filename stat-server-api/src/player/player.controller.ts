@@ -13,7 +13,7 @@ import { PlayerService } from '@player/player.service';
 
 @Controller('players')
 @ApiTags('Players')
-@UseGuards(AuthGuard)
+//@UseGuards(AuthGuard)
 export class PlayerController {
   constructor(private playerService: PlayerService) {}
   

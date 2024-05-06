@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CareerStatus, Position, PositionGroup } from '@interfaces/enums/player.enums';
+import {NFL_TEAMS as Team} from '@interfaces/enums/teams.enums';
 import PaginationDto from '@interfaces/pagination.dto';
 
 export default class PlayerQueryDto extends PaginationDto {
@@ -11,6 +12,8 @@ export default class PlayerQueryDto extends PaginationDto {
     position_group?: PositionGroup;
     @ApiProperty({ enum: CareerStatus, enumName: 'Career Status', required: false })
     status?: CareerStatus;
+    @ApiProperty({ enum: Team, enumName: 'Team', required: false })
+    team?: Team;
     @ApiProperty({ 
       required: false, 
       description: 'Sort by career_status, game_status, full_name, first_name, last_name, short_name, suffix' 

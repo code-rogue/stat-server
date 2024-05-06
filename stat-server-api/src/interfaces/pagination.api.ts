@@ -10,8 +10,7 @@ export default class PaginationAPI extends BaseAPI {
     constructor(options: PaginationDto) {
         super(options);
         this.limit = options.limit ?? DEFAULT_LIMIT;
-        const page = options.offset ?? 1;
-        this.offset = (page - 1) * this.limit;
+        this.offset = options.offset ?? 1;
     }
 }
 
