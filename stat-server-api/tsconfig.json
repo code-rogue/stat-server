@@ -19,5 +19,5 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "../../fantasy-hound/src/interfaces/enums/teams.enums.ts"]
+  "include": ["src/**/*.ts", "test/**/*.ts"]
 }
