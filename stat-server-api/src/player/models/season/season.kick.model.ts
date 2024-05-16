@@ -1,0 +1,40 @@
+import { Model } from 'sequelize';
+
+export default class SeasonKickStatModel extends Model {
+    public id: number;
+    public player_id: number;
+    public season: string;
+    public fantasy_points: number;
+    public fantasy_points_ppr: number;
+    public fg_att: number;
+    public fg_made: number;
+    public fg_missed: number;
+    public fg_blocked: number;
+    public fg_pct: number;
+    public fg_long: number;
+    public fg_made_0_19: number;
+    public fg_made_20_29: number;
+    public fg_made_30_39: number;
+    public fg_made_40_49: number;
+    public fg_made_50_59: number;
+    public fg_made_60_: number;
+    public fg_missed_0_19: number;
+    public fg_missed_20_29: number;
+    public fg_missed_30_39: number;
+    public fg_missed_40_49: number;
+    public fg_missed_50_59: number;
+    public fg_missed_60_: number;
+    public fg_made_distance: number;
+    public fg_missed_distance: number;
+    public fg_blocked_distance: number;
+    public gwfg_att: number;
+    public gwfg_distance: number;
+    public gwfg_made: number;
+    public gwfg_missed: number;
+    public gwfg_blocked: number;
+    public pat_att: number;
+    public pat_made: number;
+    public pat_missed: number;
+    public pat_blocked: number;
+    public pat_pct: number;
+}

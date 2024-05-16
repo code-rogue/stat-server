@@ -22,6 +22,12 @@ export const WeeklyNextGenRecTable = 'weekly_nextgen_stats_rec';
 export const WeeklyNextGenRushTable = 'weekly_nextgen_stats_rush';
 export const WeeklyStatTable = 'player_weekly_stats';
 
+export const SeasonDefTable = 'player_season_def_view';
+export const SeasonKickTable = 'player_season_kick_view';
+export const SeasonPassTable = 'player_season_pass_view';
+export const SeasonRecTable = 'player_season_rec_view';
+export const SeasonRushTable = 'player_season_rush_view';
+
 export const PlayerFullName = 'full_name';
 export const PlayerPFR = 'pfr_id';
 export const PlayerId = 'player_id';
@@ -33,6 +39,7 @@ export const WeeklyStatId = 'player_weekly_id';
 export const PlayerForeignKey = { foreignKey: { name: PlayerId } };
 export const PlayerSeasonForeignKey = { foreignKey: { name: SeasonStatId } };
 export const PlayerWeeklyForeignKey = { foreignKey: { name: WeeklyStatId } };
+export const PlayerSeasonStatForeignKey = { sourceKey: 'season', foreignKey: { name: 'season' } };
 
 export const PlayerModelLabel = 'Player';
 export const BioModelLabel = 'bio';
@@ -42,6 +49,11 @@ export const SeasonAdvDefModelLabel = 'seasonAdvDef';
 export const SeasonAdvPassModelLabel = 'seasonAdvPass';
 export const SeasonAdvRecModelLabel = 'seasonAdvRec';
 export const SeasonAdvRushModelLabel = 'seasonAdvRush';
+export const SeasonDefModelLabel = 'seasonDef';
+export const SeasonKickModelLabel = 'seasonKick';
+export const SeasonPassModelLabel = 'seasonPass';
+export const SeasonRecModelLabel = 'seasonRec';
+export const SeasonRushModelLabel = 'seasonRush';
 export const WeeklyModelLabel = 'weeklyStats';
 export const WeeklyDefModelLabel = 'weeklyDef';
 export const WeeklyKickModelLabel = 'weeklyKick';

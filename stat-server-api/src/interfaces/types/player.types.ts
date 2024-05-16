@@ -34,6 +34,14 @@ export type SeasonAdvancedStats = {
     rush?: SeasonAdvRushQueryModel,
 }
 
+export type SeasonStats = {
+    def?: WeeklyDefQueryModel,
+    kick?: WeeklyKickQueryModel,
+    pass?: WeeklyPassQueryModel,
+    rec?: WeeklyRecQueryModel,
+    rush?: WeeklyRushQueryModel,
+}
+
 export type WeeklyAdvancedStats = {
     def?: WeeklyAdvDefQueryModel,
     pass?: WeeklyAdvPassQueryModel,

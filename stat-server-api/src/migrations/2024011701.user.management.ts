@@ -43,8 +43,6 @@ export const up: Migration = async ({ context: sequelize }) => {
 
 export const down: Migration = async ({ context: sequelize }) => {
 	const query = sequelize.getQueryInterface();
-    //await query.dropTrigger('auth.users', 'users_insert_trigger');
-    //await query.dropTrigger('auth.users', 'users_update_trigger');
 
     await User.drop()
 

@@ -15,15 +15,20 @@ import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import { 
     PlayerQueryModel, 
     SeasonStatQueryModel, 
-    WeeklyStatQueryModel 
 } from '@interfaces/player/player.query.model';
 import PlayerSummaryDto from '@interfaces/player/player.summary.dto';
 import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
 import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
 import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
 import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
+import SeasonDefStatModel from '@player/models/season/season.def.model';
+import SeasonKickStatModel from '@player/models/season/season.kick.model';
+import SeasonPassStatModel from '@player/models/season/season.pass.model';
+import SeasonRecStatModel from '@player/models/season/season.rec.model';
+import SeasonRushStatModel from '@player/models/season/season.rush.model';
 import SeasonStatModel from '@player/models/season/season.model';
 import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
+import { TwoColumnSeasonJoin } from '@database/database.utils';
 import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
 import { SortDirection } from '@interfaces/enums/app.enums';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
@@ -39,6 +44,15 @@ import WeeklyPassStatModel from '@player/models/weekly/weekly.pass.model';
 import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
 import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
 import WeeklyStatModel from '@player/models/weekly/weekly.model';
+
+import { 
+    SeasonModelLabel, 
+    SeasonDefModelLabel,
+    SeasonKickModelLabel,
+    SeasonPassModelLabel,
+    SeasonRecModelLabel,
+    SeasonRushModelLabel 
+} from '@constants/nfl/service.constants';
 
 import type { PlayerSummary } from '@interfaces/types/player.types';
 
@@ -143,7 +157,12 @@ export class PlayerService {
                     SeasonAdvDefStatModel,
                     SeasonAdvPassStatModel,
                     SeasonAdvRecStatModel,
-                    SeasonAdvRushStatModel
+                    SeasonAdvRushStatModel,
+                    TwoColumnSeasonJoin(sequelize, SeasonDefStatModel, SeasonModelLabel, SeasonDefModelLabel),
+                    TwoColumnSeasonJoin(sequelize, SeasonKickStatModel, SeasonModelLabel, SeasonKickModelLabel),
+                    TwoColumnSeasonJoin(sequelize, SeasonPassStatModel, SeasonModelLabel, SeasonPassModelLabel),
+                    TwoColumnSeasonJoin(sequelize, SeasonRecStatModel, SeasonModelLabel, SeasonRecModelLabel),
+                    TwoColumnSeasonJoin(sequelize, SeasonRushStatModel, SeasonModelLabel, SeasonRushModelLabel),
                 ],
                 order: statsQuery.buildOrderByClause(['season']),
             });
@@ -208,11 +227,6 @@ export class PlayerService {
                 ],
                 order: weeklyStatsQuery.buildOrderByClause(['week']),
             });
-
-            //const weeks: WeeklyStatQueryModel[] = []
-            //weeklyStats.forEach(week => {
-                //weeks.push(week as WeeklyStatQueryModel)
-            //})
 
             const stats = seasonStats as SeasonStatQueryModel;
             stats.weeks = weeklyStats;
