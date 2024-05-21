@@ -55,6 +55,7 @@ import {
 } from '@constants/nfl/service.constants';
 
 import type { PlayerSummary } from '@interfaces/types/player.types';
+import { CareerStatus } from '@interfaces/enums/player.enums';
 
 @Injectable()
 export class PlayerService {
@@ -117,7 +118,7 @@ export class PlayerService {
             const sequelize = this.database.sequelize();
             InitPlayerModels(sequelize);
             
-            const query = new PlayerQueryAPI({ id });
+            const query = new PlayerQueryAPI({ id, status: CareerStatus.All });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
                 include: [ BioModel, LeagueModel ],
@@ -140,7 +141,7 @@ export class PlayerService {
             const sequelize = this.database.sequelize();
             InitPlayerModels(sequelize);
             
-            const query = new PlayerQueryAPI({ id: player_id });
+            const query = new PlayerQueryAPI({ id: player_id, status: CareerStatus.All });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
                 include: [ BioModel, LeagueModel, SeasonStatModel ],
@@ -183,7 +184,7 @@ export class PlayerService {
             const sequelize = this.database.sequelize();
             InitPlayerModels(sequelize);
             
-            const query = new PlayerQueryAPI({ id: player_id });
+            const query = new PlayerQueryAPI({ id: player_id, status: CareerStatus.All });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
                 include: [ BioModel, LeagueModel ],
