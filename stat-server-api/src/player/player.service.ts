@@ -118,7 +118,7 @@ export class PlayerService {
             const sequelize = this.database.sequelize();
             InitPlayerModels(sequelize);
             
-            const query = new PlayerQueryAPI({ id, status: CareerStatus.All });
+            const query = new PlayerQueryAPI({ id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
                 include: [ BioModel, LeagueModel ],
@@ -141,7 +141,7 @@ export class PlayerService {
             const sequelize = this.database.sequelize();
             InitPlayerModels(sequelize);
             
-            const query = new PlayerQueryAPI({ id: player_id, status: CareerStatus.All });
+            const query = new PlayerQueryAPI({ id: player_id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
                 include: [ BioModel, LeagueModel, SeasonStatModel ],

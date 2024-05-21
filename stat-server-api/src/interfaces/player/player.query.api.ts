@@ -37,7 +37,7 @@ export default class PlayerQueryAPI extends PaginationAPI {
             clause['full_name'] = { [Op.iLike]: `%${this.name}%` }; 
         }
 
-        const status = this.status ?? CareerStatus.ActiveOnly;
+        const status = this.status ?? CareerStatus.All;
         if (status === CareerStatus.ActiveOnly) {
             clause['career_status'] = { [Op.iLike]: 'ACT' }; 
         } else if (status === CareerStatus.InactiveOnly) {
