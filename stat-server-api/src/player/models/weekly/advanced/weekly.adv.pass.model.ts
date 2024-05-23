@@ -5,8 +5,6 @@ export default class WeeklyAdvPassStatModel extends Model {
     public player_weekly_id: number;
     public pass_drops: number;
     public pass_drop_pct: number;
-    public rec_drop: number;
-    public rec_drop_pct: number;
     public bad_throws: number;
     public bad_throw_pct: number;
     public blitzed: number;

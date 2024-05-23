@@ -6,7 +6,7 @@ export default class SeasonAdvDefStatModel extends Model {
     public interceptions: number;
     public targets: number;
     public completions_allowed: number;
-    public completions_pct: number;
+    public completion_pct: number;
     public yards_allowed: number;
     public yards_allowed_per_cmp: number;
     public yards_allowed_per_tgt: number;

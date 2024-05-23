@@ -204,10 +204,11 @@ export class PlayerService {
                 order: weeklyStatsQuery.buildOrderByClause(['week']),
             });
 
-            const stats = seasonStats as SeasonStatQueryModel;
-            stats.weeks = weeklyStats;
-            playerData.stats = [stats];
-            
+            if(seasonStats !== null) {
+                const stats = seasonStats as SeasonStatQueryModel;
+                stats.weeks = weeklyStats ?? [];
+                playerData.stats = [stats];
+            }
             return new PlayerDto(playerData);
             
         } catch (error) {

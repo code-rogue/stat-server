@@ -1,4 +1,9 @@
 import {
+    SeasonDefQueryModel,
+    SeasonKickQueryModel,
+    SeasonPassQueryModel,
+    SeasonRecQueryModel,
+    SeasonRushQueryModel,
     WeeklyDefQueryModel,
     WeeklyKickQueryModel,
     WeeklyPassQueryModel,
@@ -89,6 +94,21 @@ export interface SeasonStatQueryModel {
     seasonAdvPass?: SeasonAdvPassQueryModel,
     seasonAdvRec?: SeasonAdvRecQueryModel,
     seasonAdvRush?: SeasonAdvRushQueryModel,
+
+    stats?: {
+        def?: SeasonDefQueryModel,
+        kick?: SeasonKickQueryModel,
+        pass?: SeasonPassQueryModel,
+        rec?: SeasonRecQueryModel,
+        rush?: SeasonRushQueryModel,
+    },
+
+    seasonDef?: SeasonDefQueryModel,
+    seasonKick?: SeasonKickQueryModel,
+    seasonPass?: SeasonPassQueryModel,
+    seasonRec?: SeasonRecQueryModel,
+    seasonRush?: SeasonRushQueryModel,
+
     weeks?: WeeklyStatQueryModel[],
     created_date?: Date,
     last_modified?: Date,

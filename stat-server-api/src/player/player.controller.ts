@@ -36,7 +36,7 @@ export class PlayerController {
     return this.playerService.seasonStats(id);
   }
 
-  @Get(':id/stats/seasons/:season')
+  @Get(':id/seasons/:season')
   @ApiOperation({ summary: 'Return a collection of weekly stats for a single season for the player resource' })
   getPlayerSeasonWeeklyStats(@Param('id') id: number, @Param('season') season: string) {
     return this.playerService.seasonWeeklyStats(id, season);

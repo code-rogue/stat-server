@@ -4,7 +4,7 @@ export class WeeklyAdvDefDto {
    public interceptions?: number;
    public targets?: number;
    public completions_allowed?: number;
-   public completions_pct?: number;
+   public completion_pct?: number;
    public yards_allowed?: number;
    public yards_allowed_per_cmp?: number;
    public yards_allowed_per_tgt?: number;
@@ -24,11 +24,11 @@ export class WeeklyAdvDefDto {
        this.interceptions = advStats?.interceptions;
        this.targets = advStats?.targets;
        this.completions_allowed = advStats?.completions_allowed;
-       this.completions_pct = advStats?.completions_pct;
+       this.completion_pct = advStats?.completion_pct;
        this.yards_allowed = advStats?.yards_allowed;
        this.yards_allowed_per_cmp = advStats?.yards_allowed_per_cmp;
        this.yards_allowed_per_tgt = advStats?.yards_allowed_per_tgt;
-       this.tds_allowed = advStats?.tds_allowed;
+       this.tds_allowed = advStats?.rec_td_allowed;
        this.passer_rating_allowed = advStats?.passer_rating_allowed;
        this.adot = advStats?.adot;
        this.air_yards_completed = advStats?.air_yards_completed;

@@ -10,10 +10,10 @@ import {
     SeasonAdvRecModelLabel as advRec,
     SeasonAdvRushModelLabel as advRush,
 } from '@constants/nfl/service.constants';
-import { SeasonAdvDefDto } from '@interfaces/season/season.adv.def.dto';
-import { SeasonAdvPassDto } from '@interfaces/season/season.adv.pass.dto';
-import { SeasonAdvRecDto } from '@interfaces/season/season.adv.rec.dto';
-import { SeasonAdvRushDto } from '@interfaces/season/season.adv.rush.dto';
+import { SeasonAdvDefDto } from '@interfaces/season/advanced/season.adv.def.dto';
+import { SeasonAdvPassDto } from '@interfaces/season/advanced/season.adv.pass.dto';
+import { SeasonAdvRecDto } from '@interfaces/season/advanced/season.adv.rec.dto';
+import { SeasonAdvRushDto } from '@interfaces/season/advanced/season.adv.rush.dto';
 import { SeasonStatQueryModel } from '@interfaces/player/player.query.model';
 
 export class SeasonAdvDto {

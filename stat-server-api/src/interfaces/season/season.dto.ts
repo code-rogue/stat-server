@@ -1,5 +1,5 @@
 import { SeasonStatQueryModel } from '@interfaces/player/player.query.model';
-import { SeasonAdvDto } from '@interfaces/season/season.adv.dto';
+import { SeasonAdvDto } from '@interfaces/season/advanced/season.adv.dto';
 import { SeasonStatsDto } from '@interfaces/season/season.stats.dto';
 import { WeeklyDto } from '@interfaces/weekly/weekly.dto';
 
@@ -18,8 +18,8 @@ export class SeasonDto {
    public games_started: number;
    public fantasy_points: number;
    public fantasy_points_ppr: number;
-   public advanced: SeasonAdvancedStats;
-   public stats: SeasonStats;
+   public advanced: SeasonAdvDto;
+   public stats: SeasonStatsDto;
    public weeks: WeeklyDto[];
 
    constructor(season: SeasonStatQueryModel) {

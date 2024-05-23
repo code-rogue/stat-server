@@ -9,7 +9,7 @@ export default class WeeklyPassStatModel extends Model {
     public pass_yards_after_catch: number;
     public pass_air_yards: number;
     public pass_air_conversion_ratio: number;
-    public pass_first_down: number;
+    public pass_first_downs: number;
     public dakota: number;
     public pass_epa: number;
     public pass_tds: number;

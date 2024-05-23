@@ -10,6 +10,11 @@ import {
    WeeklyAdvRushQueryModel,
 } from '@interfaces/stats/adv.query.model';
 import {
+   SeasonDefQueryModel,
+   SeasonKickQueryModel,
+   SeasonPassQueryModel,
+   SeasonRecQueryModel,
+   SeasonRushQueryModel,
    WeeklyDefQueryModel,
    WeeklyKickQueryModel,
    WeeklyPassQueryModel,
@@ -35,11 +40,11 @@ export type SeasonAdvancedStats = {
 }
 
 export type SeasonStats = {
-    def?: WeeklyDefQueryModel,
-    kick?: WeeklyKickQueryModel,
-    pass?: WeeklyPassQueryModel,
-    rec?: WeeklyRecQueryModel,
-    rush?: WeeklyRushQueryModel,
+    def?: SeasonDefQueryModel,
+    kick?: SeasonKickQueryModel,
+    pass?: SeasonPassQueryModel,
+    rec?: SeasonRecQueryModel,
+    rush?: SeasonRushQueryModel,
 }
 
 export type WeeklyAdvancedStats = {

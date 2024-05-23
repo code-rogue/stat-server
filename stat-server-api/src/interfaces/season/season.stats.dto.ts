@@ -6,40 +6,40 @@ import {
     SeasonRushModelLabel as rush,
 } from '@constants/nfl/service.constants';
 import { SeasonStatQueryModel } from '@interfaces/player/player.query.model';
-import { WeeklyDefDto } from '@interfaces/weekly/stats/weekly.def.dto';
-import { WeeklyKickDto } from '@interfaces/weekly/stats/weekly.kick.dto';
-import { WeeklyPassDto } from '@interfaces/weekly/stats/weekly.pass.dto';
-import { WeeklyRecDto } from '@interfaces/weekly/stats/weekly.rec.dto';
-import { WeeklyRushDto } from '@interfaces/weekly/stats/weekly.rush.dto';
+import { SeasonDefDto } from '@interfaces/season/stats/season.def.dto';
+import { SeasonKickDto } from '@interfaces/season/stats/season.kick.dto';
+import { SeasonPassDto } from '@interfaces/season/stats/season.pass.dto';
+import { SeasonRecDto } from '@interfaces/season/stats/season.rec.dto';
+import { SeasonRushDto } from '@interfaces/season/stats/season.rush.dto';
 import { 
-    WeeklyDefQueryModel, 
-    WeeklyKickQueryModel, 
-    WeeklyPassQueryModel, 
-    WeeklyRecQueryModel, 
-    WeeklyRushQueryModel 
+    SeasonDefQueryModel, 
+    SeasonKickQueryModel, 
+    SeasonPassQueryModel, 
+    SeasonRecQueryModel, 
+    SeasonRushQueryModel 
 } from '@interfaces/stats/query.model';
  
  export class SeasonStatsDto {
-    public def: WeeklyDefQueryModel;
-    public kick: WeeklyKickQueryModel;
-    public pass: WeeklyPassQueryModel;
-    public rec: WeeklyRecQueryModel;
-    public rush: WeeklyRushQueryModel;
+    public def: SeasonDefQueryModel;
+    public kick: SeasonKickQueryModel;
+    public pass: SeasonPassQueryModel;
+    public rec: SeasonRecQueryModel;
+    public rush: SeasonRushQueryModel;
  
     constructor(season: SeasonStatQueryModel) {
-         if(season[def])
-             this.def = new WeeklyDefDto(season[def]);
+        if(season[def])
+             this.def = new SeasonDefDto(season[def]);
          
          if(season[kick])
-            this.kick = new WeeklyKickDto(season[kick]);
+            this.kick = new SeasonKickDto(season[kick]);
      
          if(season[pass])
-            this.pass = new WeeklyPassDto(season[pass]);
+            this.pass = new SeasonPassDto(season[pass]);
  
          if(season[rec])
-             this.rec = new WeeklyRecDto(season[rec]);
+             this.rec = new SeasonRecDto(season[rec]);
  
          if(season[rush])
-             this.rush = new WeeklyRushDto(season[rush]);
+             this.rush = new SeasonRushDto(season[rush]);
     }
  }
