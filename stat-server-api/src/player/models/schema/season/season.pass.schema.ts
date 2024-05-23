@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonPassModelLabel, SeasonPassTable } from '@constants/nfl/service.constants';
+import { NFLSchema, SeasonPassModelLabel, SeasonPassTable } from '../../../../constants/nfl/service.constants';
 
 export function seasonPassModelOptions(sequelize: Sequelize): any {
     return {

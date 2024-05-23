@@ -1,6 +1,4 @@
-import { DataTypes } from 'sequelize';
 import { sequelize } from '../../sequelize';
-import { timestampColumn } from './model.helpers';
 
 import {
     BioModelLabel,

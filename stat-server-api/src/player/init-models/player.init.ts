@@ -8,16 +8,21 @@ import { PlayerForeignKey } from '@constants/nfl/service.constants';
 import PlayerModel from '@player/models/player.model';
 import { playerModelOptions, playerSchema } from '@player/models/schema/player.schema';
 import { Sequelize } from 'sequelize';
+import TeamModel from '@root/src/team/models/team.model';
+import { teamModelOptions, teamSchema } from '@root/src/team/models/schema/team.schema';
 
 export const InitPlayerModels = (sequelize: Sequelize) => {
     PlayerModel.init(playerSchema(), playerModelOptions(sequelize));
     BioModel.init(bioSchema(PlayerModel), bioModelOptions(sequelize));
-    LeagueModel.init(leagueSchema(PlayerModel), leagueModelOptions(sequelize));
-    
+    LeagueModel.init(leagueSchema(PlayerModel), leagueModelOptions(sequelize));    
+    TeamModel.init(teamSchema(), teamModelOptions(sequelize));
+
     PlayerModel.hasOne(BioModel, PlayerForeignKey);
     PlayerModel.hasOne(LeagueModel, PlayerForeignKey);
     BioModel.belongsTo(PlayerModel, PlayerForeignKey);
     LeagueModel.belongsTo(PlayerModel, PlayerForeignKey);
+
+    LeagueModel.hasOne(TeamModel, { sourceKey: 'team', foreignKey: { name: 'name' } });
 
     InitSeasonModels(sequelize);
     InitWeeklyModels(sequelize);

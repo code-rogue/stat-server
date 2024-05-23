@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, PlayerModelLabel, PlayerTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, PlayerModelLabel, PlayerTable } from '../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../migrations/models/model.helpers';
 
 export function playerModelOptions(sequelize: Sequelize): any {
     return {

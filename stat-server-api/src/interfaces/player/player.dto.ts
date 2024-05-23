@@ -1,11 +1,12 @@
 import {
      BioModelLabel as bio,
-     LeagueModelLabel as league
+     LeagueModelLabel as league,
+     TeamModelLabel as team
 } from '@constants/nfl/service.constants';
 
 import { PlayerQueryModel } from '@interfaces/player/player.query.model';
 import { SeasonDto } from '@interfaces/season/season.dto';
-import { teamDisplayName } from '@team/team.utils';
+import { TeamDto } from '@interfaces/player/team.dto';
 
 export default class PlayerDto {
     public id: number;
@@ -32,16 +33,13 @@ export default class PlayerDto {
     public position: string;
     public jersey_number: number;
     public years_of_experience: number;
-    public team: string;
-    public team_display_name: string;
-    public team_seq: string;
-    public team_id: string;
     public rookie_year: string;
     public draft_team: string;
     public draft_number: string;
     public draft_round: string;
     public season: string;
     public stats: SeasonDto[];
+    public team: TeamDto;
 
     constructor(player: PlayerQueryModel) {
         this.id = player.id;
@@ -68,20 +66,16 @@ export default class PlayerDto {
         this.position = player[league].position;
         this.jersey_number = player[league].jersey_number;
         this.years_of_experience = player[league].years_of_experience;
-        this.team = player[league].team;
-        this.team_display_name = teamDisplayName(this.team);
-        this.team_seq = player[league].team_seq;
-        this.team_id = player[league].team_id;
         this.rookie_year = player[league].rookie_year;
         this.draft_team = player[league].draft_team;
         this.draft_number = player[league].draft_number;
         this.draft_round = player[league].draft_round;
         this.season = player[league].season;
-
         this.stats = [];
         player.stats?.forEach(season => {
             this.stats.push(new SeasonDto(season));
         })
+        this.team = new TeamDto(player[league][team])
     }
 }
 

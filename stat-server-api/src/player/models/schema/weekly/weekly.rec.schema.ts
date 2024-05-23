@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, WeeklyRecModelLabel, WeeklyRecTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, WeeklyRecModelLabel, WeeklyRecTable } from '../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../migrations/models/model.helpers';
 
 export function weeklyRecModelOptions(sequelize: Sequelize): any {
     return {

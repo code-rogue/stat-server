@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, WeeklyNextGenPassModelLabel, WeeklyNextGenPassTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, WeeklyNextGenPassModelLabel, WeeklyNextGenPassTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function weeklyNextGenPassModelOptions(sequelize: Sequelize): any {
     return {

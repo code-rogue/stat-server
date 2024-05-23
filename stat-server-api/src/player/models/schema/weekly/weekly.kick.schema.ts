@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, WeeklyKickModelLabel, WeeklyKickTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, WeeklyKickModelLabel, WeeklyKickTable } from '../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../migrations/models/model.helpers';
 
 export function weeklyKickModelOptions(sequelize: Sequelize): any {
     return {

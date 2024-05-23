@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, WeeklyNextGenRushModelLabel, WeeklyNextGenRushTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, WeeklyNextGenRushModelLabel, WeeklyNextGenRushTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function weeklyNextGenRushModelOptions(sequelize: Sequelize): any {
     return {

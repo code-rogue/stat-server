@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, WeeklyAdvDefModelLabel, WeeklyAdvDefTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, WeeklyAdvDefModelLabel, WeeklyAdvDefTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function weeklyAdvDefModelOptions(sequelize: Sequelize): any {
     return {

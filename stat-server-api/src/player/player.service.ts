@@ -22,6 +22,7 @@ import SeasonStatModel from '@player/models/season/season.model';
 import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
 import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
 import { SortDirection } from '@interfaces/enums/app.enums';
+import TeamModel from '@root/src/team/models/team.model';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
 import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
@@ -64,6 +65,10 @@ export class PlayerService {
                     BioModel,
                     {
                         model: LeagueModel,
+                        include: [{
+                            model: TeamModel,
+                            where: query.buildTeamWhereClause(),    
+                        }],
                         where: query.buildLeagueWhereClause(),
                     },
                 ],
@@ -102,7 +107,7 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [ BioModel, LeagueModel ],
+                include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
             });
 
             if (!player) {
@@ -125,7 +130,7 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id: player_id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [ BioModel, LeagueModel, SeasonStatModel ],
+                include: [BioModel, { model: LeagueModel, include: [TeamModel] }, SeasonStatModel],
             });
 
             if (!player) {
@@ -160,7 +165,7 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id: player_id, status: CareerStatus.All });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [ BioModel, LeagueModel ],
+                include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
             });
 
             if (!player) {

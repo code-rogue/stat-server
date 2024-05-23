@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, BioModelLabel, BioTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, BioModelLabel, BioTable } from '../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../migrations/models/model.helpers';
 
 export function bioModelOptions(sequelize: Sequelize): any {
     return {

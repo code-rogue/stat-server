@@ -1,5 +1,5 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonRushModelLabel, SeasonRushTable } from '@constants/nfl/service.constants';
+import { NFLSchema, SeasonRushModelLabel, SeasonRushTable } from '../../../../constants/nfl/service.constants';
 
 export function seasonRushModelOptions(sequelize: Sequelize): any {
     return {

@@ -1,10 +1,10 @@
 import {
     BioModelLabel as bio,
-    LeagueModelLabel as league
+    LeagueModelLabel as league,
+    TeamModelLabel as team
 } from '@constants/nfl/service.constants';
-
 import { PlayerQueryModel } from '@interfaces/player/player.query.model';
-import { teamDisplayName } from '@team/team.utils';
+import { TeamDto } from '@interfaces/player/team.dto';
 
 export default class PlayerSummaryDto {
    id: number;
@@ -12,9 +12,8 @@ export default class PlayerSummaryDto {
    career_status: string;
    position_group: string;
    position: string;
-   team: string;
-   team_display_name: string;
    headshot_url: string;
+   team: TeamDto;
 
    constructor(player: PlayerQueryModel) {
        this.id = player.id;
@@ -22,8 +21,7 @@ export default class PlayerSummaryDto {
        this.career_status = player.career_status;
        this.position = player[league].position;
        this.position_group = player[league].position_group;
-       this.team = player[league].team;
-       this.team_display_name = teamDisplayName(this.team);
        this.headshot_url = player[bio].headshot_url;
+       this.team = new TeamDto(player[league][team])
    }
 }

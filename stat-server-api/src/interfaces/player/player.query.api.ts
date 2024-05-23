@@ -58,8 +58,16 @@ export default class PlayerQueryAPI extends PaginationAPI {
       if (this.position_group) {
         clause['position_group'] = { [Op.eq]: `${this.position_group}` }; 
       }
+      
+      return clause;
+    }
+
+    public buildTeamWhereClause(): WhereClause {
+      const { Op } = require('sequelize');
+      
+      const clause = {};
       if (this.team) {
-        clause['team'] = { [Op.eq]: `${this.team}` };
+        clause['name'] = { [Op.eq]: `${this.team}` };
       }
       
       return clause;

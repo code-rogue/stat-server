@@ -27,7 +27,7 @@ import {
     WeeklyNextGenRecQueryModel,
     WeeklyNextGenRushQueryModel,
 } from '@interfaces/stats/nextGen.query.model';
-
+import { TeamQueryModel } from '@interfaces/player/team.query.model';
 
 export interface WeeklyStatQueryModel {
     id: number,
@@ -156,9 +156,10 @@ export interface PlayerQueryModel {
         draft_number?: string,
         draft_round?: string,
         season?: string,
+        teamData?: TeamQueryModel,
         created_date?: Date,
         last_modified?: Date,
-    },
+    },    
     stats?: SeasonStatQueryModel[],
     created_date?: Date,
     last_modified?: Date,

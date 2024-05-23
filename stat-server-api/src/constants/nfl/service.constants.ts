@@ -21,6 +21,7 @@ export const WeeklyNextGenPassTable = 'weekly_nextgen_stats_pass';
 export const WeeklyNextGenRecTable = 'weekly_nextgen_stats_rec';
 export const WeeklyNextGenRushTable = 'weekly_nextgen_stats_rush';
 export const WeeklyStatTable = 'player_weekly_stats';
+export const TeamTable = 'teams';
 
 export const SeasonDefTable = 'player_season_def_view';
 export const SeasonKickTable = 'player_season_kick_view';
@@ -54,6 +55,7 @@ export const SeasonKickModelLabel = 'seasonKick';
 export const SeasonPassModelLabel = 'seasonPass';
 export const SeasonRecModelLabel = 'seasonRec';
 export const SeasonRushModelLabel = 'seasonRush';
+export const TeamModelLabel = 'teamInfo';
 export const WeeklyModelLabel = 'weeklyStats';
 export const WeeklyDefModelLabel = 'weeklyDef';
 export const WeeklyKickModelLabel = 'weeklyKick';
