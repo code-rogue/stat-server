@@ -6,8 +6,8 @@ import {
     SeasonAdvRecTable,
     SeasonAdvRushTable
 } from '../constants/nfl/service.constants';
-import { 
-    PlayerSeasonStats,
+import { PlayerSeasonStats } from './models/nfl.player.season.stats.model';
+ import { 
     SeasonAdvStatsDef,
     SeasonAdvStatsPass,
     SeasonAdvStatsRec,
