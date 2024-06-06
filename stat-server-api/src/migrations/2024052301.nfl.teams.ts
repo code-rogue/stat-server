@@ -13,8 +13,8 @@ export const up: Migration = async ({ context: sequelize }) => {
        
     await Team.sync();
 
-    await query.sequelize.query(timestampInsertTrigger('teams_insert_trigger', NFLSchema, TeamTable));
-    await query.sequelize.query(timestampUpdateTrigger('teams_update_trigger', NFLSchema, TeamTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, TeamTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, TeamTable));
 
     try {
         Team.create(ARI);

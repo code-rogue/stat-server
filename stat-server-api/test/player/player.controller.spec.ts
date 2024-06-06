@@ -10,6 +10,7 @@ import PlayerQueryDto from '@interfaces/player/player.query.dto';
 import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import { PlayerService } from '@player/player.service';
 import { PlayerSummary } from '@interfaces/types/player.types';
+import { TeamDto } from '@interfaces/player/team.dto';
 import { Test, TestingModule } from '@nestjs/testing';
 
 describe('PlayerController', () => {
@@ -46,10 +47,12 @@ describe('PlayerController', () => {
         position: '',
         jersey_number: 0,
         years_of_experience: 0,
-        team: '',
-        team_display_name: '',
-        team_seq: '',
-        team_id: '',
+        team: {
+            id: 18,
+            name: 'KC',
+            full_name: 'Kansas City Chiefs',
+            logo_url: 'team_url',
+        },
         rookie_year: '',
         draft_team: '',
         draft_number: '',

@@ -9,15 +9,15 @@ export function timestampColumn(): any {
     }
 }
 
-export function timestampUpdateTrigger(triggerName: string, schema: string, tableName: string): string {
-    return `CREATE TRIGGER ${triggerName}
+export function timestampUpdateTrigger(schema: string, tableName: string): string {
+    return `CREATE TRIGGER ${tableName}_update_trigger
     BEFORE UPDATE ON ${schema}.${tableName}
     FOR EACH ROW
         EXECUTE FUNCTION public.update_trigger_function();`;
 }
 
-export function timestampInsertTrigger(triggerName: string, schema: string, tableName: string): string {
-    return `CREATE TRIGGER ${triggerName}
+export function timestampInsertTrigger(schema: string, tableName: string): string {
+    return `CREATE TRIGGER ${tableName}_insert_trigger
     BEFORE INSERT ON ${schema}.${tableName}
     FOR EACH ROW
         EXECUTE FUNCTION public.insert_trigger_function();`;

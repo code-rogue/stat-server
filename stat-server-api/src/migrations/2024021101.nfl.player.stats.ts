@@ -1,3 +1,12 @@
+import {
+    NFLSchema,
+    WeeklyStatTable,
+    WeeklyDefTable,
+    WeeklyKickTable,
+    WeeklyPassTable,
+    WeeklyRecTable,
+    WeeklyRushTable
+} from '../constants/nfl/service.constants';
 import { 
     PlayerWeeklyStats,
     WeeklyStatsDef,
@@ -19,19 +28,19 @@ export const up: Migration = async ({ context: sequelize }) => {
     await WeeklyStatsDef.sync();
     await WeeklyStatsKick.sync();
 
-    await query.sequelize.query(timestampInsertTrigger('player_weekly_stats_insert_trigger', 'nfl', 'player_weekly_stats'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_pass_insert_trigger', 'nfl', 'weekly_stats_pass'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_rush_insert_trigger', 'nfl', 'weekly_stats_rush'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_rec_insert_trigger', 'nfl', 'weekly_stats_rec'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_def_insert_trigger', 'nfl', 'weekly_stats_def'));
-    await query.sequelize.query(timestampInsertTrigger('weekly_kick_insert_trigger', 'nfl', 'weekly_stats_kick'));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyStatTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyDefTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyKickTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyPassTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyRecTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyRushTable));
 
-    await query.sequelize.query(timestampUpdateTrigger('player_weekly_stats_update_trigger', 'nfl', 'player_weekly_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_pass_update_trigger', 'nfl', 'weekly_stats_pass'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_rush_update_trigger', 'nfl', 'weekly_stats_rush'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_rec_update_trigger', 'nfl', 'weekly_stats_rec'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_def_update_trigger', 'nfl', 'weekly_stats_def'));
-    await query.sequelize.query(timestampUpdateTrigger('weekly_kick_update_trigger', 'nfl', 'weekly_stats_kick'));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyStatTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyDefTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyKickTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyPassTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyRecTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyRushTable));
 };
 
 export const down: Migration = async ({ }) => {

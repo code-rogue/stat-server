@@ -1,8 +1,5 @@
-import { sequelize } from '../../sequelize';
-
-import { Player }  from './nfl.player.model';
+import { PlayerSeasonStats }  from './nfl.player.season.stats.model';
 import { 
-  SeasonModelLabel, 
   SeasonAdvDefModelLabel,
   SeasonAdvPassModelLabel,
   SeasonAdvRecModelLabel,
@@ -24,13 +21,7 @@ import {
   seasonAdvRushModelOptions,
   seasonAdvRushSchema
 } from '../../player/models/schema/season/advanced/season.adv.rush.schema';
-import { seasonModelOptions, seasonSchema } from '../../player/models/schema/season/season.schema';
-
-export const PlayerSeasonStats = sequelize.define(
-  SeasonModelLabel,
-  seasonSchema(Player),
-  seasonModelOptions(sequelize)
-);
+import { sequelize } from '../../sequelize';
 
 export const SeasonAdvStatsDef = sequelize.define(
   SeasonAdvDefModelLabel,

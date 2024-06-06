@@ -1,12 +1,13 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonRecModelLabel, SeasonRecView } from '../../../../constants/nfl/service.constants';
+import { NFLSchema, SeasonRecModelLabel, SeasonRecTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function seasonRecModelOptions(sequelize: Sequelize): any {
     return {
         modelName: SeasonRecModelLabel,
         schema: NFLSchema,
         sequelize: sequelize,
-        tableName: SeasonRecView,
+        tableName: SeasonRecTable,
         timestamps: false,
     }
 }
@@ -19,7 +20,7 @@ export function seasonRecSchema<T>(model: T): any {
             autoIncrement: true,
             primaryKey: true,
         },
-        player_id: {
+        player_season_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -72,5 +73,7 @@ export function seasonRecSchema<T>(model: T): any {
         rec_fumbles_lost: {
             type: DataTypes.INTEGER,
         },
+        created_date: timestampColumn(),
+        last_modified: timestampColumn(),
     }
 }

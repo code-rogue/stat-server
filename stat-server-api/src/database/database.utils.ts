@@ -1,6 +1,6 @@
 import { Sequelize } from 'sequelize';
 
-export function TwoColumnSeasonJoin<T>(
+export function twoColumnSeasonJoin<T>(
     sequelize: Sequelize, 
     model: T, sourceLabel: string, 
     targetLabel: string): any 

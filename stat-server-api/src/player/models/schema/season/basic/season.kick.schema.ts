@@ -1,12 +1,13 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonKickModelLabel, SeasonKickView } from '../../../../constants/nfl/service.constants';
+import { NFLSchema, SeasonKickModelLabel, SeasonKickTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function seasonKickModelOptions(sequelize: Sequelize): any {
     return {
         modelName: SeasonKickModelLabel,
         schema: NFLSchema,
         sequelize: sequelize,
-        tableName: SeasonKickView,
+        tableName: SeasonKickTable,
         timestamps: false,
     }
 }
@@ -19,7 +20,7 @@ export function seasonKickSchema<T>(model: T): any {
             autoIncrement: true,
             primaryKey: true,
         },
-        player_id: {
+        player_season_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -120,5 +121,7 @@ export function seasonKickSchema<T>(model: T): any {
         pat_pct: {
             type: DataTypes.FLOAT,
         },
+        created_date: timestampColumn(),
+        last_modified: timestampColumn(),
     }
 }

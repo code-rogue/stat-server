@@ -1,12 +1,13 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonDefModelLabel, SeasonDefView } from '../../../../constants/nfl/service.constants';
+import { NFLSchema, SeasonDefModelLabel, SeasonDefTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function seasonDefModelOptions(sequelize: Sequelize): any {
     return {
         modelName: SeasonDefModelLabel,
         schema: NFLSchema,
         sequelize: sequelize,
-        tableName: SeasonDefView,
+        tableName: SeasonDefTable,
         timestamps: false,
     }
 }
@@ -19,7 +20,7 @@ export function seasonDefSchema<T>(model: T): any {
             autoIncrement: true,
             primaryKey: true,
         },
-        player_id: {
+        player_season_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -93,5 +94,7 @@ export function seasonDefSchema<T>(model: T): any {
         penalty_yards: {
             type: DataTypes.FLOAT,
         },
+        created_date: timestampColumn(),
+        last_modified: timestampColumn(),
     }
 }

@@ -1,41 +1,37 @@
-import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonPassModelLabel, SeasonPassView } from '../../../../constants/nfl/service.constants';
+import * as m from '@migrations/models/model.helpers';
+import * as schema from '@player/models/schema/season/basic/season.pass.schema';
+import { DataTypes, Model, Sequelize } from 'sequelize';
+import { 
+    NFLSchema, 
+    SeasonPassModelLabel as ModelLabel, 
+    SeasonPassTable as Table 
+} from '@constants/nfl/service.constants';
 
-export function seasonPassModelOptions(sequelize: Sequelize): any {
-    return {
-        modelName: SeasonPassModelLabel,
-        schema: NFLSchema,
-        sequelize: sequelize,
-        tableName: SeasonPassView,
-        timestamps: false,
-    }
-}
+describe('Season Pass Schema', () => {
+    const sequelize = new Sequelize({
+        dialect: 'postgres',
+        host: 'localhost',
+        username: 'test',
+        password: 'testMe',
+        database: 'Postgres',
+        port: 255,
+    });
 
-export function seasonPassSchema<T>(model: T): any {
-    return {
+    const model: Model = null;
+    const modelSchema = {
         id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
         },
-        player_id: {
+        player_season_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
                 model,
                 key: 'id',
             },
-        },
-        season: {
-            allowNull: false,
-            type: DataTypes.STRING(16),
-        },
-        fantasy_points: {
-            type: DataTypes.FLOAT,
-        },
-        fantasy_points_ppr: {
-            type: DataTypes.FLOAT,
         },
         attempts: {
             type: DataTypes.INTEGER,
@@ -85,6 +81,26 @@ export function seasonPassSchema<T>(model: T): any {
         sack_fumbles_lost: {
             type: DataTypes.INTEGER,
         },
-    }
-}
+        created_date: '',
+        last_modified: '',
+    };
 
+    describe('Model Schema', () => {
+        it('should return schema model options', () => {
+            expect(schema.seasonPassModelOptions(sequelize)).toEqual({
+                modelName: ModelLabel,
+                schema: NFLSchema,
+                sequelize: sequelize,
+                tableName: Table,
+                timestamps: false,
+            });
+        });
+
+        it('should return model schema', () => {
+            const mockTimestampColumn = jest.spyOn(m, 'timestampColumn').mockImplementation(() => '');
+            expect(schema.seasonPassSchema(model)).toEqual(modelSchema);
+            expect(mockTimestampColumn).toHaveBeenCalledTimes(2);
+            mockTimestampColumn.mockRestore();
+        });
+    });
+});

@@ -1,5 +1,4 @@
 import { ConfigService } from '@nestjs/config';
-//import { DatabaseConfig } from '@config/config.dto';
 import { DatabaseService } from '@database/database.service';
 import { LogContext } from '@log/log.enums'
 import { LogService } from '@log/log.service';

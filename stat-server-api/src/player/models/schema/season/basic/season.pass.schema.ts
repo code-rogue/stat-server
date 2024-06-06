@@ -1,17 +1,18 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonRecModelLabel, SeasonRecView } from '../../../../constants/nfl/service.constants';
+import { NFLSchema, SeasonPassModelLabel, SeasonPassTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
-export function seasonRecModelOptions(sequelize: Sequelize): any {
+export function seasonPassModelOptions(sequelize: Sequelize): any {
     return {
-        modelName: SeasonRecModelLabel,
+        modelName: SeasonPassModelLabel,
         schema: NFLSchema,
         sequelize: sequelize,
-        tableName: SeasonRecView,
+        tableName: SeasonPassTable,
         timestamps: false,
     }
 }
 
-export function seasonRecSchema<T>(model: T): any {
+export function seasonPassSchema<T>(model: T): any {
     return {
         id: {
             type: DataTypes.INTEGER,
@@ -19,7 +20,7 @@ export function seasonRecSchema<T>(model: T): any {
             autoIncrement: true,
             primaryKey: true,
         },
-        player_id: {
+        player_season_id: {
             type: DataTypes.INTEGER,
             allowNull: false,
             references: {
@@ -27,50 +28,55 @@ export function seasonRecSchema<T>(model: T): any {
                 key: 'id',
             },
         },
-        targets: {
+        attempts: {
             type: DataTypes.INTEGER,
         },
-        receptions: {
+        completions: {
             type: DataTypes.INTEGER,
         },
-        target_share: {
+        pass_yards: {
             type: DataTypes.FLOAT,
         },
-        rec_yards: {
+        pass_yards_after_catch: {
             type: DataTypes.FLOAT,
         },
-        rec_yards_after_catch: {
+        pass_air_yards: {
             type: DataTypes.FLOAT,
         },
-        rec_air_yards: {
+        pass_air_conversion_ratio: {
             type: DataTypes.FLOAT,
         },
-        rec_air_yards_share: {
-            type: DataTypes.FLOAT,
-        },
-        rec_air_conversion_ratio: {
-            type: DataTypes.FLOAT,
-        },
-        weighted_opportunity_rating: {
-            type: DataTypes.FLOAT,
-        },
-        rec_epa: {
-            type: DataTypes.FLOAT,
-        },
-        rec_tds: {
+        pass_first_downs: {
             type: DataTypes.INTEGER,
         },
-        rec_two_pt_conversions: {
+        dakota: {
+            type: DataTypes.FLOAT,
+        },
+        pass_epa: {
+            type: DataTypes.FLOAT,
+        },
+        pass_tds: {
             type: DataTypes.INTEGER,
         },
-        rec_first_downs: {
+        pass_two_pt_conversions: {
             type: DataTypes.INTEGER,
         },
-        rec_fumbles: {
+        interceptions: {
             type: DataTypes.INTEGER,
         },
-        rec_fumbles_lost: {
+        sacks: {
+            type: DataTypes.FLOAT,
+        },
+        sack_yards: {
+            type: DataTypes.FLOAT,
+        },
+        sack_fumbles: {
             type: DataTypes.INTEGER,
         },
+        sack_fumbles_lost: {
+            type: DataTypes.INTEGER,
+        },
+        created_date: timestampColumn(),
+        last_modified: timestampColumn(),
     }
 }

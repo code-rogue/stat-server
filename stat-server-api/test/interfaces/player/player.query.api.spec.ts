@@ -24,14 +24,14 @@ describe('Player Query API', () => {
         ids: '4,5',
         name: 'Travis',
         position: Position.QB,
-        status: CareerStatus.InactiveOnly,
+        status: CareerStatus.ActiveOnly,
     } as PlayerQueryDto;
 
     const opt4 = {
         ids: '4,5',
         name: 'Travis',
         position_group: PositionGroup.QB,
-        status: CareerStatus.All,
+        status: CareerStatus.InactiveOnly,
     } as PlayerQueryDto;
 
     const opt5 = {
@@ -39,6 +39,7 @@ describe('Player Query API', () => {
         name: 'Travis',
         position: Position.QB,
         position_group: PositionGroup.QB,
+        status: CareerStatus.All,
         team: NFL_TEAMS.KC,
     } as PlayerQueryDto;
 
@@ -60,21 +61,24 @@ describe('Player Query API', () => {
     });
 
     describe('buildPlayerWhereClause', () => {
-        const result1 = { career_status: { [Op.iLike]: 'ACT' }}
-        const result2 = { id: { [Op.eq]: opt2.id }};
+        const result1 = { }
+        const result2 = { 
+            id: { [Op.eq]: opt2.id },
+            
+        };
         const result3 = { 
             id: { [Op.in]: opt3.ids.split(',') }, 
-            full_name: { [Op.iLike]: `%${opt3.name}%` }, 
-            career_status: { [Op.notILike]: 'ACT' }
+            full_name: { [Op.iLike]: `%${opt3.name}%` },
+            career_status: { [Op.iLike]: 'ACT' }
         };
         const result4 = { 
             id: { [Op.in]: opt4.ids.split(',') }, 
             full_name: { [Op.iLike]: `%${opt4.name}%` }, 
+            career_status: { [Op.notILike]: 'ACT' }
         };
         const result5 = { 
             id: { [Op.in]: opt5.ids.split(',') }, 
             full_name: { [Op.iLike]: `%${opt5.name}%` },
-            career_status: { [Op.iLike]: 'ACT' }
         };
         it.each([
             [opt1, result1],
@@ -97,7 +101,6 @@ describe('Player Query API', () => {
         const result2 = {
             position: { [Op.eq]: `${opt2.position}` },
             position_group: { [Op.eq]: `${opt2.position_group}` },
-            team: { [Op.eq]: `${opt2.team}` },
         };
         const result3 = {
             position: { [Op.eq]: `${opt2.position}` },
@@ -113,6 +116,20 @@ describe('Player Query API', () => {
         ])('should return league where clause', (options, whereClause) => {
             const api = new PlayerQueryAPI(options);
             expect(api.buildLeagueWhereClause()).toEqual(whereClause);
+        });
+    });
+
+    describe('buildTeamWhereClause', () => {
+        const result2 = {
+            name: { [Op.eq]: `${opt2.team}` },
+        };
+        it.each([
+            [opt1, {}],
+            [opt2, result2],
+            [opt3, {}],
+        ])('should return team where clause', (options, whereClause) => {
+            const api = new PlayerQueryAPI(options);
+            expect(api.buildTeamWhereClause()).toEqual(whereClause);
         });
     });
 });

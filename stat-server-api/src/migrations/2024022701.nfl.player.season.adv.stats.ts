@@ -1,3 +1,11 @@
+import {
+    NFLSchema,
+    SeasonStatTable,
+    SeasonAdvDefTable,
+    SeasonAdvPassTable,    
+    SeasonAdvRecTable,
+    SeasonAdvRushTable
+} from '../constants/nfl/service.constants';
 import { 
     PlayerSeasonStats,
     SeasonAdvStatsDef,
@@ -17,17 +25,17 @@ export const up: Migration = async ({ context: sequelize }) => {
     await SeasonAdvStatsRec.sync();
     await SeasonAdvStatsRush.sync();
 
-    await query.sequelize.query(timestampInsertTrigger('player_season_stats_insert_trigger', 'nfl', 'player_season_stats'));
-    await query.sequelize.query(timestampInsertTrigger('season_adv_pass_insert_trigger', 'nfl', 'season_adv_stats_pass'));
-    await query.sequelize.query(timestampInsertTrigger('season_adv_rush_insert_trigger', 'nfl', 'season_adv_stats_rush'));
-    await query.sequelize.query(timestampInsertTrigger('season_adv_rec_insert_trigger', 'nfl', 'season_adv_stats_rec'));
-    await query.sequelize.query(timestampInsertTrigger('season_adv_def_insert_trigger', 'nfl', 'season_adv_stats_def'));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonStatTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonAdvDefTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonAdvPassTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonAdvRecTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonAdvRushTable));
 
-    await query.sequelize.query(timestampUpdateTrigger('player_season_stats_update_trigger', 'nfl', 'player_season_stats'));
-    await query.sequelize.query(timestampUpdateTrigger('season_adv_pass_update_trigger', 'nfl', 'season_adv_stats_pass'));
-    await query.sequelize.query(timestampUpdateTrigger('season_adv_rush_update_trigger', 'nfl', 'season_adv_stats_rush'));
-    await query.sequelize.query(timestampUpdateTrigger('season_adv_rec_update_trigger', 'nfl', 'season_adv_stats_rec'));
-    await query.sequelize.query(timestampUpdateTrigger('season_adv_def_update_trigger', 'nfl', 'season_adv_stats_def'));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonStatTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonAdvDefTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonAdvPassTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonAdvRecTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonAdvRushTable));
 };
 
 export const down: Migration = async ({ }) => {

@@ -1,3 +1,8 @@
+import {
+    AuthSchema,
+    UserTable
+} from '../constants/nfl/service.constants';
+
 import { Password } from '../auth/auth.password'
 import { timestampInsertTrigger, timestampUpdateTrigger } from './models/model.helpers';
 import { User } from './models/user.model';
@@ -25,8 +30,8 @@ export const up: Migration = async ({ context: sequelize }) => {
         END;`);
 
     await User.sync();
-    await query.sequelize.query(timestampInsertTrigger('users_insert_trigger', 'auth', 'users'));
-    await query.sequelize.query(timestampUpdateTrigger('users_update_trigger', 'auth', 'users'));
+    await query.sequelize.query(timestampInsertTrigger(AuthSchema, UserTable));
+    await query.sequelize.query(timestampUpdateTrigger(AuthSchema, UserTable));
 
     try {
         const hashedPassword = await password.hashPassword('admin');
@@ -45,7 +50,6 @@ export const down: Migration = async ({ context: sequelize }) => {
 	const query = sequelize.getQueryInterface();
 
     await User.drop()
-
     await query.dropFunction('insert_trigger_function', []);
     await query.dropFunction('update_trigger_function', []);
     await query.dropSchema('auth');

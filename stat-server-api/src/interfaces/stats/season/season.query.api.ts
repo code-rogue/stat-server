@@ -25,7 +25,7 @@ import SeasonQueryDto from '@interfaces/stats/season/season.query.dto';
 import SeasonPassStatModel from '@player/models/season/season.pass.model';
 import SeasonRecStatModel from '@player/models/season/season.rec.model';
 import SeasonRushStatModel from '@player/models/season/season.rush.model';
-import { TwoColumnSeasonJoin } from '@database/database.utils';
+import { twoColumnSeasonJoin } from '@database/database.utils';
 
 import type { WhereClause } from '@interfaces/types/app.types';
 
@@ -69,22 +69,22 @@ export default class SeasonQueryAPI extends PaginationAPI {
             SeasonAdvPassStatModel,
             SeasonAdvRecStatModel,
             SeasonAdvRushStatModel,
-            TwoColumnSeasonJoin(sequelize, SeasonPassStatModel, SeasonModelLabel, SeasonPassModelLabel),
-            TwoColumnSeasonJoin(sequelize, SeasonRecStatModel, SeasonModelLabel, SeasonRecModelLabel),
-            TwoColumnSeasonJoin(sequelize, SeasonRushStatModel, SeasonModelLabel, SeasonRushModelLabel)
+            twoColumnSeasonJoin(sequelize, SeasonPassStatModel, SeasonModelLabel, SeasonPassModelLabel),
+            twoColumnSeasonJoin(sequelize, SeasonRecStatModel, SeasonModelLabel, SeasonRecModelLabel),
+            twoColumnSeasonJoin(sequelize, SeasonRushStatModel, SeasonModelLabel, SeasonRushModelLabel)
         ];
       }
 
       if(isDefensivePlayer(playerData)) {
         return [
             SeasonAdvDefStatModel,
-            TwoColumnSeasonJoin(sequelize, SeasonDefStatModel, SeasonModelLabel, SeasonDefModelLabel),
+            twoColumnSeasonJoin(sequelize, SeasonDefStatModel, SeasonModelLabel, SeasonDefModelLabel),
         ];
       }
 
       if(isKicker(playerData)) {
         return [
-          TwoColumnSeasonJoin(sequelize, SeasonKickStatModel, SeasonModelLabel, SeasonKickModelLabel),
+          twoColumnSeasonJoin(sequelize, SeasonKickStatModel, SeasonModelLabel, SeasonKickModelLabel),
         ];
       }
 
@@ -94,11 +94,11 @@ export default class SeasonQueryAPI extends PaginationAPI {
         SeasonAdvPassStatModel,
         SeasonAdvRecStatModel,
         SeasonAdvRushStatModel,
-        TwoColumnSeasonJoin(sequelize, SeasonDefStatModel, SeasonModelLabel, SeasonDefModelLabel),
-        TwoColumnSeasonJoin(sequelize, SeasonKickStatModel, SeasonModelLabel, SeasonKickModelLabel),
-        TwoColumnSeasonJoin(sequelize, SeasonPassStatModel, SeasonModelLabel, SeasonPassModelLabel),
-        TwoColumnSeasonJoin(sequelize, SeasonRecStatModel, SeasonModelLabel, SeasonRecModelLabel),
-        TwoColumnSeasonJoin(sequelize, SeasonRushStatModel, SeasonModelLabel, SeasonRushModelLabel)
+        twoColumnSeasonJoin(sequelize, SeasonDefStatModel, SeasonModelLabel, SeasonDefModelLabel),
+        twoColumnSeasonJoin(sequelize, SeasonKickStatModel, SeasonModelLabel, SeasonKickModelLabel),
+        twoColumnSeasonJoin(sequelize, SeasonPassStatModel, SeasonModelLabel, SeasonPassModelLabel),
+        twoColumnSeasonJoin(sequelize, SeasonRecStatModel, SeasonModelLabel, SeasonRecModelLabel),
+        twoColumnSeasonJoin(sequelize, SeasonRushStatModel, SeasonModelLabel, SeasonRushModelLabel)
       ];
     }
 }

@@ -8,8 +8,8 @@ import { PlayerForeignKey } from '@constants/nfl/service.constants';
 import PlayerModel from '@player/models/player.model';
 import { playerModelOptions, playerSchema } from '@player/models/schema/player.schema';
 import { Sequelize } from 'sequelize';
-import TeamModel from '@root/src/team/models/team.model';
-import { teamModelOptions, teamSchema } from '@root/src/team/models/schema/team.schema';
+import TeamModel from '@team/models/team.model';
+import { teamModelOptions, teamSchema } from '@team/models/schema/team.schema';
 
 export const InitPlayerModels = (sequelize: Sequelize) => {
     PlayerModel.init(playerSchema(), playerModelOptions(sequelize));

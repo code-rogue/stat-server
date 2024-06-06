@@ -22,7 +22,7 @@ import SeasonStatModel from '@player/models/season/season.model';
 import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
 import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
 import { SortDirection } from '@interfaces/enums/app.enums';
-import TeamModel from '@root/src/team/models/team.model';
+import TeamModel from '@team/models/team.model';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
 import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
@@ -211,7 +211,7 @@ export class PlayerService {
 
             if(seasonStats !== null) {
                 const stats = seasonStats as SeasonStatQueryModel;
-                stats.weeks = weeklyStats ?? [];
+                stats.weeks = weeklyStats;
                 playerData.stats = [stats];
             }
             return new PlayerDto(playerData);

@@ -35,13 +35,10 @@ import PlayerQueryDto from '@interfaces/player/player.query.dto';
 import PlayerQueryAPI from '@interfaces/player/player.query.api';
 import { PlayerQueryModel, SeasonStatQueryModel } from '@interfaces/player/player.query.model';
 import PlayerSummaryDto from '@interfaces/player/player.summary.dto';
-import SeasonAdvDefStatModel from '@player/models/season/advanced/season.adv.def.model';
-import SeasonAdvPassStatModel from '@player/models/season/advanced/season.adv.pass.model';
-import SeasonAdvRecStatModel from '@player/models/season/advanced/season.adv.rec.model';
-import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.rush.model';
 import SeasonQueryAPI from '@interfaces/stats/season/season.query.api';
 import SeasonStatModel from '@player/models/season/season.model';
 import { SortDirection } from '@interfaces/enums/app.enums';
+import TeamModel from '@team/models/team.model';
 import { Test, TestingModule } from '@nestjs/testing';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
@@ -59,8 +56,10 @@ import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
 import WeeklyStatModel from '@player/models/weekly/weekly.model';
 
 const obj = {};
+let mockBuildIncludes = jest.fn();
 let mockBuildWhere = jest.fn();
 let mockBuildOrderBy = jest.fn();
+let mockBuildTeamWhere = jest.fn();
 
 jest.mock('@interfaces/player/player.summary.dto', () => {
     return {
@@ -71,9 +70,13 @@ jest.mock('@interfaces/player/player.summary.dto', () => {
                 career_status: 'ACT',
                 position: 'TE',
                 position_group: 'TE',
-                team: 'KC',
-                team_display_name: 'Kansas City Chiefs',
                 headshot_url: '',
+                team: {
+                    id: 18,
+                    name: 'KC',
+                    full_name: 'Kansas City Chiefs',
+                    logo_url: 'team_url',
+                },
             }
         }),
     };
@@ -109,6 +112,7 @@ jest.mock('@interfaces/stats/season/season.query.api', () => {
                 player_id: 5,
                 seasons: ['2022', '2023'],
                 buildWhereClause: mockBuildWhere,
+                buildIncludes: mockBuildIncludes,
                 buildOrderByClause: mockBuildOrderBy,
             }
         }),
@@ -139,6 +143,7 @@ jest.mock('@interfaces/player/player.query.api', () => {
                 status: CareerStatus.ActiveOnly,
                 buildPlayerWhereClause: mockBuildWhere,
                 buildLeagueWhereClause: mockBuildWhere,
+                buildTeamWhereClause: mockBuildTeamWhere,
                 buildOrderByClause: mockBuildOrderBy,
             }
         }),
@@ -187,9 +192,13 @@ describe('PlayerService', () => {
         career_status: 'ACT',
         position: 'TE',
         position_group: 'TE',
-        team: 'KC',
-        team_display_name: 'Kansas City Chiefs',
         headshot_url: '',
+        team: {
+            id: 18,
+            name: 'KC',
+            full_name: 'Kansas City Chiefs',
+            logo_url: 'team_url',
+        },
     } as PlayerSummaryDto;
     const season = {
         id: 1,
@@ -267,10 +276,14 @@ describe('PlayerService', () => {
         mockInitPlayerModels = jest.spyOn(pinit, 'InitPlayerModels').mockImplementation();        
         mockSequelize = jest.spyOn(databaseService, 'sequelize').mockImplementation(() => sequelize);        
 
+        mockBuildIncludes.mockRestore();
         mockBuildWhere.mockRestore();
+        mockBuildTeamWhere.mockRestore();
         mockBuildOrderBy.mockRestore();
 
+        mockBuildIncludes.mockImplementation(() => obj);
         mockBuildWhere.mockImplementation(() => obj);
+        mockBuildTeamWhere.mockImplementation(() => obj);
         mockBuildOrderBy.mockImplementation(() => obj);
     });
 
@@ -289,6 +302,10 @@ describe('PlayerService', () => {
                     BioModel,
                     {
                         model: LeagueModel,
+                        include: [{
+                            model: TeamModel,
+                            where: obj,
+                        }],
                         where: obj,
                     },
                 ],
@@ -305,6 +322,7 @@ describe('PlayerService', () => {
             expect(mockInitPlayerModels).toHaveBeenCalledWith(sequelize);
             expect(mockFindAndCountAll).toHaveBeenCalledWith(findAndCountAll);
             expect(mockBuildWhere).toHaveBeenCalledTimes(2);
+            expect(mockBuildTeamWhere).toHaveBeenCalledTimes(1);
             expect(mockBuildOrderBy).toHaveBeenCalledWith(service.sortDefaults);
         });
 
@@ -365,7 +383,7 @@ describe('PlayerService', () => {
         const player_id = 5;
         const findOne = {
             where: obj,
-            include: [ BioModel, LeagueModel ],
+            include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
         }
         const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
 
@@ -409,21 +427,17 @@ describe('PlayerService', () => {
         const player_id = 5;
         const findOne = {
             where: obj,
-            include: [ BioModel, LeagueModel, SeasonStatModel ],
+            include: [BioModel, { model: LeagueModel, include: [TeamModel] }, SeasonStatModel],
         }
         const findAll = {
             where: obj,
-            include: [ 
-                SeasonAdvDefStatModel,
-                SeasonAdvPassStatModel,
-                SeasonAdvRecStatModel,
-                SeasonAdvRushStatModel
-            ],
+            include: obj,
             order: obj,
         }
         const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
 
         it('should return season stats for player', async () => {
+            mockBuildIncludes.mockClear();
             mockBuildWhere.mockClear();
             mockBuildOrderBy.mockClear();
 
@@ -442,6 +456,7 @@ describe('PlayerService', () => {
             expect(mockFindAll).toHaveBeenCalledWith(findAll);
 
             expect(mockBuildWhere).toHaveBeenCalledTimes(2);
+            expect(mockBuildIncludes).toHaveBeenCalledWith(sequelize, player);
             expect(mockBuildOrderBy).toHaveBeenNthCalledWith(1, ['season']);
 
             const playerData = player as PlayerQueryModel;
@@ -478,11 +493,11 @@ describe('PlayerService', () => {
         const seasons = '2022,2023';
         const findOnePlayer = {
             where: obj,
-            include: [ BioModel, LeagueModel ],
+            include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
         }
         const findOneSeason = {
             where: obj,
-            include: [ SeasonAdvDefStatModel, SeasonAdvPassStatModel, SeasonAdvRecStatModel, SeasonAdvRushStatModel ],
+            include: obj,
             order: obj,
         }
         const findAll = {
@@ -506,6 +521,7 @@ describe('PlayerService', () => {
         const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
 
         it('should return weekly stats for player for given season', async () => {
+            mockBuildIncludes.mockClear();
             mockBuildWhere.mockClear();
             mockBuildOrderBy.mockClear();
             mockFindOne.mockRestore();
@@ -537,6 +553,8 @@ describe('PlayerService', () => {
             });
             expect(mockFindAll).toHaveBeenCalledWith(findAll);
 
+            
+            expect(mockBuildIncludes).toHaveBeenCalledWith(sequelize, player);
             expect(mockBuildWhere).toHaveBeenCalledTimes(3);
             expect(mockBuildOrderBy).toHaveBeenNthCalledWith(1, ['season']);
             expect(mockBuildOrderBy).toHaveBeenNthCalledWith(2, ['week']);
