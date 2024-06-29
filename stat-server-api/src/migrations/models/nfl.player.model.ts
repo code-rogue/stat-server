@@ -9,6 +9,7 @@ import {
 import { playerModelOptions, playerSchema } from '../../player/models/schema/player.schema';
 import { bioModelOptions, bioSchema } from '../../player/models/schema/bio.schema';
 import { leagueModelOptions, leagueSchema } from '../../player/models/schema/league.schema';
+import { Team } from './nfl.team.model';
 
 export const Player = sequelize.define(
     PlayerModelLabel,
@@ -24,6 +25,6 @@ export const PlayerBio = sequelize.define(
 
   export const PlayerLeagueData = sequelize.define(
     LeagueModelLabel,
-    leagueSchema(Player),
+    leagueSchema(Player, Team),
     leagueModelOptions(sequelize),    
   );

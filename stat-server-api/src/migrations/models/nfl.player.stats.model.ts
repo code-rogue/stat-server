@@ -1,4 +1,5 @@
 import { Player }  from './nfl.player.model';
+import { Team }  from './nfl.team.model';
 import { sequelize } from '../../sequelize';
 import { 
   WeeklyModelLabel,
@@ -35,7 +36,7 @@ import {
 
 export const PlayerWeeklyStats = sequelize.define(
     WeeklyModelLabel,
-    weeklySchema(Player),
+    weeklySchema(Player, Team),
     weeklyModelOptions(sequelize)
 );
 

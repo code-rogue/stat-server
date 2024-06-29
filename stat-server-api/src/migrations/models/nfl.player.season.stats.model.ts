@@ -1,4 +1,5 @@
 import { Player }  from './nfl.player.model';
+import { Team }  from './nfl.team.model';
 import { sequelize } from '../../sequelize';
 import { 
   SeasonModelLabel,
@@ -35,7 +36,7 @@ import {
 
 export const PlayerSeasonStats = sequelize.define(
     SeasonModelLabel,
-    seasonSchema(Player),
+    seasonSchema(Player, Team),
     seasonModelOptions(sequelize)
 );
 
