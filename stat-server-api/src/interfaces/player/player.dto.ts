@@ -1,7 +1,8 @@
 import {
      BioModelLabel as bio,
      LeagueModelLabel as league,
-     TeamModelLabel as team
+     TeamModelLabel as team,
+     DraftTeamModelLabel as draftTeam,
 } from '@constants/nfl/service.constants';
 
 import { PlayerQueryModel } from '@interfaces/player/player.query.model';
@@ -74,8 +75,8 @@ export default class PlayerDto {
         player.stats?.forEach(season => {
             this.stats.push(new SeasonDto(season));
         })
-        this.team = new TeamDto(player[league][team])
-        //++++ this.draft_team = new TeamDto(player[league][draftTeam]);
+        this.team = new TeamDto(player[league][team]);
+        this.draft_team = new TeamDto(player[league][draftTeam]);
     }
 }
 

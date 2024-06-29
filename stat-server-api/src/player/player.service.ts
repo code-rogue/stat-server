@@ -38,6 +38,7 @@ import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
 import WeeklyStatModel from '@player/models/weekly/weekly.model';
 
 import type { PlayerSummary } from '@interfaces/types/player.types';
+import { DraftTeamModelLabel, OpponentModelLabel, TeamModelLabel } from '@constants/nfl/service.constants';
 
 @Injectable()
 export class PlayerService {
@@ -107,7 +108,19 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
+                include: [BioModel, { 
+                    model: LeagueModel, 
+                    include: [
+                        {
+                            model: TeamModel,
+                            as: TeamModelLabel,
+                        },
+                        {
+                            model: TeamModel,
+                            as: DraftTeamModelLabel,
+                        }
+                    ] 
+                }],
             });
 
             if (!player) {
@@ -130,7 +143,23 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id: player_id });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [BioModel, { model: LeagueModel, include: [TeamModel] }, SeasonStatModel],
+                include: [
+                    BioModel, 
+                    { 
+                        model: LeagueModel, 
+                        include: [
+                            {
+                                model: TeamModel,
+                                as: TeamModelLabel,
+                            },
+                            {
+                                model: TeamModel,
+                                as: DraftTeamModelLabel,
+                            }
+                        ]
+                    },
+                    SeasonStatModel
+                ],
             });
 
             if (!player) {
@@ -165,7 +194,22 @@ export class PlayerService {
             const query = new PlayerQueryAPI({ id: player_id, status: CareerStatus.All });
             const player = await PlayerModel.findOne({
                 where: query.buildPlayerWhereClause(),
-                include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
+                include: [
+                    BioModel, 
+                    { 
+                        model: LeagueModel, 
+                        include: [
+                            {
+                                model: TeamModel,
+                                as: TeamModelLabel,
+                            },
+                            {
+                                model: TeamModel,
+                                as: DraftTeamModelLabel,
+                            }
+                        ]
+                    },
+                ],
             });
 
             if (!player) {
@@ -192,7 +236,7 @@ export class PlayerService {
             });
             const weeklyStats = await WeeklyStatModel.findAll({
                 where: weeklyStatsQuery.buildWhereClause(),
-                include: [ 
+                include: [
                     WeeklyDefStatModel,
                     WeeklyKickStatModel,
                     WeeklyPassStatModel,
@@ -205,6 +249,14 @@ export class PlayerService {
                     WeeklyNextGenPassStatModel,
                     WeeklyNextGenRecStatModel,
                     WeeklyNextGenRushStatModel,
+                    {
+                        model: TeamModel,
+                        as: TeamModelLabel,
+                    },
+                    {
+                        model: TeamModel,
+                        as: OpponentModelLabel,
+                    },
                 ],
                 order: weeklyStatsQuery.buildOrderByClause(['week']),
             });

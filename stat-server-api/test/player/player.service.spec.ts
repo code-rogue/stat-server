@@ -54,6 +54,7 @@ import WeeklyRecStatModel from '@player/models/weekly/weekly.rec.model';
 import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
 import WeeklyQueryAPI from '@interfaces/stats/weekly/weekly.query.api';
 import WeeklyStatModel from '@player/models/weekly/weekly.model';
+import { DraftTeamModelLabel, OpponentModelLabel, TeamModelLabel } from '@constants/nfl/service.constants';
 
 const obj = {};
 let mockBuildIncludes = jest.fn();
@@ -220,7 +221,18 @@ describe('PlayerService', () => {
         season: '2023',
         week: 12,
         game_type: 'REG',
-        opponent: 'BUF',
+        team: {
+            id: 18,
+            name: 'KC',
+            full_name: 'Kansas City Chiefs',
+            logo_url: 'team_url',
+        },
+        opponent: {
+            id: 4,
+            name: 'BUF',
+            full_name: 'Buffalo Bills',
+            logo_url: 'team_url',
+        },
         fantasy_points: 9.5,
         fantasy_points_ppr: 14.5,
         created_date: new Date(),
@@ -383,7 +395,19 @@ describe('PlayerService', () => {
         const player_id = 5;
         const findOne = {
             where: obj,
-            include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
+            include: [BioModel, { 
+                model: LeagueModel, 
+                include: [
+                    {
+                        model: TeamModel,
+                        as: TeamModelLabel,
+                    },
+                    {
+                        model: TeamModel,
+                        as: DraftTeamModelLabel,
+                    }
+                ] 
+            }],
         }
         const notFoundError = new NotFoundException(`Player with ID ${player_id} not found`);
 
@@ -427,7 +451,23 @@ describe('PlayerService', () => {
         const player_id = 5;
         const findOne = {
             where: obj,
-            include: [BioModel, { model: LeagueModel, include: [TeamModel] }, SeasonStatModel],
+            include: [
+                BioModel, 
+                { 
+                    model: LeagueModel, 
+                    include: [
+                        {
+                            model: TeamModel,
+                            as: TeamModelLabel,
+                        },
+                        {
+                            model: TeamModel,
+                            as: DraftTeamModelLabel,
+                        }
+                    ]
+                },
+                SeasonStatModel
+            ],
         }
         const findAll = {
             where: obj,
@@ -493,7 +533,22 @@ describe('PlayerService', () => {
         const seasons = '2022,2023';
         const findOnePlayer = {
             where: obj,
-            include: [BioModel, { model: LeagueModel, include: [TeamModel] }],
+            include: [
+                BioModel, 
+                { 
+                    model: LeagueModel, 
+                    include: [
+                        {
+                            model: TeamModel,
+                            as: TeamModelLabel,
+                        },
+                        {
+                            model: TeamModel,
+                            as: DraftTeamModelLabel,
+                        }
+                    ]
+                },
+            ],
         }
         const findOneSeason = {
             where: obj,
@@ -515,6 +570,14 @@ describe('PlayerService', () => {
                 WeeklyNextGenPassStatModel,
                 WeeklyNextGenRecStatModel,
                 WeeklyNextGenRushStatModel,
+                {
+                    model: TeamModel,
+                    as: TeamModelLabel,
+                },
+                {
+                    model: TeamModel,
+                    as: OpponentModelLabel,
+                },
             ],
             order: obj,
         }

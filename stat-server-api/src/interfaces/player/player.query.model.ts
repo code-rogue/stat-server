@@ -37,7 +37,8 @@ export interface WeeklyStatQueryModel {
     season?: string,
     week?: number,
     game_type?: string,
-    opponent?: string,
+    team_id?: number,
+    opponent_id?: number,
     fantasy_points?: number,
     fantasy_points_ppr?: number,
     advanced?: {
@@ -108,7 +109,8 @@ export interface SeasonStatQueryModel {
     seasonPass?: SeasonPassQueryModel,
     seasonRec?: SeasonRecQueryModel,
     seasonRush?: SeasonRushQueryModel,
-
+    team?: TeamQueryModel,
+    opponent?: TeamQueryModel,
     weeks?: WeeklyStatQueryModel[],
     created_date?: Date,
     last_modified?: Date,

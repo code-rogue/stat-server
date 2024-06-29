@@ -1,3 +1,4 @@
+import { TeamDto } from '@interfaces/player/team.dto';
 import { Model } from 'sequelize';
 
 export default class WeeklyStatModel extends Model {
@@ -8,7 +9,8 @@ export default class WeeklyStatModel extends Model {
     public season: string;
     public week: number;
     public game_type: string;
-    public opponent: string;
+    public team: TeamDto;
+    public opponent: TeamDto;
     public fantasy_points: number;
     public fantasy_points_ppr: number;
     public readonly created_date: Date;

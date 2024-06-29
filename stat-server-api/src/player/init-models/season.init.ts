@@ -71,7 +71,7 @@ export const InitSeasonModels = (sequelize: Sequelize) => {
 
     PlayerModel.hasMany(SeasonStatModel, PlayerForeignKey);
     SeasonStatModel.belongsTo(PlayerModel, PlayerForeignKey);
-    SeasonStatModel.hasOne(TeamModel, TeamForeignKey);
+    SeasonStatModel.belongsTo(TeamModel, TeamForeignKey);
     SeasonStatModel.hasOne(SeasonAdvDefStatModel, PlayerSeasonForeignKey);
     SeasonStatModel.hasOne(SeasonAdvPassStatModel, PlayerSeasonForeignKey);
     SeasonStatModel.hasOne(SeasonAdvRecStatModel, PlayerSeasonForeignKey);

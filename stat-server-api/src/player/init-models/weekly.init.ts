@@ -61,9 +61,8 @@ export const InitWeeklyModels = (sequelize: Sequelize) => {
     WeeklyAdvRushStatModel.init(weeklyAdvRushSchema(WeeklyStatModel), weeklyAdvRushModelOptions(sequelize));
 
     WeeklyStatModel.belongsTo(PlayerModel, PlayerForeignKey);
-    WeeklyStatModel.hasOne(TeamModel, TeamForeignKey);
-    // +++ Verify hasOne can reference the same table twice
-    WeeklyStatModel.hasOne(TeamModel, OpponentForeignKey);
+    WeeklyStatModel.belongsTo(TeamModel, TeamForeignKey);
+    WeeklyStatModel.belongsTo(TeamModel, OpponentForeignKey);
     
     WeeklyStatModel.hasOne(WeeklyDefStatModel, PlayerWeeklyForeignKey);
     WeeklyStatModel.hasOne(WeeklyKickStatModel, PlayerWeeklyForeignKey);

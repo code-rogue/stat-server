@@ -40,6 +40,7 @@ export const SeasonPassView = 'player_season_pass_view';
 export const SeasonRecView = 'player_season_rec_view';
 export const SeasonRushView = 'player_season_rush_view';
 
+export const DraftTeamId = 'draft_team_id';
 export const PlayerFullName = 'full_name';
 export const PlayerPFR = 'pfr_id';
 export const PlayerId = 'player_id';
@@ -50,16 +51,11 @@ export const SeasonStatId = 'player_season_id';
 export const TeamId = 'team_id';
 export const WeeklyStatId = 'player_weekly_id';
 
-export const TeamForeignKey = { foreignKey: { name: TeamId } };
-export const OpponentForeignKey = { foreignKey: { name: OpponentId } };
-export const PlayerForeignKey = { foreignKey: { name: PlayerId } };
-export const PlayerSeasonForeignKey = { foreignKey: { name: SeasonStatId } };
-export const PlayerWeeklyForeignKey = { foreignKey: { name: WeeklyStatId } };
-export const PlayerSeasonStatForeignKey = { sourceKey: 'season', foreignKey: { name: 'season' } };
-
 export const BioModelLabel = 'bio';
+export const DraftTeamModelLabel = 'draftTeam';
 export const LeagueModelLabel = 'league';
 export const PlayerModelLabel = 'Player';
+export const OpponentModelLabel = 'opponent';
 export const SeasonModelLabel = 'seasonStats';
 export const SeasonAdvDefModelLabel = 'seasonAdvDef';
 export const SeasonAdvPassModelLabel = 'seasonAdvPass';
@@ -88,6 +84,16 @@ export const WeeklyAdvDefModelLabel = 'weeklyAdvDef';
 export const WeeklyAdvPassModelLabel = 'weeklyAdvPass';
 export const WeeklyAdvRecModelLabel = 'weeklyAdvRec';
 export const WeeklyAdvRushModelLabel = 'weeklyAdvRush';
+
+export const TeamForeignKey = { foreignKey: { name: TeamId } };
+export const OpponentForeignKey = { as: OpponentModelLabel , foreignKey: { name: OpponentId } };
+export const PlayerForeignKey = { foreignKey: { name: PlayerId } };
+export const PlayerSeasonForeignKey = { foreignKey: { name: SeasonStatId } };
+export const PlayerWeeklyForeignKey = { foreignKey: { name: WeeklyStatId } };
+export const PlayerSeasonStatForeignKey = { sourceKey: 'season', foreignKey: { name: 'season' } };
+
+export const LeagueTeamForeignKey = { foreignKey: { name: TeamId } };
+export const LeagueDraftTeamForeignKey = { as: DraftTeamModelLabel, foreignKey: { name: DraftTeamId } };
 
 // Procedures
 export const CalcSeasonStats = 'calc_season_stats';
