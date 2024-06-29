@@ -18,6 +18,7 @@ describe('Weekly Schema', () => {
     });
 
     const model: Model = null;
+    const teamModel: Model = null;
     const modelSchema = {
         id: {
             type: DataTypes.INTEGER,
@@ -39,20 +40,31 @@ describe('Weekly Schema', () => {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
+        opponent_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         season: {
             allowNull: false,
-            type: DataTypes.STRING(16),
+            type: DataTypes.INTEGER,
         },
         week: {
-        allowNull: false,
+            allowNull: false,
             type: DataTypes.INTEGER,
         },
         game_type: {
             type: DataTypes.STRING(16),
             defaultValue: 'REG',
-        },
-        opponent: {
-            type: DataTypes.STRING(16),
         },
         fantasy_points: {
             type: DataTypes.FLOAT,
@@ -77,7 +89,7 @@ describe('Weekly Schema', () => {
 
         it('should return model schema', () => {
             const mockTimestampColumn = jest.spyOn(m, 'timestampColumn').mockImplementation(() => '');
-            expect(schema.weeklySchema(model)).toEqual(modelSchema);
+            expect(schema.weeklySchema(model, teamModel)).toEqual(modelSchema);
             expect(mockTimestampColumn).toHaveBeenCalledTimes(2);
             mockTimestampColumn.mockRestore();
         });

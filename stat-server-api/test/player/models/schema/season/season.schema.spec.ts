@@ -18,6 +18,7 @@ describe('Season Schema', () => {
     });
 
     const model: Model = null;
+    const teamModel: Model = null;
     const modelSchema = {
         id: {
             type: DataTypes.INTEGER,
@@ -33,9 +34,17 @@ describe('Season Schema', () => {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         season: {
             allowNull: false,
-            type: DataTypes.STRING(16),
+            type: DataTypes.INTEGER,
         },
         age: {
             type: DataTypes.INTEGER,
@@ -69,7 +78,7 @@ describe('Season Schema', () => {
 
         it('should return model schema', () => {
             const mockTimestampColumn = jest.spyOn(m, 'timestampColumn').mockImplementation(() => '');
-            expect(schema.seasonSchema(model)).toEqual(modelSchema);
+            expect(schema.seasonSchema(model, teamModel)).toEqual(modelSchema);
             expect(mockTimestampColumn).toHaveBeenCalledTimes(2);
             mockTimestampColumn.mockRestore();
         });

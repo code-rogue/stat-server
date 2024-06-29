@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonAdvPassModelLabel, SeasonAdvPassTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, SeasonAdvPassModelLabel, SeasonAdvPassTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function seasonAdvPassModelOptions(sequelize: Sequelize): any {
     return {

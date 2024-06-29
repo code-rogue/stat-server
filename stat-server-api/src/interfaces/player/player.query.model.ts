@@ -157,6 +157,7 @@ export interface PlayerQueryModel {
         draft_round?: string,
         season?: string,
         teamData?: TeamQueryModel,
+        draftTeamData?: TeamQueryModel,
         created_date?: Date,
         last_modified?: Date,
     },    

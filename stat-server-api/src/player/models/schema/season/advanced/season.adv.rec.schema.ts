@@ -1,6 +1,6 @@
 import { DataTypes, Sequelize } from 'sequelize';
-import { NFLSchema, SeasonAdvRecModelLabel, SeasonAdvRecTable } from '@constants/nfl/service.constants';
-import { timestampColumn } from '@migrations/models/model.helpers';
+import { NFLSchema, SeasonAdvRecModelLabel, SeasonAdvRecTable } from '../../../../../constants/nfl/service.constants';
+import { timestampColumn } from '../../../../../migrations/models/model.helpers';
 
 export function seasonAdvRecModelOptions(sequelize: Sequelize): any {
     return {

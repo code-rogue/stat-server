@@ -14,6 +14,7 @@ describe('Play League Schema', () => {
     });
 
     const model: Model = null;
+    const teamModel: Model = null;
     const modelSchema = {
         id: {
             type: DataTypes.INTEGER,
@@ -29,6 +30,13 @@ describe('Play League Schema', () => {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         position_group: {
             type: DataTypes.STRING(16),
         },
@@ -41,20 +49,15 @@ describe('Play League Schema', () => {
         years_of_experience: {
             type: DataTypes.INTEGER,
         },
-        team: {
-            type: DataTypes.STRING(8),
-        },
-        team_seq: {
-            type: DataTypes.STRING(8),
-        },
-        team_id: {
-            type: DataTypes.STRING(8),
-        },
         rookie_year: {
             type: DataTypes.STRING(4),
         },
-        draft_team: {
-            type: DataTypes.STRING(8),
+        draft_team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
         },
         draft_number: {
             type: DataTypes.STRING(4),
@@ -63,7 +66,7 @@ describe('Play League Schema', () => {
             type: DataTypes.STRING(4),
         },
         season: {
-            type: DataTypes.STRING(4),
+            type: DataTypes.INTEGER,
         },
         created_date: '',
         last_modified: '',
@@ -82,7 +85,7 @@ describe('Play League Schema', () => {
 
         it('should return model schema', () => {
             const mockTimestampColumn = jest.spyOn(m, 'timestampColumn').mockImplementation(() => '');
-            expect(schema.leagueSchema(model)).toEqual(modelSchema);
+            expect(schema.leagueSchema(model, teamModel)).toEqual(modelSchema);
             expect(mockTimestampColumn).toHaveBeenCalledTimes(2);
             mockTimestampColumn.mockRestore();
         });

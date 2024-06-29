@@ -1,6 +1,12 @@
-import { PlayerForeignKey, PlayerWeeklyForeignKey } from '@constants/nfl/service.constants';
+import {
+    OpponentForeignKey, 
+    PlayerForeignKey, 
+    PlayerWeeklyForeignKey, 
+    TeamForeignKey 
+} from '@constants/nfl/service.constants';
 import PlayerModel from '@player/models/player.model';
 import { Sequelize } from 'sequelize';
+import TeamModel from '@team/models/team.model';
 import { weeklyAdvDefModelOptions, weeklyAdvDefSchema } from '@player/models/schema/weekly/advanced/weekly.adv.def.schema';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import { weeklyAdvPassModelOptions, weeklyAdvPassSchema } from '@player/models/schema/weekly/advanced/weekly.adv.pass.schema';
@@ -38,7 +44,7 @@ import WeeklyRushStatModel from '@player/models/weekly/weekly.rush.model';
 import WeeklyStatModel from '@player/models/weekly/weekly.model';
 
 export const InitWeeklyModels = (sequelize: Sequelize) => {
-    WeeklyStatModel.init(weeklySchema(PlayerModel), weeklyModelOptions(sequelize));
+    WeeklyStatModel.init(weeklySchema(PlayerModel, TeamModel), weeklyModelOptions(sequelize));
     WeeklyDefStatModel.init(weeklyDefSchema(WeeklyStatModel), weeklyDefModelOptions(sequelize));
     WeeklyKickStatModel.init(weeklyKickSchema(WeeklyStatModel), weeklyKickModelOptions(sequelize));
     WeeklyPassStatModel.init(weeklyPassSchema(WeeklyStatModel), weeklyPassModelOptions(sequelize));
@@ -55,6 +61,10 @@ export const InitWeeklyModels = (sequelize: Sequelize) => {
     WeeklyAdvRushStatModel.init(weeklyAdvRushSchema(WeeklyStatModel), weeklyAdvRushModelOptions(sequelize));
 
     WeeklyStatModel.belongsTo(PlayerModel, PlayerForeignKey);
+    WeeklyStatModel.hasOne(TeamModel, TeamForeignKey);
+    // +++ Verify hasOne can reference the same table twice
+    WeeklyStatModel.hasOne(TeamModel, OpponentForeignKey);
+    
     WeeklyStatModel.hasOne(WeeklyDefStatModel, PlayerWeeklyForeignKey);
     WeeklyStatModel.hasOne(WeeklyKickStatModel, PlayerWeeklyForeignKey);
     WeeklyStatModel.hasOne(WeeklyPassStatModel, PlayerWeeklyForeignKey);

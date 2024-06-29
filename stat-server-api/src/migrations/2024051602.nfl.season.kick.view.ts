@@ -13,7 +13,7 @@ export const up: Migration = async ({ context: sequelize }) => {
                 sum(ws.fg_made) AS fg_made,
                 sum(ws.fg_missed) AS fg_missed,
                 sum(ws.fg_blocked) AS fg_blocked,
-                sum(ws.fg_pct) AS fg_pct,
+                avg(ws.fg_pct) AS fg_pct,
                 sum(ws.fg_long) AS fg_long,
                 sum(ws.fg_made_0_19) AS fg_made_0_19,
                 sum(ws.fg_made_20_29) AS fg_made_20_29,
@@ -39,7 +39,7 @@ export const up: Migration = async ({ context: sequelize }) => {
                 sum(ws.pat_made) AS pat_made,
                 sum(ws.pat_missed) AS pat_missed,
                 sum(ws.pat_blocked) AS pat_blocked,
-                sum(ws.pat_pct) AS pat_pct
+                avg(ws.pat_pct) AS pat_pct
             FROM nfl.player_weekly_stats pws
                 LEFT JOIN nfl.weekly_stats_kick ws ON pws.id = ws.player_weekly_id
             GROUP BY pws.season, pws.player_id;`);

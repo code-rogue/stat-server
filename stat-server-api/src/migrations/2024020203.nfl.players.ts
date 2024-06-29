@@ -9,10 +9,8 @@ import { timestampInsertTrigger, timestampUpdateTrigger } from './models/model.h
 
 import type { Migration } from '../umzug';
 
-export const up: Migration = async ({ context: sequelize }) => {
+export const up: Migration = async ({ context: sequelize}) => {
     const query = sequelize.getQueryInterface();
-    await query.createSchema("nfl");
-       
     await Player.sync();
     await PlayerBio.sync();
     await PlayerLeagueData.sync();
@@ -26,12 +24,8 @@ export const up: Migration = async ({ context: sequelize }) => {
     await query.sequelize.query(timestampUpdateTrigger(NFLSchema, LeagueTable));
 };
 
-export const down: Migration = async ({ context: sequelize }) => {
-    const query = sequelize.getQueryInterface();
-
+export const down: Migration = async ({ }) => {
     await PlayerBio.drop();
     await PlayerLeagueData.drop();
     await Player.drop();
-
-    await query.dropSchema('nfl');
 };

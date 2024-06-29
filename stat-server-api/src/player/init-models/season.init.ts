@@ -2,7 +2,8 @@ import { Sequelize } from 'sequelize';
 import { 
     PlayerForeignKey, 
     PlayerSeasonForeignKey, 
-    PlayerSeasonStatForeignKey 
+    PlayerSeasonStatForeignKey,
+    TeamForeignKey
 } from '@constants/nfl/service.constants';
 import PlayerModel from '@player/models/player.model';
 import { 
@@ -53,9 +54,10 @@ import SeasonRecStatModel from '@player/models/season/season.rec.model';
 import SeasonRushStatModel from '@player/models/season/season.rush.model';
 import { seasonModelOptions, seasonSchema } from '@player/models/schema/season/season.schema';
 import SeasonStatModel from '@player/models/season/season.model';
+import TeamModel from '@team/models/team.model';
 
 export const InitSeasonModels = (sequelize: Sequelize) => {
-    SeasonStatModel.init(seasonSchema(PlayerModel), seasonModelOptions(sequelize));
+    SeasonStatModel.init(seasonSchema(PlayerModel, TeamModel), seasonModelOptions(sequelize));
     SeasonAdvDefStatModel.init(seasonAdvDefSchema(SeasonStatModel), seasonAdvDefModelOptions(sequelize));
     SeasonAdvPassStatModel.init(seasonAdvPassSchema(SeasonStatModel), seasonAdvPassModelOptions(sequelize));
     SeasonAdvRecStatModel.init(seasonAdvRecSchema(SeasonStatModel), seasonAdvRecModelOptions(sequelize));
@@ -69,6 +71,7 @@ export const InitSeasonModels = (sequelize: Sequelize) => {
 
     PlayerModel.hasMany(SeasonStatModel, PlayerForeignKey);
     SeasonStatModel.belongsTo(PlayerModel, PlayerForeignKey);
+    SeasonStatModel.hasOne(TeamModel, TeamForeignKey);
     SeasonStatModel.hasOne(SeasonAdvDefStatModel, PlayerSeasonForeignKey);
     SeasonStatModel.hasOne(SeasonAdvPassStatModel, PlayerSeasonForeignKey);
     SeasonStatModel.hasOne(SeasonAdvRecStatModel, PlayerSeasonForeignKey);

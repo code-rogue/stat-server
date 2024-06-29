@@ -17,7 +17,7 @@ jest.mock('@player/models/player.model');
 
 let mockBioSchema: jest.SpyInstance<any, [model: unknown], any>;
 let mockBioModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
-let mockLeagueSchema: jest.SpyInstance<any, [model: unknown], any>;
+let mockLeagueSchema: jest.SpyInstance<any, [model: unknown, teamModel: unknown], any>;
 let mockLeagueModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
 let mockPlayerSchema: jest.SpyInstance<any, [], any>;
 let mockPlayerModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;

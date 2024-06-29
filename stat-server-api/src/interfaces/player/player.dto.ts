@@ -34,7 +34,7 @@ export default class PlayerDto {
     public jersey_number: number;
     public years_of_experience: number;
     public rookie_year: string;
-    public draft_team: string;
+    public draft_team: TeamDto;
     public draft_number: string;
     public draft_round: string;
     public season: string;
@@ -67,7 +67,6 @@ export default class PlayerDto {
         this.jersey_number = player[league].jersey_number;
         this.years_of_experience = player[league].years_of_experience;
         this.rookie_year = player[league].rookie_year;
-        this.draft_team = player[league].draft_team;
         this.draft_number = player[league].draft_number;
         this.draft_round = player[league].draft_round;
         this.season = player[league].season;
@@ -76,6 +75,7 @@ export default class PlayerDto {
             this.stats.push(new SeasonDto(season));
         })
         this.team = new TeamDto(player[league][team])
+        //++++ this.draft_team = new TeamDto(player[league][draftTeam]);
     }
 }
 

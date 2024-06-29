@@ -54,7 +54,12 @@ describe('PlayerController', () => {
             logo_url: 'team_url',
         },
         rookie_year: '',
-        draft_team: '',
+        draft_team: {
+            id: 18,
+            name: 'KC',
+            full_name: 'Kansas City Chiefs',
+            logo_url: 'team_url',
+        },
         draft_number: '',
         draft_round: '',
         season: '',

@@ -189,3 +189,15 @@ export const WAS = {
     full_name: 'Washington Commanders',
     logo_url: 'https://static.www.nfl.com/t_headshot_desktop/f_auto/league/api/clubs/logos/WAS'
 }
+
+export const TwoTM = {
+    name: '2TM',
+    full_name: '2 Teams',
+    logo_url: ''
+}
+
+export const ThreeTM = {
+    name: '3TM',
+    full_name: '3 Teams',
+    logo_url: ''
+}

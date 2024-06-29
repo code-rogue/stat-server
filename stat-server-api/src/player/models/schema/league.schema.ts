@@ -12,7 +12,7 @@ export function leagueModelOptions(sequelize: Sequelize): any {
     }
 }
 
-export function leagueSchema<T>(model: T): any {
+export function leagueSchema<T, U>(model: T, teamModel: U): any {
     return {
         id: {
             type: DataTypes.INTEGER,
@@ -28,6 +28,13 @@ export function leagueSchema<T>(model: T): any {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         position_group: {
             type: DataTypes.STRING(16),
         },
@@ -40,20 +47,15 @@ export function leagueSchema<T>(model: T): any {
         years_of_experience: {
             type: DataTypes.INTEGER,
         },
-        team: {
-            type: DataTypes.STRING(8),
-        },
-        team_seq: {
-            type: DataTypes.STRING(8),
-        },
-        team_id: {
-            type: DataTypes.STRING(8),
-        },
         rookie_year: {
             type: DataTypes.STRING(4),
         },
-        draft_team: {
-            type: DataTypes.STRING(8),
+        draft_team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
         },
         draft_number: {
             type: DataTypes.STRING(4),
@@ -62,7 +64,7 @@ export function leagueSchema<T>(model: T): any {
             type: DataTypes.STRING(4),
         },
         season: {
-            type: DataTypes.STRING(4),
+            type: DataTypes.INTEGER,
         },
         created_date: timestampColumn(),
         last_modified: timestampColumn(),

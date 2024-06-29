@@ -12,7 +12,7 @@ export function weeklyModelOptions(sequelize: Sequelize): any {
     }
 }
 
-export function weeklySchema<T>(model: T): any {
+export function weeklySchema<T, U>(model: T, teamModel: U): any {
     return {
         id: {
             type: DataTypes.INTEGER,
@@ -34,20 +34,31 @@ export function weeklySchema<T>(model: T): any {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
+        opponent_id: {
+            type: DataTypes.INTEGER,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         season: {
             allowNull: false,
-            type: DataTypes.STRING(16),
+            type: DataTypes.INTEGER,
         },
         week: {
-        allowNull: false,
+            allowNull: false,
             type: DataTypes.INTEGER,
         },
         game_type: {
             type: DataTypes.STRING(16),
             defaultValue: 'REG',
-        },
-        opponent: {
-            type: DataTypes.STRING(16),
         },
         fantasy_points: {
             type: DataTypes.FLOAT,

@@ -33,4 +33,3 @@ export function teamSchema(): any {
         last_modified: timestampColumn(),
     }
 }
-

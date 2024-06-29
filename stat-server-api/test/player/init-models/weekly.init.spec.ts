@@ -14,6 +14,7 @@ import * as rushSchema from '@player/models/schema/weekly/weekly.rush.schema';
 import * as weeklySchema from '@player/models/schema/weekly/weekly.schema';
 
 import PlayerModel from '@player/models/player.model';
+import TeamModel from '@team/models/team.model';
 import WeeklyAdvDefStatModel from '@player/models/weekly/advanced/weekly.adv.def.model';
 import WeeklyAdvPassStatModel from '@player/models/weekly/advanced/weekly.adv.pass.model';
 import WeeklyAdvRecStatModel from '@player/models/weekly/advanced/weekly.adv.rec.model';
@@ -70,7 +71,7 @@ let mockRecSchema: jest.SpyInstance<any, [model: unknown], any>;
 let mockRecModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
 let mockRushSchema: jest.SpyInstance<any, [model: unknown], any>;
 let mockRushModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
-let mockWeeklySchema: jest.SpyInstance<any, [model: unknown], any>;
+let mockWeeklySchema: jest.SpyInstance<any, [model: unknown, teamModel: unknown], any>;
 let mockWeeklyModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
 
 describe('Init Weekly Models', () => {
@@ -118,7 +119,7 @@ describe('Init Weekly Models', () => {
         it('should initialize models', () => {
             iw.InitWeeklyModels(sequelize);
         
-            expect(mockWeeklySchema).toHaveBeenCalledWith(PlayerModel);
+            expect(mockWeeklySchema).toHaveBeenCalledWith(PlayerModel, TeamModel);
             expect(mockWeeklyModelOptions).toHaveBeenCalledWith(sequelize);
             expect(WeeklyStatModel.init).toHaveBeenCalledWith(obj, obj);
             expect(mockDefSchema).toHaveBeenCalledTimes(1);

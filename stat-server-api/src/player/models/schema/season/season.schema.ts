@@ -12,7 +12,7 @@ export function seasonModelOptions(sequelize: Sequelize): any {
     }
 }
 
-export function seasonSchema<T>(model: T): any {
+export function seasonSchema<T, U>(model: T, teamModel: U): any {
     return {
         id: {
             type: DataTypes.INTEGER,
@@ -28,9 +28,17 @@ export function seasonSchema<T>(model: T): any {
                 key: 'id',
             },
         },
+        team_id: {
+            type: DataTypes.INTEGER,
+            allowNull: true,
+            references: {
+                model: teamModel,
+                key: 'id',
+            },
+        },
         season: {
             allowNull: false,
-            type: DataTypes.STRING(16),
+            type: DataTypes.INTEGER,
         },
         age: {
             type: DataTypes.INTEGER,

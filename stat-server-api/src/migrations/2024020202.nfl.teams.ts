@@ -1,16 +1,20 @@
 import { 
     ARI, ATL, BAL, BUF, CAR, CIN, CHI, CLE, DAL, DEN, DET, GB, HOU, IND, JAC, KC,
-    LA, LAC, LV, MIA, MIN, NE, NO, NYG, NYJ, PHI, PIT, SF, SEA, TB, TEN, WAS 
+    LA, LAC, LV, MIA, MIN, NE, NO, NYG, NYJ, PHI, PIT, SF, SEA, TB, TEN, WAS, TwoTM, ThreeTM
 } from './models/nfl.team.records';
 
 import type { Migration } from '../umzug';
-import { NFLSchema, TeamTable } from '../constants/nfl/service.constants';
+import {  
+    NFLSchema,
+    TeamTable 
+} from '../constants/nfl/service.constants';
 import { Team } from './models/nfl.team.model';
 import { timestampInsertTrigger, timestampUpdateTrigger } from './models/model.helpers';
 
 export const up: Migration = async ({ context: sequelize }) => {
     const query = sequelize.getQueryInterface();
-       
+    await query.createSchema("nfl");
+
     await Team.sync();
 
     await query.sequelize.query(timestampInsertTrigger(NFLSchema, TeamTable));
@@ -44,11 +48,13 @@ export const up: Migration = async ({ context: sequelize }) => {
         Team.create(NYJ);
         Team.create(PHI);
         Team.create(PIT);
-        Team.create(SF);
         Team.create(SEA);
+        Team.create(SF);
         Team.create(TB);
         Team.create(TEN);
         Team.create(WAS);
+        Team.create(TwoTM);
+        Team.create(ThreeTM);
     } catch (error) {
         console.error('Error creating NFL teams:', error);
     }
@@ -56,5 +62,9 @@ export const up: Migration = async ({ context: sequelize }) => {
 };
 
 export const down: Migration = async ({ context: sequelize }) => {
+    const query = sequelize.getQueryInterface();
+    
     await Team.drop();
+
+    await query.dropSchema('nfl');
 };

@@ -13,6 +13,7 @@ import SeasonAdvRushStatModel from '@player/models/season/advanced/season.adv.ru
 import SeasonStatModel from '@player/models/season/season.model';
 import { PlayerForeignKey, PlayerSeasonForeignKey } from '@constants/nfl/service.constants';
 import { Sequelize } from 'sequelize';
+import TeamModel from '@team/models/team.model';
 
 jest.mock('@player/models/player.model');
 jest.mock('@player/models/season/advanced/season.adv.def.model');
@@ -21,7 +22,7 @@ jest.mock('@player/models/season/advanced/season.adv.rec.model');
 jest.mock('@player/models/season/advanced/season.adv.rush.model');
 jest.mock('@player/models/season/season.model');
 
-let mockSeasonSchema: jest.SpyInstance<any, [model: unknown], any>;
+let mockSeasonSchema: jest.SpyInstance<any, [model: unknown, teamModel: unknown], any>;
 let mockSeasonModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
 let mockAdvDefSchema: jest.SpyInstance<any, [model: unknown], any>;
 let mockAdvDefModelOptions: jest.SpyInstance<any, [sequelize: Sequelize], any>;
@@ -61,7 +62,7 @@ describe('Init Season Models', () => {
         it('should initialize models', () => {
             is.InitSeasonModels(sequelize);
         
-            expect(mockSeasonSchema).toHaveBeenCalledWith(PlayerModel);
+            expect(mockSeasonSchema).toHaveBeenCalledWith(PlayerModel, TeamModel);
             expect(mockSeasonModelOptions).toHaveBeenCalledWith(sequelize);
             expect(SeasonStatModel.init).toHaveBeenCalledWith(obj, obj);
 

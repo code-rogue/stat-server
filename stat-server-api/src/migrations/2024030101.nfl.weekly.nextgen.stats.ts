@@ -1,8 +1,8 @@
 import {
     NFLSchema,
-    SeasonNextGenPassTable,
-    SeasonNextGenRecTable,
-    SeasonNextGenRushTable
+    WeeklyNextGenPassTable,
+    WeeklyNextGenRecTable,
+    WeeklyNextGenRushTable
 } from '../constants/nfl/service.constants';
 import { 
     WeeklyNextGenStatsPass,    
@@ -19,13 +19,13 @@ export const up: Migration = async ({ context: sequelize }) => {
     await WeeklyNextGenStatsRec.sync();
     await WeeklyNextGenStatsRush.sync();
 
-    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonNextGenPassTable));
-    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonNextGenRecTable));
-    await query.sequelize.query(timestampInsertTrigger(NFLSchema, SeasonNextGenRushTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyNextGenPassTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyNextGenRecTable));
+    await query.sequelize.query(timestampInsertTrigger(NFLSchema, WeeklyNextGenRushTable));
 
-    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonNextGenPassTable));
-    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonNextGenRecTable));
-    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, SeasonNextGenRushTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyNextGenPassTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyNextGenRecTable));
+    await query.sequelize.query(timestampUpdateTrigger(NFLSchema, WeeklyNextGenRushTable));
 };
 
 export const down: Migration = async ({ }) => {
